@@ -1,0 +1,907 @@
+; ModuleID = 'verify.c'
+target datalayout = "e-p:64:64:64-i1:8:8-i8:8:8-i16:16:16-i32:32:32-i64:64:64-f32:32:32-f64:64:64-v64:64:64-v128:128:128-a0:0:64-s0:64:64-f80:128:128-n8:16:32:64-S128"
+target triple = "x86_64-unknown-linux-gnu"
+
+@nx0 = external global i32
+@ny0 = external global i32
+@nz0 = external global i32
+@itmax = external global i32
+@.str = private unnamed_addr constant [45 x i8] c"\0A Verification being performed for class %c\0A\00", align 1
+@.str1 = private unnamed_addr constant [41 x i8] c" Accuracy setting for epsilon = %20.13E\0A\00", align 1
+@dt = external global double
+@.str2 = private unnamed_addr constant [50 x i8] c" DT does not match the reference value of %15.8E\0A\00", align 1
+@.str3 = private unnamed_addr constant [16 x i8] c" Unknown class\0A\00", align 1
+@.str4 = private unnamed_addr constant [38 x i8] c" Comparison of RMS-norms of residual\0A\00", align 1
+@.str5 = private unnamed_addr constant [24 x i8] c" RMS-norms of residual\0A\00", align 1
+@.str6 = private unnamed_addr constant [24 x i8] c"          %2d  %20.13E\0A\00", align 1
+@.str7 = private unnamed_addr constant [38 x i8] c"          %2d  %20.13E%20.13E%20.13E\0A\00", align 1
+@.str8 = private unnamed_addr constant [38 x i8] c" FAILURE: %2d  %20.13E%20.13E%20.13E\0A\00", align 1
+@.str9 = private unnamed_addr constant [44 x i8] c" Comparison of RMS-norms of solution error\0A\00", align 1
+@.str10 = private unnamed_addr constant [30 x i8] c" RMS-norms of solution error\0A\00", align 1
+@.str11 = private unnamed_addr constant [33 x i8] c" Comparison of surface integral\0A\00", align 1
+@.str12 = private unnamed_addr constant [19 x i8] c" Surface integral\0A\00", align 1
+@.str13 = private unnamed_addr constant [23 x i8] c"              %20.13E\0A\00", align 1
+@.str14 = private unnamed_addr constant [37 x i8] c"              %20.13E%20.13E%20.13E\0A\00", align 1
+@.str15 = private unnamed_addr constant [37 x i8] c" FAILURE:     %20.13E%20.13E%20.13E\0A\00", align 1
+@.str16 = private unnamed_addr constant [31 x i8] c" No reference values provided\0A\00", align 1
+@.str17 = private unnamed_addr constant [27 x i8] c"No verification performed\0A\00", align 1
+@.str18 = private unnamed_addr constant [26 x i8] c" Verification Successful\0A\00", align 1
+@.str19 = private unnamed_addr constant [22 x i8] c" Verification failed\0A\00", align 1
+
+; Function Attrs: nounwind uwtable
+define void @verify(double* nocapture readonly %xcr, double* nocapture readonly %xce, double %xci, i8* nocapture %Class, i32* nocapture %verified) #0 {
+  %xcrref = alloca [5 x double], align 16
+  %xceref = alloca [5 x double], align 16
+  %xcrdif = alloca [5 x double], align 16
+  %xcedif = alloca [5 x double], align 16
+  call void @llvm.dbg.value(metadata !{double* %xcr}, i64 0, metadata !21), !dbg !42
+  call void @llvm.dbg.value(metadata !{double* %xce}, i64 0, metadata !22), !dbg !42
+  call void @llvm.dbg.value(metadata !{double %xci}, i64 0, metadata !23), !dbg !42
+  call void @llvm.dbg.value(metadata !{i8* %Class}, i64 0, metadata !24), !dbg !43
+  call void @llvm.dbg.value(metadata !{i32* %verified}, i64 0, metadata !25), !dbg !43
+  %1 = bitcast [5 x double]* %xcrref to i8*, !dbg !44
+  call void @llvm.lifetime.start(i64 40, i8* %1) #2, !dbg !44
+  call void @llvm.dbg.declare(metadata !{[5 x double]* %xcrref}, metadata !26), !dbg !44
+  %2 = bitcast [5 x double]* %xceref to i8*, !dbg !44
+  call void @llvm.lifetime.start(i64 40, i8* %2) #2, !dbg !44
+  call void @llvm.dbg.declare(metadata !{[5 x double]* %xceref}, metadata !30), !dbg !44
+  %3 = bitcast [5 x double]* %xcrdif to i8*, !dbg !45
+  call void @llvm.lifetime.start(i64 40, i8* %3) #2, !dbg !45
+  call void @llvm.dbg.declare(metadata !{[5 x double]* %xcrdif}, metadata !32), !dbg !45
+  %4 = bitcast [5 x double]* %xcedif to i8*, !dbg !45
+  call void @llvm.lifetime.start(i64 40, i8* %4) #2, !dbg !45
+  call void @llvm.dbg.declare(metadata !{[5 x double]* %xcedif}, metadata !33), !dbg !45
+  call void @llvm.dbg.value(metadata !46, i64 0, metadata !36), !dbg !47
+  call void @llvm.dbg.value(metadata !48, i64 0, metadata !35), !dbg !49
+  store i8 85, i8* %Class, align 1, !dbg !50, !tbaa !51
+  store i32 1, i32* %verified, align 4, !dbg !54, !tbaa !51
+  call void @llvm.dbg.value(metadata !8, i64 0, metadata !37), !dbg !55
+  br label %5, !dbg !55
+
+; <label>:5                                       ; preds = %5, %0
+  %indvars.iv55 = phi i64 [ 0, %0 ], [ %indvars.iv.next56, %5 ]
+  %6 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 %indvars.iv55, !dbg !57
+  store double 1.000000e+00, double* %6, align 8, !dbg !57, !tbaa !59
+  %7 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 %indvars.iv55, !dbg !61
+  store double 1.000000e+00, double* %7, align 8, !dbg !61, !tbaa !59
+  %indvars.iv.next56 = add nuw nsw i64 %indvars.iv55, 1, !dbg !55
+  %exitcond57 = icmp eq i64 %indvars.iv.next56, 5, !dbg !55
+  br i1 %exitcond57, label %8, label %5, !dbg !55
+
+; <label>:8                                       ; preds = %5
+  call void @llvm.dbg.value(metadata !62, i64 0, metadata !31), !dbg !63
+  %9 = load i32* @nx0, align 4, !dbg !64, !tbaa !66
+  %10 = icmp eq i32 %9, 12, !dbg !64
+  %11 = load i32* @ny0, align 4, !dbg !64, !tbaa !66
+  %12 = icmp eq i32 %11, 12, !dbg !64
+  %or.cond = and i1 %10, %12, !dbg !64
+  %13 = load i32* @nz0, align 4, !dbg !64, !tbaa !66
+  %14 = icmp eq i32 %13, 12, !dbg !64
+  %or.cond3 = and i1 %or.cond, %14, !dbg !64
+  %15 = load i32* @itmax, align 4, !dbg !64, !tbaa !66
+  %16 = icmp eq i32 %15, 50, !dbg !64
+  %or.cond5 = and i1 %or.cond3, %16, !dbg !64
+  br i1 %or.cond5, label %17, label %28, !dbg !64
+
+; <label>:17                                      ; preds = %8
+  store i8 83, i8* %Class, align 1, !dbg !68, !tbaa !51
+  call void @llvm.dbg.value(metadata !70, i64 0, metadata !36), !dbg !71
+  %18 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 0, !dbg !72
+  store double 0x3F9095C6319FADD6, double* %18, align 16, !dbg !72, !tbaa !59
+  %19 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 1, !dbg !73
+  store double 0x3F6200DB859E0D21, double* %19, align 8, !dbg !73, !tbaa !59
+  %20 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 2, !dbg !74
+  store double 0x3F58DEEC5217BFDD, double* %20, align 16, !dbg !74, !tbaa !59
+  %21 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 3, !dbg !75
+  store double 0x3F589FDD57334EFA, double* %21, align 8, !dbg !75, !tbaa !59
+  %22 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 4, !dbg !76
+  store double 0x3FA18B0F8343C057, double* %22, align 16, !dbg !76, !tbaa !59
+  %23 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 0, !dbg !77
+  store double 0x3F450B714B573D84, double* %23, align 16, !dbg !77, !tbaa !59
+  %24 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 1, !dbg !78
+  store double 0x3F160ED4C9F87163, double* %24, align 8, !dbg !78, !tbaa !59
+  %25 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 2, !dbg !79
+  store double 0x3F0EB7959D8E8ADC, double* %25, align 16, !dbg !79, !tbaa !59
+  %26 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 3, !dbg !80
+  store double 0x3F0EA846FD592A40, double* %26, align 8, !dbg !80, !tbaa !59
+  %27 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 4, !dbg !81
+  store double 0x3F5577F144DBE709, double* %27, align 16, !dbg !81, !tbaa !59
+  call void @llvm.dbg.value(metadata !82, i64 0, metadata !31), !dbg !83
+  br label %121, !dbg !84
+
+; <label>:28                                      ; preds = %8
+  %29 = icmp eq i32 %9, 33, !dbg !85
+  %30 = icmp eq i32 %11, 33, !dbg !85
+  %or.cond7 = and i1 %29, %30, !dbg !85
+  %31 = icmp eq i32 %13, 33, !dbg !85
+  %or.cond9 = and i1 %or.cond7, %31, !dbg !85
+  %32 = icmp eq i32 %15, 300, !dbg !85
+  %or.cond11 = and i1 %or.cond9, %32, !dbg !85
+  br i1 %or.cond11, label %33, label %44, !dbg !85
+
+; <label>:33                                      ; preds = %28
+  store i8 87, i8* %Class, align 1, !dbg !87, !tbaa !51
+  call void @llvm.dbg.value(metadata !89, i64 0, metadata !36), !dbg !90
+  %34 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 0, !dbg !91
+  store double 0x4028BAF088CF2916, double* %34, align 16, !dbg !91, !tbaa !59
+  %35 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 1, !dbg !92
+  store double 0x3FF5135E2B181AE6, double* %35, align 8, !dbg !92, !tbaa !59
+  %36 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 2, !dbg !93
+  store double 0x400466A5B03CC305, double* %36, align 16, !dbg !93, !tbaa !59
+  %37 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 3, !dbg !94
+  store double 0x40029C0852BD8158, double* %37, align 8, !dbg !94, !tbaa !59
+  %38 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 4, !dbg !95
+  store double 0x403C449B48A36D65, double* %38, align 16, !dbg !95, !tbaa !59
+  %39 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 0, !dbg !96
+  store double 0x3FDF2787A8624355, double* %39, align 16, !dbg !96, !tbaa !59
+  %40 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 1, !dbg !97
+  store double 0x3FA9EE5781C9C74E, double* %40, align 8, !dbg !97, !tbaa !59
+  %41 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 2, !dbg !98
+  store double 0x3FB7C2EEABF4115D, double* %41, align 16, !dbg !98, !tbaa !59
+  %42 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 3, !dbg !99
+  store double 0x3FB5F084A43C7776, double* %42, align 8, !dbg !99, !tbaa !59
+  %43 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 4, !dbg !100
+  store double 0x3FF15933471353D7, double* %43, align 16, !dbg !100, !tbaa !59
+  call void @llvm.dbg.value(metadata !101, i64 0, metadata !31), !dbg !102
+  br label %121, !dbg !103
+
+; <label>:44                                      ; preds = %28
+  %45 = icmp eq i32 %9, 64, !dbg !104
+  %46 = icmp eq i32 %11, 64, !dbg !104
+  %or.cond13 = and i1 %45, %46, !dbg !104
+  %47 = icmp eq i32 %13, 64, !dbg !104
+  %or.cond15 = and i1 %or.cond13, %47, !dbg !104
+  %48 = icmp eq i32 %15, 250, !dbg !104
+  %or.cond17 = and i1 %or.cond15, %48, !dbg !104
+  br i1 %or.cond17, label %49, label %60, !dbg !104
+
+; <label>:49                                      ; preds = %44
+  store i8 65, i8* %Class, align 1, !dbg !106, !tbaa !51
+  call void @llvm.dbg.value(metadata !108, i64 0, metadata !36), !dbg !109
+  %50 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 0, !dbg !110
+  store double 0x4088582B29EDD04B, double* %50, align 16, !dbg !110, !tbaa !59
+  %51 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 1, !dbg !111
+  store double 0x404FB38DCFE12C44, double* %51, align 8, !dbg !111, !tbaa !59
+  %52 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 2, !dbg !112
+  store double 0x40685FC289A41299, double* %52, align 16, !dbg !112, !tbaa !59
+  %53 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 3, !dbg !113
+  store double 0x40664E7F123115E9, double* %53, align 8, !dbg !113, !tbaa !59
+  %54 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 4, !dbg !114
+  store double 0x409CB9E775B47A97, double* %54, align 16, !dbg !114, !tbaa !59
+  %55 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 0, !dbg !115
+  store double 0x403DF6CE51C9A4CC, double* %55, align 16, !dbg !115, !tbaa !59
+  %56 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 1, !dbg !116
+  store double 0x40068E3FCE29CFA8, double* %56, align 8, !dbg !116, !tbaa !59
+  %57 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 2, !dbg !117
+  store double 0x401D63AD6E0AB30F, double* %57, align 16, !dbg !117, !tbaa !59
+  %58 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 3, !dbg !118
+  store double 0x401ADB0E84931B31, double* %58, align 8, !dbg !118, !tbaa !59
+  %59 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 4, !dbg !119
+  store double 0x4051ADC7BB73FD8F, double* %59, align 16, !dbg !119, !tbaa !59
+  call void @llvm.dbg.value(metadata !120, i64 0, metadata !31), !dbg !121
+  br label %121, !dbg !122
+
+; <label>:60                                      ; preds = %44
+  %61 = icmp eq i32 %9, 102, !dbg !123
+  %62 = icmp eq i32 %11, 102, !dbg !123
+  %or.cond19 = and i1 %61, %62, !dbg !123
+  %63 = icmp eq i32 %13, 102, !dbg !123
+  %or.cond21 = and i1 %or.cond19, %63, !dbg !123
+  %or.cond23 = and i1 %or.cond21, %48, !dbg !123
+  br i1 %or.cond23, label %64, label %75, !dbg !123
+
+; <label>:64                                      ; preds = %60
+  store i8 66, i8* %Class, align 1, !dbg !125, !tbaa !51
+  call void @llvm.dbg.value(metadata !108, i64 0, metadata !36), !dbg !127
+  %65 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 0, !dbg !128
+  store double 0x40ABC288DB26F3CF, double* %65, align 16, !dbg !128, !tbaa !59
+  %66 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 1, !dbg !129
+  store double 0x4070625C314CA7E8, double* %66, align 8, !dbg !129, !tbaa !59
+  %67 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 2, !dbg !130
+  store double 0x408B9AB29F9E3005, double* %67, align 16, !dbg !130, !tbaa !59
+  %68 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 3, !dbg !131
+  store double 0x40885105A06D03B7, double* %68, align 8, !dbg !131, !tbaa !59
+  %69 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 4, !dbg !132
+  store double 0x40BC8CCC05858E75, double* %69, align 16, !dbg !132, !tbaa !59
+  %70 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 0, !dbg !133
+  store double 0x405C80C0BCF65A66, double* %70, align 16, !dbg !133, !tbaa !59
+  %71 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 1, !dbg !134
+  store double 0x40203844561FE7D9, double* %71, align 8, !dbg !134, !tbaa !59
+  %72 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 2, !dbg !135
+  store double 0x403C7B086D020F3F, double* %72, align 16, !dbg !135, !tbaa !59
+  %73 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 3, !dbg !136
+  store double 0x4039E7C7F03AD18B, double* %73, align 8, !dbg !136, !tbaa !59
+  %74 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 4, !dbg !137
+  store double 0x407048C902EB0ACF, double* %74, align 16, !dbg !137, !tbaa !59
+  call void @llvm.dbg.value(metadata !138, i64 0, metadata !31), !dbg !139
+  br label %121, !dbg !140
+
+; <label>:75                                      ; preds = %60
+  %76 = icmp eq i32 %9, 162, !dbg !141
+  %77 = icmp eq i32 %11, 162, !dbg !141
+  %or.cond25 = and i1 %76, %77, !dbg !141
+  %78 = icmp eq i32 %13, 162, !dbg !141
+  %or.cond27 = and i1 %or.cond25, %78, !dbg !141
+  %or.cond29 = and i1 %or.cond27, %48, !dbg !141
+  br i1 %or.cond29, label %79, label %90, !dbg !141
+
+; <label>:79                                      ; preds = %75
+  store i8 67, i8* %Class, align 1, !dbg !143, !tbaa !51
+  call void @llvm.dbg.value(metadata !108, i64 0, metadata !36), !dbg !145
+  %80 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 0, !dbg !146
+  store double 0x40C44459591FC987, double* %80, align 16, !dbg !146, !tbaa !59
+  %81 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 1, !dbg !147
+  store double 0x408BE1B31D9990A2, double* %81, align 8, !dbg !147, !tbaa !59
+  %82 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 2, !dbg !148
+  store double 0x40A404C6BB0CBEBA, double* %82, align 16, !dbg !148, !tbaa !59
+  %83 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 3, !dbg !149
+  store double 0x40A11FE30A619F4A, double* %83, align 8, !dbg !149, !tbaa !59
+  %84 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 4, !dbg !150
+  store double 0x40D163F391043AD4, double* %84, align 16, !dbg !150, !tbaa !59
+  %85 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 0, !dbg !151
+  store double 0x406AFF909623A296, double* %85, align 16, !dbg !151, !tbaa !59
+  %86 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 1, !dbg !152
+  store double 0x402F286CE92EB19A, double* %86, align 8, !dbg !152, !tbaa !59
+  %87 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 2, !dbg !153
+  store double 0x404B10E1A68939B8, double* %87, align 16, !dbg !153, !tbaa !59
+  %88 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 3, !dbg !154
+  store double 0x40481CF63AA57509, double* %88, align 8, !dbg !154, !tbaa !59
+  %89 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 4, !dbg !155
+  store double 0x407C7E7251CD2FD8, double* %89, align 16, !dbg !155, !tbaa !59
+  call void @llvm.dbg.value(metadata !156, i64 0, metadata !31), !dbg !157
+  br label %121, !dbg !158
+
+; <label>:90                                      ; preds = %75
+  %91 = icmp eq i32 %9, 408, !dbg !159
+  %92 = icmp eq i32 %11, 408, !dbg !159
+  %or.cond31 = and i1 %91, %92, !dbg !159
+  %93 = icmp eq i32 %13, 408, !dbg !159
+  %or.cond33 = and i1 %or.cond31, %93, !dbg !159
+  %or.cond35 = and i1 %or.cond33, %32, !dbg !159
+  br i1 %or.cond35, label %94, label %105, !dbg !159
+
+; <label>:94                                      ; preds = %90
+  store i8 68, i8* %Class, align 1, !dbg !161, !tbaa !51
+  call void @llvm.dbg.value(metadata !62, i64 0, metadata !36), !dbg !163
+  %95 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 0, !dbg !164
+  store double 0x40E7C585BD66ADB4, double* %95, align 16, !dbg !164, !tbaa !59
+  %96 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 1, !dbg !165
+  store double 0x40B2585EFD233020, double* %96, align 8, !dbg !165, !tbaa !59
+  %97 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 2, !dbg !166
+  store double 0x40C7CA929FABAC6C, double* %97, align 16, !dbg !166, !tbaa !59
+  %98 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 3, !dbg !167
+  store double 0x40C43101E96096C4, double* %98, align 8, !dbg !167, !tbaa !59
+  %99 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 4, !dbg !168
+  store double 0x40F16FFFBF07AA6E, double* %99, align 16, !dbg !168, !tbaa !59
+  %100 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 0, !dbg !169
+  store double 0x407773D42CB4EEFF, double* %100, align 16, !dbg !169, !tbaa !59
+  %101 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 1, !dbg !170
+  store double 0x403ED75EB6352403, double* %101, align 8, !dbg !170, !tbaa !59
+  %102 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 2, !dbg !171
+  store double 0x405795EFED9DFE5C, double* %102, align 16, !dbg !171, !tbaa !59
+  %103 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 3, !dbg !172
+  store double 0x405493A3B4BA4240, double* %103, align 8, !dbg !172, !tbaa !59
+  %104 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 4, !dbg !173
+  store double 0x4085E218B4CFCD55, double* %104, align 16, !dbg !173, !tbaa !59
+  call void @llvm.dbg.value(metadata !174, i64 0, metadata !31), !dbg !175
+  br label %121, !dbg !176
+
+; <label>:105                                     ; preds = %90
+  %106 = icmp eq i32 %9, 1020, !dbg !177
+  %107 = icmp eq i32 %11, 1020, !dbg !177
+  %or.cond37 = and i1 %106, %107, !dbg !177
+  %108 = icmp eq i32 %13, 1020, !dbg !177
+  %or.cond39 = and i1 %or.cond37, %108, !dbg !177
+  %or.cond41 = and i1 %or.cond39, %32, !dbg !177
+  br i1 %or.cond41, label %109, label %120, !dbg !177
+
+; <label>:109                                     ; preds = %105
+  store i8 69, i8* %Class, align 1, !dbg !179, !tbaa !51
+  call void @llvm.dbg.value(metadata !70, i64 0, metadata !36), !dbg !181
+  %110 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 0, !dbg !182
+  store double 0x4109A16159AD3558, double* %110, align 16, !dbg !182, !tbaa !59
+  %111 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 1, !dbg !183
+  store double 0x40D4CE0202F9E534, double* %111, align 8, !dbg !183, !tbaa !59
+  %112 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 2, !dbg !184
+  store double 0x40E9F909366CDEA6, double* %112, align 16, !dbg !184, !tbaa !59
+  %113 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 3, !dbg !185
+  store double 0x40E60533B988FD95, double* %113, align 8, !dbg !185, !tbaa !59
+  %114 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 4, !dbg !186
+  store double 0x4111E5D000ACC0BE, double* %114, align 16, !dbg !186, !tbaa !59
+  %115 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 0, !dbg !187
+  store double 0x407E00EA8730976A, double* %115, align 16, !dbg !187, !tbaa !59
+  %116 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 1, !dbg !188
+  store double 0x40451C26CC209732, double* %116, align 8, !dbg !188, !tbaa !59
+  %117 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 2, !dbg !189
+  store double 0x405E4573C39EB53E, double* %117, align 16, !dbg !189, !tbaa !59
+  %118 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 3, !dbg !190
+  store double 0x405A327D50E064A7, double* %118, align 8, !dbg !190, !tbaa !59
+  %119 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 4, !dbg !191
+  store double 0x408A226C2FE6A7B3, double* %119, align 16, !dbg !191, !tbaa !59
+  call void @llvm.dbg.value(metadata !192, i64 0, metadata !31), !dbg !193
+  br label %121, !dbg !194
+
+; <label>:120                                     ; preds = %105
+  store i32 0, i32* %verified, align 4, !dbg !195, !tbaa !51
+  br label %121
+
+; <label>:121                                     ; preds = %33, %64, %94, %120, %109, %79, %49, %17
+  %xciref.0 = phi double [ 0x401F5E192B3A9EBC, %17 ], [ 0x40273A5D4E10D079, %33 ], [ 0x403A07EABD8D9878, %49 ], [ 0x4047F18E8C26784B, %64 ], [ 0x4050A8FD38777331, %79 ], [ 0x4054D5D32C11DF01, %94 ], [ 0x4057C7C8D49D8FEC, %109 ], [ 1.000000e+00, %120 ]
+  %dtref.0 = phi double [ 5.000000e-01, %17 ], [ 1.500000e-03, %33 ], [ 2.000000e+00, %49 ], [ 2.000000e+00, %64 ], [ 2.000000e+00, %79 ], [ 1.000000e+00, %94 ], [ 5.000000e-01, %109 ], [ 0.000000e+00, %120 ]
+  call void @llvm.dbg.value(metadata !8, i64 0, metadata !37), !dbg !197
+  br label %122, !dbg !197
+
+; <label>:122                                     ; preds = %122, %121
+  %indvars.iv52 = phi i64 [ 0, %121 ], [ %indvars.iv.next53, %122 ]
+  %123 = getelementptr inbounds double* %xcr, i64 %indvars.iv52, !dbg !199
+  %124 = load double* %123, align 8, !dbg !199, !tbaa !59
+  %125 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 %indvars.iv52, !dbg !199
+  %126 = load double* %125, align 8, !dbg !199, !tbaa !59
+  %127 = fsub double %124, %126, !dbg !199
+  %128 = fdiv double %127, %126, !dbg !199
+  %129 = call double @fabs(double %128) #5, !dbg !199
+  %130 = getelementptr inbounds [5 x double]* %xcrdif, i64 0, i64 %indvars.iv52, !dbg !199
+  store double %129, double* %130, align 8, !dbg !199, !tbaa !59
+  %131 = getelementptr inbounds double* %xce, i64 %indvars.iv52, !dbg !201
+  %132 = load double* %131, align 8, !dbg !201, !tbaa !59
+  %133 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 %indvars.iv52, !dbg !201
+  %134 = load double* %133, align 8, !dbg !201, !tbaa !59
+  %135 = fsub double %132, %134, !dbg !201
+  %136 = fdiv double %135, %134, !dbg !201
+  %137 = call double @fabs(double %136) #5, !dbg !201
+  %138 = getelementptr inbounds [5 x double]* %xcedif, i64 0, i64 %indvars.iv52, !dbg !201
+  store double %137, double* %138, align 8, !dbg !201, !tbaa !59
+  %indvars.iv.next53 = add nuw nsw i64 %indvars.iv52, 1, !dbg !197
+  %exitcond54 = icmp eq i64 %indvars.iv.next53, 5, !dbg !197
+  br i1 %exitcond54, label %139, label %122, !dbg !197
+
+; <label>:139                                     ; preds = %122
+  %140 = fsub double %xci, %xciref.0, !dbg !202
+  %141 = fdiv double %140, %xciref.0, !dbg !202
+  %142 = call double @fabs(double %141) #5, !dbg !202
+  call void @llvm.dbg.value(metadata !{double %142}, i64 0, metadata !34), !dbg !202
+  %143 = load i8* %Class, align 1, !dbg !203, !tbaa !51
+  %144 = icmp eq i8 %143, 85, !dbg !203
+  br i1 %144, label %156, label %145, !dbg !203
+
+; <label>:145                                     ; preds = %139
+  %146 = sext i8 %143 to i32, !dbg !203
+  %147 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([45 x i8]* @.str, i64 0, i64 0), i32 %146) #6, !dbg !205
+  %148 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([41 x i8]* @.str1, i64 0, i64 0), double 1.000000e-08) #6, !dbg !207
+  %149 = load double* @dt, align 8, !dbg !208, !tbaa !59
+  %150 = fsub double %149, %dtref.0, !dbg !208
+  %151 = call double @fabs(double %150) #5, !dbg !208
+  %152 = fcmp ole double %151, 1.000000e-08, !dbg !208
+  %153 = zext i1 %152 to i32, !dbg !208
+  store i32 %153, i32* %verified, align 4, !dbg !208, !tbaa !51
+  br i1 %152, label %158, label %154, !dbg !209
+
+; <label>:154                                     ; preds = %145
+  store i8 85, i8* %Class, align 1, !dbg !211, !tbaa !51
+  %155 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([50 x i8]* @.str2, i64 0, i64 0), double %dtref.0) #6, !dbg !213
+  br label %158, !dbg !214
+
+; <label>:156                                     ; preds = %139
+  %157 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([16 x i8]* @.str3, i64 0, i64 0)) #6, !dbg !215
+  br label %158
+
+; <label>:158                                     ; preds = %145, %154, %156
+  %159 = load i8* %Class, align 1, !dbg !217, !tbaa !51
+  %160 = icmp eq i8 %159, 85, !dbg !217
+  br i1 %160, label %163, label %161, !dbg !217
+
+; <label>:161                                     ; preds = %158
+  %162 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([38 x i8]* @.str4, i64 0, i64 0)) #6, !dbg !219
+  br label %.preheader43, !dbg !221
+
+; <label>:163                                     ; preds = %158
+  %164 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([24 x i8]* @.str5, i64 0, i64 0)) #6, !dbg !222
+  br label %.preheader43
+
+.preheader43:                                     ; preds = %163, %161
+  %165 = load i8* %Class, align 1, !dbg !224, !tbaa !51
+  %166 = icmp eq i8 %165, 85, !dbg !224
+  br label %167, !dbg !228
+
+; <label>:167                                     ; preds = %196, %.preheader43
+  %indvars.iv49 = phi i64 [ 0, %.preheader43 ], [ %indvars.iv.next50, %196 ]
+  %168 = phi i1 [ %166, %.preheader43 ], [ %198, %196 ]
+  br i1 %168, label %169, label %175, !dbg !224
+
+; <label>:169                                     ; preds = %167
+  %170 = add nsw i64 %indvars.iv49, 1, !dbg !229
+  %171 = getelementptr inbounds double* %xcr, i64 %indvars.iv49, !dbg !229
+  %172 = load double* %171, align 8, !dbg !229, !tbaa !59
+  %173 = trunc i64 %170 to i32, !dbg !229
+  %174 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([24 x i8]* @.str6, i64 0, i64 0), i32 %173, double %172) #6, !dbg !229
+  br label %196, !dbg !231
+
+; <label>:175                                     ; preds = %167
+  %176 = getelementptr inbounds [5 x double]* %xcrdif, i64 0, i64 %indvars.iv49, !dbg !232
+  %177 = load double* %176, align 8, !dbg !232, !tbaa !59
+  %178 = fcmp ugt double %177, 1.000000e-08, !dbg !232
+  br i1 %178, label %187, label %179, !dbg !232
+
+; <label>:179                                     ; preds = %175
+  %180 = add nsw i64 %indvars.iv49, 1, !dbg !234
+  %181 = getelementptr inbounds double* %xcr, i64 %indvars.iv49, !dbg !234
+  %182 = load double* %181, align 8, !dbg !234, !tbaa !59
+  %183 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 %indvars.iv49, !dbg !234
+  %184 = load double* %183, align 8, !dbg !234, !tbaa !59
+  %185 = trunc i64 %180 to i32, !dbg !234
+  %186 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([38 x i8]* @.str7, i64 0, i64 0), i32 %185, double %182, double %184, double %177) #6, !dbg !234
+  br label %196, !dbg !236
+
+; <label>:187                                     ; preds = %175
+  store i32 0, i32* %verified, align 4, !dbg !237, !tbaa !51
+  %188 = add nsw i64 %indvars.iv49, 1, !dbg !239
+  %189 = getelementptr inbounds double* %xcr, i64 %indvars.iv49, !dbg !239
+  %190 = load double* %189, align 8, !dbg !239, !tbaa !59
+  %191 = getelementptr inbounds [5 x double]* %xcrref, i64 0, i64 %indvars.iv49, !dbg !239
+  %192 = load double* %191, align 8, !dbg !239, !tbaa !59
+  %193 = load double* %176, align 8, !dbg !239, !tbaa !59
+  %194 = trunc i64 %188 to i32, !dbg !239
+  %195 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([38 x i8]* @.str8, i64 0, i64 0), i32 %194, double %190, double %192, double %193) #6, !dbg !239
+  br label %196
+
+; <label>:196                                     ; preds = %169, %187, %179
+  %indvars.iv.next50 = add nuw nsw i64 %indvars.iv49, 1, !dbg !228
+  %197 = load i8* %Class, align 1, !dbg !224, !tbaa !51
+  %198 = icmp eq i8 %197, 85, !dbg !224
+  %exitcond51 = icmp eq i64 %indvars.iv.next50, 5, !dbg !228
+  br i1 %exitcond51, label %199, label %167, !dbg !228
+
+; <label>:199                                     ; preds = %196
+  br i1 %198, label %202, label %200, !dbg !240
+
+; <label>:200                                     ; preds = %199
+  %201 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([44 x i8]* @.str9, i64 0, i64 0)) #6, !dbg !242
+  br label %.preheader, !dbg !244
+
+; <label>:202                                     ; preds = %199
+  %203 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([30 x i8]* @.str10, i64 0, i64 0)) #6, !dbg !245
+  br label %.preheader
+
+.preheader:                                       ; preds = %202, %200
+  %204 = load i8* %Class, align 1, !dbg !247, !tbaa !51
+  %205 = icmp eq i8 %204, 85, !dbg !247
+  br label %206, !dbg !251
+
+; <label>:206                                     ; preds = %235, %.preheader
+  %indvars.iv = phi i64 [ 0, %.preheader ], [ %indvars.iv.next, %235 ]
+  %207 = phi i1 [ %205, %.preheader ], [ %237, %235 ]
+  br i1 %207, label %208, label %214, !dbg !247
+
+; <label>:208                                     ; preds = %206
+  %209 = add nsw i64 %indvars.iv, 1, !dbg !252
+  %210 = getelementptr inbounds double* %xce, i64 %indvars.iv, !dbg !252
+  %211 = load double* %210, align 8, !dbg !252, !tbaa !59
+  %212 = trunc i64 %209 to i32, !dbg !252
+  %213 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([24 x i8]* @.str6, i64 0, i64 0), i32 %212, double %211) #6, !dbg !252
+  br label %235, !dbg !254
+
+; <label>:214                                     ; preds = %206
+  %215 = getelementptr inbounds [5 x double]* %xcedif, i64 0, i64 %indvars.iv, !dbg !255
+  %216 = load double* %215, align 8, !dbg !255, !tbaa !59
+  %217 = fcmp ugt double %216, 1.000000e-08, !dbg !255
+  br i1 %217, label %226, label %218, !dbg !255
+
+; <label>:218                                     ; preds = %214
+  %219 = add nsw i64 %indvars.iv, 1, !dbg !257
+  %220 = getelementptr inbounds double* %xce, i64 %indvars.iv, !dbg !257
+  %221 = load double* %220, align 8, !dbg !257, !tbaa !59
+  %222 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 %indvars.iv, !dbg !257
+  %223 = load double* %222, align 8, !dbg !257, !tbaa !59
+  %224 = trunc i64 %219 to i32, !dbg !257
+  %225 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([38 x i8]* @.str7, i64 0, i64 0), i32 %224, double %221, double %223, double %216) #6, !dbg !257
+  br label %235, !dbg !259
+
+; <label>:226                                     ; preds = %214
+  store i32 0, i32* %verified, align 4, !dbg !260, !tbaa !51
+  %227 = add nsw i64 %indvars.iv, 1, !dbg !262
+  %228 = getelementptr inbounds double* %xce, i64 %indvars.iv, !dbg !262
+  %229 = load double* %228, align 8, !dbg !262, !tbaa !59
+  %230 = getelementptr inbounds [5 x double]* %xceref, i64 0, i64 %indvars.iv, !dbg !262
+  %231 = load double* %230, align 8, !dbg !262, !tbaa !59
+  %232 = load double* %215, align 8, !dbg !262, !tbaa !59
+  %233 = trunc i64 %227 to i32, !dbg !262
+  %234 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([38 x i8]* @.str8, i64 0, i64 0), i32 %233, double %229, double %231, double %232) #6, !dbg !262
+  br label %235
+
+; <label>:235                                     ; preds = %208, %226, %218
+  %indvars.iv.next = add nuw nsw i64 %indvars.iv, 1, !dbg !251
+  %236 = load i8* %Class, align 1, !dbg !247, !tbaa !51
+  %237 = icmp eq i8 %236, 85, !dbg !247
+  %exitcond = icmp eq i64 %indvars.iv.next, 5, !dbg !251
+  br i1 %exitcond, label %238, label %206, !dbg !251
+
+; <label>:238                                     ; preds = %235
+  br i1 %237, label %241, label %239, !dbg !263
+
+; <label>:239                                     ; preds = %238
+  %240 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([33 x i8]* @.str11, i64 0, i64 0)) #6, !dbg !265
+  br label %243, !dbg !267
+
+; <label>:241                                     ; preds = %238
+  %242 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([19 x i8]* @.str12, i64 0, i64 0)) #6, !dbg !268
+  br label %243
+
+; <label>:243                                     ; preds = %241, %239
+  %244 = load i8* %Class, align 1, !dbg !270, !tbaa !51
+  %245 = icmp eq i8 %244, 85, !dbg !270
+  br i1 %245, label %246, label %248, !dbg !270
+
+; <label>:246                                     ; preds = %243
+  %247 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([23 x i8]* @.str13, i64 0, i64 0), double %xci) #6, !dbg !272
+  br label %254, !dbg !274
+
+; <label>:248                                     ; preds = %243
+  %249 = fcmp ugt double %142, 1.000000e-08, !dbg !275
+  br i1 %249, label %252, label %250, !dbg !275
+
+; <label>:250                                     ; preds = %248
+  %251 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([37 x i8]* @.str14, i64 0, i64 0), double %xci, double %xciref.0, double %142) #6, !dbg !277
+  br label %254, !dbg !279
+
+; <label>:252                                     ; preds = %248
+  store i32 0, i32* %verified, align 4, !dbg !280, !tbaa !51
+  %253 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([37 x i8]* @.str15, i64 0, i64 0), double %xci, double %xciref.0, double %142) #6, !dbg !282
+  br label %254
+
+; <label>:254                                     ; preds = %250, %252, %246
+  %255 = load i8* %Class, align 1, !dbg !283, !tbaa !51
+  %256 = icmp eq i8 %255, 85, !dbg !283
+  br i1 %256, label %257, label %260, !dbg !283
+
+; <label>:257                                     ; preds = %254
+  %258 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([31 x i8]* @.str16, i64 0, i64 0)) #6, !dbg !285
+  %259 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([27 x i8]* @.str17, i64 0, i64 0)) #6, !dbg !287
+  br label %267, !dbg !288
+
+; <label>:260                                     ; preds = %254
+  %261 = load i32* %verified, align 4, !dbg !289, !tbaa !51
+  %262 = icmp eq i32 %261, 0, !dbg !289
+  br i1 %262, label %265, label %263, !dbg !289
+
+; <label>:263                                     ; preds = %260
+  %264 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([26 x i8]* @.str18, i64 0, i64 0)) #6, !dbg !291
+  br label %267, !dbg !293
+
+; <label>:265                                     ; preds = %260
+  %266 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([22 x i8]* @.str19, i64 0, i64 0)) #6, !dbg !294
+  br label %267
+
+; <label>:267                                     ; preds = %263, %265, %257
+  call void @llvm.lifetime.end(i64 40, i8* %4) #2, !dbg !296
+  call void @llvm.lifetime.end(i64 40, i8* %3) #2, !dbg !296
+  call void @llvm.lifetime.end(i64 40, i8* %2) #2, !dbg !296
+  call void @llvm.lifetime.end(i64 40, i8* %1) #2, !dbg !296
+  ret void, !dbg !296
+}
+
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.declare(metadata, metadata) #1
+
+; Function Attrs: nounwind
+declare void @llvm.lifetime.start(i64, i8* nocapture) #2
+
+; Function Attrs: nounwind readnone
+declare double @fabs(double) #3
+
+declare i32 @printf(i8*, ...) #4
+
+; Function Attrs: nounwind
+declare void @llvm.lifetime.end(i64, i8* nocapture) #2
+
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.value(metadata, i64, metadata) #1
+
+attributes #0 = { nounwind uwtable "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #1 = { nounwind readnone }
+attributes #2 = { nounwind }
+attributes #3 = { nounwind readnone "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #4 = { "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #5 = { nobuiltin nounwind readnone }
+attributes #6 = { nobuiltin nounwind }
+
+!llvm.dbg.cu = !{!0}
+!llvm.module.flags = !{!39, !40}
+!llvm.ident = !{!41}
+
+!0 = metadata !{i32 786449, metadata !1, i32 12, metadata !"clang version 3.4.2 (tags/RELEASE_34/dot2-final)", i1 true, metadata !"", i32 0, metadata !2, metadata !8, metadata !9, metadata !8, metadata !8, metadata !""} ; [ DW_TAG_compile_unit ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c] [DW_LANG_C99]
+!1 = metadata !{metadata !"verify.c", metadata !"/home/azguolu/ARAT-0.1/llvm-tracer/example/lu"}
+!2 = metadata !{metadata !3}
+!3 = metadata !{i32 786436, metadata !4, null, metadata !"", i32 4, i64 32, i64 32, i32 0, i32 0, null, metadata !5, i32 0, null, null, null} ; [ DW_TAG_enumeration_type ] [line 4, size 32, align 32, offset 0] [def] [from ]
+!4 = metadata !{metadata !"./type.h", metadata !"/home/azguolu/ARAT-0.1/llvm-tracer/example/lu"}
+!5 = metadata !{metadata !6, metadata !7}
+!6 = metadata !{i32 786472, metadata !"false", i64 0} ; [ DW_TAG_enumerator ] [false :: 0]
+!7 = metadata !{i32 786472, metadata !"true", i64 1} ; [ DW_TAG_enumerator ] [true :: 1]
+!8 = metadata !{i32 0}
+!9 = metadata !{metadata !10}
+!10 = metadata !{i32 786478, metadata !1, metadata !11, metadata !"verify", metadata !"verify", metadata !"", i32 41, metadata !12, i1 false, i1 true, i32 0, i32 0, null, i32 256, i1 true, void (double*, double*, double, i8*, i32*)* @verify, null, null, metadata !20, i32 43} ; [ DW_TAG_subprogram ] [line 41] [def] [scope 43] [verify]
+!11 = metadata !{i32 786473, metadata !1}         ; [ DW_TAG_file_type ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!12 = metadata !{i32 786453, i32 0, null, metadata !"", i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !13, i32 0, null, null, null} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!13 = metadata !{null, metadata !14, metadata !14, metadata !15, metadata !16, metadata !18}
+!14 = metadata !{i32 786447, null, null, metadata !"", i32 0, i64 64, i64 64, i64 0, i32 0, metadata !15} ; [ DW_TAG_pointer_type ] [line 0, size 64, align 64, offset 0] [from double]
+!15 = metadata !{i32 786468, null, null, metadata !"double", i32 0, i64 64, i64 64, i64 0, i32 0, i32 4} ; [ DW_TAG_base_type ] [double] [line 0, size 64, align 64, offset 0, enc DW_ATE_float]
+!16 = metadata !{i32 786447, null, null, metadata !"", i32 0, i64 64, i64 64, i64 0, i32 0, metadata !17} ; [ DW_TAG_pointer_type ] [line 0, size 64, align 64, offset 0] [from char]
+!17 = metadata !{i32 786468, null, null, metadata !"char", i32 0, i64 8, i64 8, i64 0, i32 0, i32 6} ; [ DW_TAG_base_type ] [char] [line 0, size 8, align 8, offset 0, enc DW_ATE_signed_char]
+!18 = metadata !{i32 786447, null, null, metadata !"", i32 0, i64 64, i64 64, i64 0, i32 0, metadata !19} ; [ DW_TAG_pointer_type ] [line 0, size 64, align 64, offset 0] [from logical]
+!19 = metadata !{i32 786454, metadata !1, null, metadata !"logical", i32 4, i64 0, i64 0, i64 0, i32 0, metadata !3} ; [ DW_TAG_typedef ] [logical] [line 4, size 0, align 0, offset 0] [from ]
+!20 = metadata !{metadata !21, metadata !22, metadata !23, metadata !24, metadata !25, metadata !26, metadata !30, metadata !31, metadata !32, metadata !33, metadata !34, metadata !35, metadata !36, metadata !37}
+!21 = metadata !{i32 786689, metadata !10, metadata !"xcr", metadata !11, i32 16777257, metadata !14, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [xcr] [line 41]
+!22 = metadata !{i32 786689, metadata !10, metadata !"xce", metadata !11, i32 33554473, metadata !14, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [xce] [line 41]
+!23 = metadata !{i32 786689, metadata !10, metadata !"xci", metadata !11, i32 50331689, metadata !15, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [xci] [line 41]
+!24 = metadata !{i32 786689, metadata !10, metadata !"Class", metadata !11, i32 67108906, metadata !16, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [Class] [line 42]
+!25 = metadata !{i32 786689, metadata !10, metadata !"verified", metadata !11, i32 83886122, metadata !18, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [verified] [line 42]
+!26 = metadata !{i32 786688, metadata !10, metadata !"xcrref", metadata !11, i32 44, metadata !27, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [xcrref] [line 44]
+!27 = metadata !{i32 786433, null, null, metadata !"", i32 0, i64 320, i64 64, i32 0, i32 0, metadata !15, metadata !28, i32 0, null, null, null} ; [ DW_TAG_array_type ] [line 0, size 320, align 64, offset 0] [from double]
+!28 = metadata !{metadata !29}
+!29 = metadata !{i32 786465, i64 0, i64 5}        ; [ DW_TAG_subrange_type ] [0, 4]
+!30 = metadata !{i32 786688, metadata !10, metadata !"xceref", metadata !11, i32 44, metadata !27, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [xceref] [line 44]
+!31 = metadata !{i32 786688, metadata !10, metadata !"xciref", metadata !11, i32 44, metadata !15, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [xciref] [line 44]
+!32 = metadata !{i32 786688, metadata !10, metadata !"xcrdif", metadata !11, i32 45, metadata !27, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [xcrdif] [line 45]
+!33 = metadata !{i32 786688, metadata !10, metadata !"xcedif", metadata !11, i32 45, metadata !27, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [xcedif] [line 45]
+!34 = metadata !{i32 786688, metadata !10, metadata !"xcidif", metadata !11, i32 45, metadata !15, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [xcidif] [line 45]
+!35 = metadata !{i32 786688, metadata !10, metadata !"epsilon", metadata !11, i32 46, metadata !15, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [epsilon] [line 46]
+!36 = metadata !{i32 786688, metadata !10, metadata !"dtref", metadata !11, i32 46, metadata !15, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [dtref] [line 46]
+!37 = metadata !{i32 786688, metadata !10, metadata !"m", metadata !11, i32 47, metadata !38, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [m] [line 47]
+!38 = metadata !{i32 786468, null, null, metadata !"int", i32 0, i64 32, i64 32, i64 0, i32 0, i32 5} ; [ DW_TAG_base_type ] [int] [line 0, size 32, align 32, offset 0, enc DW_ATE_signed]
+!39 = metadata !{i32 2, metadata !"Dwarf Version", i32 4}
+!40 = metadata !{i32 1, metadata !"Debug Info Version", i32 1}
+!41 = metadata !{metadata !"clang version 3.4.2 (tags/RELEASE_34/dot2-final)"}
+!42 = metadata !{i32 41, i32 0, metadata !10, null}
+!43 = metadata !{i32 42, i32 0, metadata !10, null}
+!44 = metadata !{i32 44, i32 0, metadata !10, null}
+!45 = metadata !{i32 45, i32 0, metadata !10, null}
+!46 = metadata !{double 0.000000e+00}
+!47 = metadata !{i32 46, i32 0, metadata !10, null}
+!48 = metadata !{double 1.000000e-08}
+!49 = metadata !{i32 52, i32 0, metadata !10, null}
+!50 = metadata !{i32 54, i32 0, metadata !10, null}
+!51 = metadata !{metadata !52, metadata !52, i64 0}
+!52 = metadata !{metadata !"omnipotent char", metadata !53, i64 0}
+!53 = metadata !{metadata !"Simple C/C++ TBAA"}
+!54 = metadata !{i32 55, i32 0, metadata !10, null}
+!55 = metadata !{i32 57, i32 0, metadata !56, null}
+!56 = metadata !{i32 786443, metadata !1, metadata !10, i32 57, i32 0, i32 0} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!57 = metadata !{i32 58, i32 0, metadata !58, null} ; [ DW_TAG_imported_module ]
+!58 = metadata !{i32 786443, metadata !1, metadata !56, i32 57, i32 0, i32 1} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!59 = metadata !{metadata !60, metadata !60, i64 0}
+!60 = metadata !{metadata !"double", metadata !52, i64 0}
+!61 = metadata !{i32 59, i32 0, metadata !58, null}
+!62 = metadata !{double 1.000000e+00}
+!63 = metadata !{i32 61, i32 0, metadata !10, null}
+!64 = metadata !{i32 63, i32 0, metadata !65, null}
+!65 = metadata !{i32 786443, metadata !1, metadata !10, i32 63, i32 0, i32 2} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!66 = metadata !{metadata !67, metadata !67, i64 0}
+!67 = metadata !{metadata !"int", metadata !52, i64 0}
+!68 = metadata !{i32 65, i32 0, metadata !69, null}
+!69 = metadata !{i32 786443, metadata !1, metadata !65, i32 63, i32 0, i32 3} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!70 = metadata !{double 5.000000e-01}
+!71 = metadata !{i32 66, i32 0, metadata !69, null}
+!72 = metadata !{i32 71, i32 0, metadata !69, null}
+!73 = metadata !{i32 72, i32 0, metadata !69, null}
+!74 = metadata !{i32 73, i32 0, metadata !69, null}
+!75 = metadata !{i32 74, i32 0, metadata !69, null}
+!76 = metadata !{i32 75, i32 0, metadata !69, null}
+!77 = metadata !{i32 82, i32 0, metadata !69, null}
+!78 = metadata !{i32 83, i32 0, metadata !69, null}
+!79 = metadata !{i32 84, i32 0, metadata !69, null}
+!80 = metadata !{i32 85, i32 0, metadata !69, null}
+!81 = metadata !{i32 86, i32 0, metadata !69, null}
+!82 = metadata !{double 0x401F5E192B3A9EBC}
+!83 = metadata !{i32 92, i32 0, metadata !69, null}
+!84 = metadata !{i32 94, i32 0, metadata !69, null}
+!85 = metadata !{i32 94, i32 0, metadata !86, null}
+!86 = metadata !{i32 786443, metadata !1, metadata !65, i32 94, i32 0, i32 4} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!87 = metadata !{i32 96, i32 0, metadata !88, null}
+!88 = metadata !{i32 786443, metadata !1, metadata !86, i32 94, i32 0, i32 5} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!89 = metadata !{double 1.500000e-03}
+!90 = metadata !{i32 97, i32 0, metadata !88, null}
+!91 = metadata !{i32 102, i32 0, metadata !88, null}
+!92 = metadata !{i32 103, i32 0, metadata !88, null}
+!93 = metadata !{i32 104, i32 0, metadata !88, null}
+!94 = metadata !{i32 105, i32 0, metadata !88, null}
+!95 = metadata !{i32 106, i32 0, metadata !88, null}
+!96 = metadata !{i32 112, i32 0, metadata !88, null}
+!97 = metadata !{i32 113, i32 0, metadata !88, null}
+!98 = metadata !{i32 114, i32 0, metadata !88, null}
+!99 = metadata !{i32 115, i32 0, metadata !88, null}
+!100 = metadata !{i32 116, i32 0, metadata !88, null}
+!101 = metadata !{double 0x40273A5D4E10D079}
+!102 = metadata !{i32 122, i32 0, metadata !88, null}
+!103 = metadata !{i32 124, i32 0, metadata !88, null}
+!104 = metadata !{i32 124, i32 0, metadata !105, null}
+!105 = metadata !{i32 786443, metadata !1, metadata !86, i32 124, i32 0, i32 6} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!106 = metadata !{i32 126, i32 0, metadata !107, null}
+!107 = metadata !{i32 786443, metadata !1, metadata !105, i32 124, i32 0, i32 7} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!108 = metadata !{double 2.000000e+00}
+!109 = metadata !{i32 127, i32 0, metadata !107, null}
+!110 = metadata !{i32 132, i32 0, metadata !107, null}
+!111 = metadata !{i32 133, i32 0, metadata !107, null}
+!112 = metadata !{i32 134, i32 0, metadata !107, null}
+!113 = metadata !{i32 135, i32 0, metadata !107, null}
+!114 = metadata !{i32 136, i32 0, metadata !107, null}
+!115 = metadata !{i32 143, i32 0, metadata !107, null}
+!116 = metadata !{i32 144, i32 0, metadata !107, null}
+!117 = metadata !{i32 145, i32 0, metadata !107, null}
+!118 = metadata !{i32 146, i32 0, metadata !107, null}
+!119 = metadata !{i32 147, i32 0, metadata !107, null}
+!120 = metadata !{double 0x403A07EABD8D9878}
+!121 = metadata !{i32 153, i32 0, metadata !107, null}
+!122 = metadata !{i32 155, i32 0, metadata !107, null}
+!123 = metadata !{i32 155, i32 0, metadata !124, null}
+!124 = metadata !{i32 786443, metadata !1, metadata !105, i32 155, i32 0, i32 8} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!125 = metadata !{i32 157, i32 0, metadata !126, null}
+!126 = metadata !{i32 786443, metadata !1, metadata !124, i32 155, i32 0, i32 9} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!127 = metadata !{i32 158, i32 0, metadata !126, null}
+!128 = metadata !{i32 164, i32 0, metadata !126, null}
+!129 = metadata !{i32 165, i32 0, metadata !126, null}
+!130 = metadata !{i32 166, i32 0, metadata !126, null}
+!131 = metadata !{i32 167, i32 0, metadata !126, null}
+!132 = metadata !{i32 168, i32 0, metadata !126, null}
+!133 = metadata !{i32 174, i32 0, metadata !126, null}
+!134 = metadata !{i32 175, i32 0, metadata !126, null}
+!135 = metadata !{i32 176, i32 0, metadata !126, null}
+!136 = metadata !{i32 177, i32 0, metadata !126, null}
+!137 = metadata !{i32 178, i32 0, metadata !126, null}
+!138 = metadata !{double 0x4047F18E8C26784B}
+!139 = metadata !{i32 184, i32 0, metadata !126, null}
+!140 = metadata !{i32 186, i32 0, metadata !126, null}
+!141 = metadata !{i32 186, i32 0, metadata !142, null}
+!142 = metadata !{i32 786443, metadata !1, metadata !124, i32 186, i32 0, i32 10} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!143 = metadata !{i32 188, i32 0, metadata !144, null}
+!144 = metadata !{i32 786443, metadata !1, metadata !142, i32 186, i32 0, i32 11} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!145 = metadata !{i32 189, i32 0, metadata !144, null}
+!146 = metadata !{i32 195, i32 0, metadata !144, null}
+!147 = metadata !{i32 196, i32 0, metadata !144, null}
+!148 = metadata !{i32 197, i32 0, metadata !144, null}
+!149 = metadata !{i32 198, i32 0, metadata !144, null}
+!150 = metadata !{i32 199, i32 0, metadata !144, null}
+!151 = metadata !{i32 205, i32 0, metadata !144, null}
+!152 = metadata !{i32 206, i32 0, metadata !144, null}
+!153 = metadata !{i32 207, i32 0, metadata !144, null}
+!154 = metadata !{i32 208, i32 0, metadata !144, null}
+!155 = metadata !{i32 209, i32 0, metadata !144, null}
+!156 = metadata !{double 0x4050A8FD38777331}
+!157 = metadata !{i32 215, i32 0, metadata !144, null}
+!158 = metadata !{i32 223, i32 0, metadata !144, null}
+!159 = metadata !{i32 223, i32 0, metadata !160, null}
+!160 = metadata !{i32 786443, metadata !1, metadata !142, i32 223, i32 0, i32 12} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!161 = metadata !{i32 225, i32 0, metadata !162, null}
+!162 = metadata !{i32 786443, metadata !1, metadata !160, i32 223, i32 0, i32 13} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!163 = metadata !{i32 226, i32 0, metadata !162, null}
+!164 = metadata !{i32 232, i32 0, metadata !162, null}
+!165 = metadata !{i32 233, i32 0, metadata !162, null}
+!166 = metadata !{i32 234, i32 0, metadata !162, null}
+!167 = metadata !{i32 235, i32 0, metadata !162, null}
+!168 = metadata !{i32 236, i32 0, metadata !162, null}
+!169 = metadata !{i32 242, i32 0, metadata !162, null}
+!170 = metadata !{i32 243, i32 0, metadata !162, null}
+!171 = metadata !{i32 244, i32 0, metadata !162, null}
+!172 = metadata !{i32 245, i32 0, metadata !162, null}
+!173 = metadata !{i32 246, i32 0, metadata !162, null}
+!174 = metadata !{double 0x4054D5D32C11DF01}
+!175 = metadata !{i32 252, i32 0, metadata !162, null}
+!176 = metadata !{i32 254, i32 0, metadata !162, null}
+!177 = metadata !{i32 254, i32 0, metadata !178, null}
+!178 = metadata !{i32 786443, metadata !1, metadata !160, i32 254, i32 0, i32 14} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!179 = metadata !{i32 257, i32 0, metadata !180, null}
+!180 = metadata !{i32 786443, metadata !1, metadata !178, i32 255, i32 0, i32 15} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!181 = metadata !{i32 258, i32 0, metadata !180, null}
+!182 = metadata !{i32 265, i32 0, metadata !180, null}
+!183 = metadata !{i32 266, i32 0, metadata !180, null}
+!184 = metadata !{i32 267, i32 0, metadata !180, null}
+!185 = metadata !{i32 268, i32 0, metadata !180, null}
+!186 = metadata !{i32 269, i32 0, metadata !180, null}
+!187 = metadata !{i32 276, i32 0, metadata !180, null}
+!188 = metadata !{i32 277, i32 0, metadata !180, null}
+!189 = metadata !{i32 278, i32 0, metadata !180, null}
+!190 = metadata !{i32 279, i32 0, metadata !180, null}
+!191 = metadata !{i32 280, i32 0, metadata !180, null}
+!192 = metadata !{double 0x4057C7C8D49D8FEC}
+!193 = metadata !{i32 286, i32 0, metadata !180, null}
+!194 = metadata !{i32 288, i32 0, metadata !180, null}
+!195 = metadata !{i32 289, i32 0, metadata !196, null}
+!196 = metadata !{i32 786443, metadata !1, metadata !178, i32 288, i32 0, i32 16} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!197 = metadata !{i32 300, i32 0, metadata !198, null}
+!198 = metadata !{i32 786443, metadata !1, metadata !10, i32 300, i32 0, i32 17} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!199 = metadata !{i32 301, i32 0, metadata !200, null}
+!200 = metadata !{i32 786443, metadata !1, metadata !198, i32 300, i32 0, i32 18} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!201 = metadata !{i32 302, i32 0, metadata !200, null}
+!202 = metadata !{i32 304, i32 0, metadata !10, null}
+!203 = metadata !{i32 310, i32 0, metadata !204, null}
+!204 = metadata !{i32 786443, metadata !1, metadata !10, i32 310, i32 0, i32 19} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!205 = metadata !{i32 311, i32 0, metadata !206, null}
+!206 = metadata !{i32 786443, metadata !1, metadata !204, i32 310, i32 0, i32 20} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!207 = metadata !{i32 312, i32 0, metadata !206, null}
+!208 = metadata !{i32 313, i32 0, metadata !206, null}
+!209 = metadata !{i32 314, i32 0, metadata !210, null}
+!210 = metadata !{i32 786443, metadata !1, metadata !206, i32 314, i32 0, i32 21} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!211 = metadata !{i32 315, i32 0, metadata !212, null}
+!212 = metadata !{i32 786443, metadata !1, metadata !210, i32 314, i32 0, i32 22} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!213 = metadata !{i32 316, i32 0, metadata !212, null}
+!214 = metadata !{i32 317, i32 0, metadata !212, null}
+!215 = metadata !{i32 319, i32 0, metadata !216, null}
+!216 = metadata !{i32 786443, metadata !1, metadata !204, i32 318, i32 0, i32 23} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!217 = metadata !{i32 322, i32 0, metadata !218, null}
+!218 = metadata !{i32 786443, metadata !1, metadata !10, i32 322, i32 0, i32 24} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!219 = metadata !{i32 323, i32 0, metadata !220, null}
+!220 = metadata !{i32 786443, metadata !1, metadata !218, i32 322, i32 0, i32 25} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!221 = metadata !{i32 324, i32 0, metadata !220, null}
+!222 = metadata !{i32 325, i32 0, metadata !223, null}
+!223 = metadata !{i32 786443, metadata !1, metadata !218, i32 324, i32 0, i32 26} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!224 = metadata !{i32 329, i32 0, metadata !225, null}
+!225 = metadata !{i32 786443, metadata !1, metadata !226, i32 329, i32 0, i32 29} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!226 = metadata !{i32 786443, metadata !1, metadata !227, i32 328, i32 0, i32 28} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!227 = metadata !{i32 786443, metadata !1, metadata !10, i32 328, i32 0, i32 27} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!228 = metadata !{i32 328, i32 0, metadata !227, null}
+!229 = metadata !{i32 330, i32 0, metadata !230, null}
+!230 = metadata !{i32 786443, metadata !1, metadata !225, i32 329, i32 0, i32 30} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!231 = metadata !{i32 331, i32 0, metadata !230, null}
+!232 = metadata !{i32 331, i32 0, metadata !233, null}
+!233 = metadata !{i32 786443, metadata !1, metadata !225, i32 331, i32 0, i32 31} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!234 = metadata !{i32 332, i32 0, metadata !235, null}
+!235 = metadata !{i32 786443, metadata !1, metadata !233, i32 331, i32 0, i32 32} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!236 = metadata !{i32 334, i32 0, metadata !235, null}
+!237 = metadata !{i32 335, i32 0, metadata !238, null}
+!238 = metadata !{i32 786443, metadata !1, metadata !233, i32 334, i32 0, i32 33} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!239 = metadata !{i32 336, i32 0, metadata !238, null}
+!240 = metadata !{i32 341, i32 0, metadata !241, null}
+!241 = metadata !{i32 786443, metadata !1, metadata !10, i32 341, i32 0, i32 34} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!242 = metadata !{i32 342, i32 0, metadata !243, null}
+!243 = metadata !{i32 786443, metadata !1, metadata !241, i32 341, i32 0, i32 35} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!244 = metadata !{i32 343, i32 0, metadata !243, null}
+!245 = metadata !{i32 344, i32 0, metadata !246, null}
+!246 = metadata !{i32 786443, metadata !1, metadata !241, i32 343, i32 0, i32 36} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!247 = metadata !{i32 348, i32 0, metadata !248, null}
+!248 = metadata !{i32 786443, metadata !1, metadata !249, i32 348, i32 0, i32 39} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!249 = metadata !{i32 786443, metadata !1, metadata !250, i32 347, i32 0, i32 38} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!250 = metadata !{i32 786443, metadata !1, metadata !10, i32 347, i32 0, i32 37} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!251 = metadata !{i32 347, i32 0, metadata !250, null}
+!252 = metadata !{i32 349, i32 0, metadata !253, null}
+!253 = metadata !{i32 786443, metadata !1, metadata !248, i32 348, i32 0, i32 40} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!254 = metadata !{i32 350, i32 0, metadata !253, null}
+!255 = metadata !{i32 350, i32 0, metadata !256, null}
+!256 = metadata !{i32 786443, metadata !1, metadata !248, i32 350, i32 0, i32 41} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!257 = metadata !{i32 351, i32 0, metadata !258, null}
+!258 = metadata !{i32 786443, metadata !1, metadata !256, i32 350, i32 0, i32 42} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!259 = metadata !{i32 353, i32 0, metadata !258, null}
+!260 = metadata !{i32 354, i32 0, metadata !261, null}
+!261 = metadata !{i32 786443, metadata !1, metadata !256, i32 353, i32 0, i32 43} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!262 = metadata !{i32 355, i32 0, metadata !261, null}
+!263 = metadata !{i32 360, i32 0, metadata !264, null}
+!264 = metadata !{i32 786443, metadata !1, metadata !10, i32 360, i32 0, i32 44} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!265 = metadata !{i32 361, i32 0, metadata !266, null}
+!266 = metadata !{i32 786443, metadata !1, metadata !264, i32 360, i32 0, i32 45} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!267 = metadata !{i32 362, i32 0, metadata !266, null}
+!268 = metadata !{i32 363, i32 0, metadata !269, null}
+!269 = metadata !{i32 786443, metadata !1, metadata !264, i32 362, i32 0, i32 46} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!270 = metadata !{i32 366, i32 0, metadata !271, null}
+!271 = metadata !{i32 786443, metadata !1, metadata !10, i32 366, i32 0, i32 47} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!272 = metadata !{i32 367, i32 0, metadata !273, null}
+!273 = metadata !{i32 786443, metadata !1, metadata !271, i32 366, i32 0, i32 48} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!274 = metadata !{i32 368, i32 0, metadata !273, null}
+!275 = metadata !{i32 368, i32 0, metadata !276, null}
+!276 = metadata !{i32 786443, metadata !1, metadata !271, i32 368, i32 0, i32 49} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!277 = metadata !{i32 369, i32 0, metadata !278, null}
+!278 = metadata !{i32 786443, metadata !1, metadata !276, i32 368, i32 0, i32 50} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!279 = metadata !{i32 370, i32 0, metadata !278, null}
+!280 = metadata !{i32 371, i32 0, metadata !281, null}
+!281 = metadata !{i32 786443, metadata !1, metadata !276, i32 370, i32 0, i32 51} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!282 = metadata !{i32 372, i32 0, metadata !281, null}
+!283 = metadata !{i32 375, i32 0, metadata !284, null}
+!284 = metadata !{i32 786443, metadata !1, metadata !10, i32 375, i32 0, i32 52} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!285 = metadata !{i32 376, i32 0, metadata !286, null}
+!286 = metadata !{i32 786443, metadata !1, metadata !284, i32 375, i32 0, i32 53} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!287 = metadata !{i32 377, i32 0, metadata !286, null}
+!288 = metadata !{i32 378, i32 0, metadata !286, null}
+!289 = metadata !{i32 378, i32 0, metadata !290, null}
+!290 = metadata !{i32 786443, metadata !1, metadata !284, i32 378, i32 0, i32 54} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!291 = metadata !{i32 379, i32 0, metadata !292, null}
+!292 = metadata !{i32 786443, metadata !1, metadata !290, i32 378, i32 0, i32 55} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!293 = metadata !{i32 380, i32 0, metadata !292, null}
+!294 = metadata !{i32 381, i32 0, metadata !295, null}
+!295 = metadata !{i32 786443, metadata !1, metadata !290, i32 380, i32 0, i32 56} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/verify.c]
+!296 = metadata !{i32 383, i32 0, metadata !10, null}

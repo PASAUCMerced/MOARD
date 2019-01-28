@@ -1,0 +1,27 @@
+Input: generated dynamic trace of a benchmark via LLVM-Tracer
+Output: refined sub-trace files used for trace analyses
+
+1) Using the linux command to split the source trace file;
+	$ split -l <#lines in each sub-trace-file> target-trace-file 
+
+
+2) Running the blank_line_process.py on the splitted sub-trace files;
+	$ python blank_line_process.py
+
+
+3) Applying the broken_instr_fix.py further on the sub-trace files;
+	$ python broken_instr_fix.py
+
+4) Utilizing the phi_instr_fix.py on these sub-trace files.
+	$ python phi_instr_fix.py
+
+5) If you want to recombine the refined sub-trace files, please use the 
+fixed_trace_merge.py on these sub-trace files. 
+	$ python fixed_trace_merge.py
+
+
+Input: mutiple dvf-result files generated from mutiple sub-tracefiles
+Output: one single file that sums up all the info from the dvf-result files
+
+1) Running the merge_dvf_info.py on the input files. 
+	$ python merge_dvf_info.py

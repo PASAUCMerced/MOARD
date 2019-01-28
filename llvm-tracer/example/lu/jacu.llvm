@@ -1,0 +1,1324 @@
+; ModuleID = 'jacu.c'
+target datalayout = "e-p:64:64:64-i1:8:8-i8:8:8-i16:16:16-i32:32:32-i64:64:64-f32:32:32-f64:64:64-v64:64:64-v128:128:128-a0:0:64-s0:64:64-f80:128:128-n8:16:32:64-S128"
+target triple = "x86_64-unknown-linux-gnu"
+
+@jst = external global i32
+@jend = external global i32
+@ist = external global i32
+@iend = external global i32
+@rho_i = external global [12 x [13 x [13 x double]]]
+@dt = external global double
+@tx1 = external global double
+@dx1 = external global double
+@ty1 = external global double
+@dy1 = external global double
+@tz1 = external global double
+@dz1 = external global double
+@d = external global [12 x [13 x [5 x [5 x double]]]]
+@u = external global [12 x [13 x [13 x [5 x double]]]]
+@dx2 = external global double
+@dy2 = external global double
+@dz2 = external global double
+@dx3 = external global double
+@dy3 = external global double
+@dz3 = external global double
+@dx4 = external global double
+@dy4 = external global double
+@dz4 = external global double
+@dx5 = external global double
+@dy5 = external global double
+@dz5 = external global double
+@a = external global [12 x [13 x [5 x [5 x double]]]]
+@tx2 = external global double
+@qs = external global [12 x [13 x [13 x double]]]
+@b = external global [12 x [13 x [5 x [5 x double]]]]
+@ty2 = external global double
+@c = external global [12 x [13 x [5 x [5 x double]]]]
+@tz2 = external global double
+
+; Function Attrs: nounwind uwtable
+define void @jacu(i32 %k) #0 {
+  tail call void @llvm.dbg.value(metadata !{i32 %k}, i64 0, metadata !10), !dbg !23
+  tail call void @llvm.dbg.value(metadata !24, i64 0, metadata !13), !dbg !25
+  tail call void @llvm.dbg.value(metadata !26, i64 0, metadata !15), !dbg !27
+  tail call void @llvm.dbg.value(metadata !28, i64 0, metadata !16), !dbg !29
+  %1 = load i32* @jst, align 4, !dbg !30, !tbaa !32
+  tail call void @llvm.dbg.value(metadata !{i32 %1}, i64 0, metadata !12), !dbg !30
+  %2 = load i32* @jend, align 4, !dbg !30, !tbaa !32
+  %3 = icmp slt i32 %1, %2, !dbg !30
+  br i1 %3, label %.lr.ph4, label %._crit_edge5, !dbg !30
+
+.lr.ph4:                                          ; preds = %0
+  %4 = load i32* @ist, align 4, !dbg !36, !tbaa !32
+  %5 = load i32* @iend, align 4, !dbg !36, !tbaa !32
+  %6 = icmp slt i32 %4, %5, !dbg !36
+  %7 = load i32* @jend, align 4, !dbg !30, !tbaa !32
+  %8 = sext i32 %k to i64, !dbg !39
+  %9 = load double* @dt, align 8, !dbg !41, !tbaa !42
+  %10 = fmul double %9, 2.000000e+00, !dbg !41
+  %11 = load double* @tx1, align 8, !dbg !41, !tbaa !42
+  %12 = load double* @dx1, align 8, !dbg !41, !tbaa !42
+  %13 = fmul double %11, %12, !dbg !41
+  %14 = load double* @ty1, align 8, !dbg !41, !tbaa !42
+  %15 = load double* @dy1, align 8, !dbg !41, !tbaa !42
+  %16 = fmul double %14, %15, !dbg !41
+  %17 = fadd double %13, %16, !dbg !41
+  %18 = load double* @tz1, align 8, !dbg !41, !tbaa !42
+  %19 = load double* @dz1, align 8, !dbg !41, !tbaa !42
+  %20 = fmul double %18, %19, !dbg !41
+  %21 = fadd double %17, %20, !dbg !41
+  %22 = fmul double %10, %21, !dbg !41
+  %23 = fadd double %22, 1.000000e+00, !dbg !41
+  %24 = load double* @dt, align 8, !dbg !44, !tbaa !42
+  %25 = fmul double %24, 2.000000e+00, !dbg !44
+  %26 = load double* @tx1, align 8, !dbg !44, !tbaa !42
+  %27 = fmul double %26, 0xBFF5555555555555, !dbg !44
+  %28 = load double* @ty1, align 8, !dbg !44, !tbaa !42
+  %29 = fsub double %27, %28, !dbg !44
+  %30 = load double* @tz1, align 8, !dbg !44, !tbaa !42
+  %31 = fsub double %29, %30, !dbg !44
+  %32 = fmul double %25, %31, !dbg !44
+  %33 = load double* @dt, align 8, !dbg !45, !tbaa !42
+  %34 = fmul double %33, 2.000000e+00, !dbg !45
+  %35 = fmul double %34, 1.000000e-01, !dbg !45
+  %36 = load double* @tx1, align 8, !dbg !45, !tbaa !42
+  %37 = fmul double %36, 0x3FF5555555555555, !dbg !45
+  %38 = load double* @ty1, align 8, !dbg !45, !tbaa !42
+  %39 = fadd double %37, %38, !dbg !45
+  %40 = load double* @tz1, align 8, !dbg !45, !tbaa !42
+  %41 = fadd double %39, %40, !dbg !45
+  %42 = load double* @dx2, align 8, !dbg !45, !tbaa !42
+  %43 = fmul double %36, %42, !dbg !45
+  %44 = load double* @dy2, align 8, !dbg !45, !tbaa !42
+  %45 = fmul double %38, %44, !dbg !45
+  %46 = fadd double %43, %45, !dbg !45
+  %47 = load double* @dz2, align 8, !dbg !45, !tbaa !42
+  %48 = fmul double %40, %47, !dbg !45
+  %49 = fadd double %46, %48, !dbg !45
+  %50 = fmul double %34, %49, !dbg !45
+  %51 = load double* @dt, align 8, !dbg !46, !tbaa !42
+  %52 = fmul double %51, 2.000000e+00, !dbg !46
+  %53 = load double* @tx1, align 8, !dbg !46, !tbaa !42
+  %54 = fsub double -0.000000e+00, %53, !dbg !46
+  %55 = load double* @ty1, align 8, !dbg !46, !tbaa !42
+  %56 = fmul double %55, 0x3FF5555555555555, !dbg !46
+  %57 = fsub double %54, %56, !dbg !46
+  %58 = load double* @tz1, align 8, !dbg !46, !tbaa !42
+  %59 = fsub double %57, %58, !dbg !46
+  %60 = fmul double %52, %59, !dbg !46
+  %61 = load double* @dt, align 8, !dbg !47, !tbaa !42
+  %62 = fmul double %61, 2.000000e+00, !dbg !47
+  %63 = fmul double %62, 1.000000e-01, !dbg !47
+  %64 = load double* @tx1, align 8, !dbg !47, !tbaa !42
+  %65 = load double* @ty1, align 8, !dbg !47, !tbaa !42
+  %66 = fmul double %65, 0x3FF5555555555555, !dbg !47
+  %67 = fadd double %64, %66, !dbg !47
+  %68 = load double* @tz1, align 8, !dbg !47, !tbaa !42
+  %69 = fadd double %68, %67, !dbg !47
+  %70 = load double* @dx3, align 8, !dbg !47, !tbaa !42
+  %71 = fmul double %64, %70, !dbg !47
+  %72 = load double* @dy3, align 8, !dbg !47, !tbaa !42
+  %73 = fmul double %65, %72, !dbg !47
+  %74 = fadd double %71, %73, !dbg !47
+  %75 = load double* @dz3, align 8, !dbg !47, !tbaa !42
+  %76 = fmul double %68, %75, !dbg !47
+  %77 = fadd double %74, %76, !dbg !47
+  %78 = fmul double %62, %77, !dbg !47
+  %79 = load double* @dt, align 8, !dbg !48, !tbaa !42
+  %80 = fmul double %79, 2.000000e+00, !dbg !48
+  %81 = load double* @tx1, align 8, !dbg !48, !tbaa !42
+  %82 = fsub double -0.000000e+00, %81, !dbg !48
+  %83 = load double* @ty1, align 8, !dbg !48, !tbaa !42
+  %84 = fsub double %82, %83, !dbg !48
+  %85 = load double* @tz1, align 8, !dbg !48, !tbaa !42
+  %86 = fmul double %85, 0x3FF5555555555555, !dbg !48
+  %87 = fsub double %84, %86, !dbg !48
+  %88 = fmul double %80, %87, !dbg !48
+  %89 = load double* @dt, align 8, !dbg !49, !tbaa !42
+  %90 = fmul double %89, 2.000000e+00, !dbg !49
+  %91 = fmul double %90, 1.000000e-01, !dbg !49
+  %92 = load double* @tx1, align 8, !dbg !49, !tbaa !42
+  %93 = load double* @ty1, align 8, !dbg !49, !tbaa !42
+  %94 = fadd double %92, %93, !dbg !49
+  %95 = load double* @tz1, align 8, !dbg !49, !tbaa !42
+  %96 = fmul double %95, 0x3FF5555555555555, !dbg !49
+  %97 = fadd double %94, %96, !dbg !49
+  %98 = load double* @dx4, align 8, !dbg !49, !tbaa !42
+  %99 = fmul double %92, %98, !dbg !49
+  %100 = load double* @dy4, align 8, !dbg !49, !tbaa !42
+  %101 = fmul double %93, %100, !dbg !49
+  %102 = fadd double %99, %101, !dbg !49
+  %103 = load double* @dz4, align 8, !dbg !49, !tbaa !42
+  %104 = fmul double %95, %103, !dbg !49
+  %105 = fadd double %102, %104, !dbg !49
+  %106 = fmul double %90, %105, !dbg !49
+  %107 = load double* @dt, align 8, !dbg !50, !tbaa !42
+  %108 = fmul double %107, -2.000000e+00, !dbg !50
+  %109 = load double* @tx1, align 8, !dbg !50, !tbaa !42
+  %110 = fmul double %109, 0xBFB00AEC33E1F670, !dbg !50
+  %111 = load double* @ty1, align 8, !dbg !50, !tbaa !42
+  %112 = fmul double %111, 0xBFB89374BC6A7EF8, !dbg !50
+  %113 = fadd double %110, %112, !dbg !50
+  %114 = load double* @tz1, align 8, !dbg !50, !tbaa !42
+  %115 = fmul double %114, 0xBFB89374BC6A7EF8, !dbg !50
+  %116 = fadd double %113, %115, !dbg !50
+  %117 = fmul double %109, 0xBFB89374BC6A7EF8, !dbg !50
+  %118 = fmul double %111, 0xBFB00AEC33E1F670, !dbg !50
+  %119 = fadd double %117, %118, !dbg !50
+  %120 = fadd double %119, %115, !dbg !50
+  %121 = fadd double %117, %112, !dbg !50
+  %122 = fmul double %114, 0xBFB00AEC33E1F670, !dbg !50
+  %123 = fadd double %121, %122, !dbg !50
+  %124 = fadd double %109, %111, !dbg !50
+  %125 = fadd double %124, %114, !dbg !50
+  %126 = fmul double %125, 0x3FC916872B020C49, !dbg !50
+  %127 = load double* @dt, align 8, !dbg !51, !tbaa !42
+  %128 = fmul double %127, 2.000000e+00, !dbg !51
+  %129 = load double* @tx1, align 8, !dbg !51, !tbaa !42
+  %130 = fmul double %129, 0xBFB00AEC33E1F670, !dbg !51
+  %131 = load double* @ty1, align 8, !dbg !51, !tbaa !42
+  %132 = fmul double %131, 0xBFB89374BC6A7EF8, !dbg !51
+  %133 = fadd double %130, %132, !dbg !51
+  %134 = load double* @tz1, align 8, !dbg !51, !tbaa !42
+  %135 = fmul double %134, 0xBFB89374BC6A7EF8, !dbg !51
+  %136 = fadd double %133, %135, !dbg !51
+  %137 = fmul double %128, %136, !dbg !51
+  %138 = load double* @dt, align 8, !dbg !52, !tbaa !42
+  %139 = fmul double %138, 2.000000e+00, !dbg !52
+  %140 = load double* @tx1, align 8, !dbg !52, !tbaa !42
+  %141 = fmul double %140, 0xBFB89374BC6A7EF8, !dbg !52
+  %142 = load double* @ty1, align 8, !dbg !52, !tbaa !42
+  %143 = fmul double %142, 0xBFB00AEC33E1F670, !dbg !52
+  %144 = fadd double %141, %143, !dbg !52
+  %145 = load double* @tz1, align 8, !dbg !52, !tbaa !42
+  %146 = fmul double %145, 0xBFB89374BC6A7EF8, !dbg !52
+  %147 = fadd double %144, %146, !dbg !52
+  %148 = fmul double %139, %147, !dbg !52
+  %149 = load double* @dt, align 8, !dbg !53, !tbaa !42
+  %150 = fmul double %149, 2.000000e+00, !dbg !53
+  %151 = load double* @tx1, align 8, !dbg !53, !tbaa !42
+  %152 = fmul double %151, 0xBFB89374BC6A7EF8, !dbg !53
+  %153 = load double* @ty1, align 8, !dbg !53, !tbaa !42
+  %154 = fmul double %153, 0xBFB89374BC6A7EF8, !dbg !53
+  %155 = fadd double %152, %154, !dbg !53
+  %156 = load double* @tz1, align 8, !dbg !53, !tbaa !42
+  %157 = fmul double %156, 0xBFB00AEC33E1F670, !dbg !53
+  %158 = fadd double %155, %157, !dbg !53
+  %159 = fmul double %150, %158, !dbg !53
+  %160 = load double* @dt, align 8, !dbg !54, !tbaa !42
+  %161 = fmul double %160, 2.000000e+00, !dbg !54
+  %162 = load double* @tx1, align 8, !dbg !54, !tbaa !42
+  %163 = load double* @ty1, align 8, !dbg !54, !tbaa !42
+  %164 = fadd double %162, %163, !dbg !54
+  %165 = load double* @tz1, align 8, !dbg !54, !tbaa !42
+  %166 = fadd double %164, %165, !dbg !54
+  %167 = fmul double %161, %166, !dbg !54
+  %168 = fmul double %167, 0x3FC916872B020C49, !dbg !54
+  %169 = load double* @dx5, align 8, !dbg !54, !tbaa !42
+  %170 = fmul double %162, %169, !dbg !54
+  %171 = load double* @dy5, align 8, !dbg !54, !tbaa !42
+  %172 = fmul double %163, %171, !dbg !54
+  %173 = fadd double %170, %172, !dbg !54
+  %174 = load double* @dz5, align 8, !dbg !54, !tbaa !42
+  %175 = fmul double %165, %174, !dbg !54
+  %176 = fadd double %173, %175, !dbg !54
+  %177 = fmul double %161, %176, !dbg !54
+  %178 = load double* @dt, align 8, !dbg !55, !tbaa !42
+  %179 = load double* @tx1, align 8, !dbg !55, !tbaa !42
+  %180 = fmul double %178, %179, !dbg !55
+  %181 = load double* @dx1, align 8, !dbg !55, !tbaa !42
+  %182 = fmul double %180, %181, !dbg !55
+  %183 = fsub double -0.000000e+00, %182, !dbg !55
+  %184 = load double* @tx2, align 8, !dbg !56, !tbaa !42
+  %185 = fmul double %178, %184, !dbg !56
+  %186 = load double* @dt, align 8, !dbg !57, !tbaa !42
+  %187 = fmul double %186, %184, !dbg !57
+  %188 = load double* @tx1, align 8, !dbg !57, !tbaa !42
+  %189 = fmul double %186, %188, !dbg !57
+  %190 = fmul double %186, %184, !dbg !58
+  %191 = fmul double %186, %188, !dbg !58
+  %192 = load double* @dx2, align 8, !dbg !58, !tbaa !42
+  %193 = fmul double %191, %192, !dbg !58
+  %194 = load double* @dt, align 8, !dbg !59, !tbaa !42
+  %195 = load double* @tx2, align 8, !dbg !59, !tbaa !42
+  %196 = fmul double %194, %195, !dbg !59
+  %197 = fmul double %194, %195, !dbg !60
+  %198 = fmul double %194, %195, !dbg !61
+  %199 = fmul double %198, 4.000000e-01, !dbg !61
+  %200 = fmul double %194, %195, !dbg !62
+  %201 = load double* @tx1, align 8, !dbg !62, !tbaa !42
+  %202 = fmul double %194, %201, !dbg !62
+  %203 = load double* @dt, align 8, !dbg !63, !tbaa !42
+  %204 = load double* @tx2, align 8, !dbg !63, !tbaa !42
+  %205 = fmul double %203, %204, !dbg !63
+  %206 = fmul double %203, %204, !dbg !64
+  %207 = fmul double %203, %201, !dbg !64
+  %208 = load double* @dx3, align 8, !dbg !64, !tbaa !42
+  %209 = fmul double %207, %208, !dbg !64
+  %210 = load double* @dt, align 8, !dbg !65, !tbaa !42
+  %211 = load double* @tx2, align 8, !dbg !65, !tbaa !42
+  %212 = fmul double %210, %211, !dbg !65
+  %213 = load double* @tx1, align 8, !dbg !65, !tbaa !42
+  %214 = fmul double %210, %213, !dbg !65
+  %215 = fmul double %210, %211, !dbg !66
+  %216 = fmul double %210, %211, !dbg !67
+  %217 = fmul double %210, %213, !dbg !67
+  %218 = load double* @dx4, align 8, !dbg !67, !tbaa !42
+  %219 = fmul double %217, %218, !dbg !67
+  %220 = load double* @dt, align 8, !dbg !68, !tbaa !42
+  %221 = load double* @tx2, align 8, !dbg !68, !tbaa !42
+  %222 = fmul double %220, %221, !dbg !68
+  %223 = load double* @tx1, align 8, !dbg !68, !tbaa !42
+  %224 = fmul double %220, %223, !dbg !68
+  %225 = fmul double %220, %221, !dbg !69
+  %226 = fmul double %220, %223, !dbg !69
+  %227 = fmul double %226, 0xBFB00AEC33E1F670, !dbg !69
+  %228 = load double* @dt, align 8, !dbg !70, !tbaa !42
+  %229 = load double* @tx2, align 8, !dbg !70, !tbaa !42
+  %230 = fmul double %228, %229, !dbg !70
+  %231 = load double* @tx1, align 8, !dbg !70, !tbaa !42
+  %232 = fmul double %228, %231, !dbg !70
+  %233 = fmul double %232, 0xBFB89374BC6A7EF8, !dbg !70
+  %234 = fmul double %228, %229, !dbg !71
+  %235 = fmul double %228, %231, !dbg !71
+  %236 = fmul double %235, 0xBFB89374BC6A7EF8, !dbg !71
+  %237 = load double* @dt, align 8, !dbg !72, !tbaa !42
+  %238 = load double* @tx2, align 8, !dbg !72, !tbaa !42
+  %239 = fmul double %237, %238, !dbg !72
+  %240 = load double* @tx1, align 8, !dbg !72, !tbaa !42
+  %241 = fmul double %237, %240, !dbg !72
+  %242 = fmul double %241, 0x3FC916872B020C49, !dbg !72
+  %243 = load double* @dx5, align 8, !dbg !72, !tbaa !42
+  %244 = fmul double %241, %243, !dbg !72
+  %245 = load double* @dt, align 8, !dbg !73, !tbaa !42
+  %246 = load double* @ty1, align 8, !dbg !73, !tbaa !42
+  %247 = fmul double %245, %246, !dbg !73
+  %248 = load double* @dy1, align 8, !dbg !73, !tbaa !42
+  %249 = fmul double %247, %248, !dbg !73
+  %250 = fsub double -0.000000e+00, %249, !dbg !73
+  %251 = load double* @ty2, align 8, !dbg !74, !tbaa !42
+  %252 = fmul double %245, %251, !dbg !74
+  %253 = load double* @dt, align 8, !dbg !75, !tbaa !42
+  %254 = fmul double %253, %251, !dbg !75
+  %255 = load double* @ty1, align 8, !dbg !75, !tbaa !42
+  %256 = fmul double %253, %255, !dbg !75
+  %257 = fmul double %253, %251, !dbg !76
+  %258 = fmul double %253, %255, !dbg !76
+  %259 = load double* @dy2, align 8, !dbg !76, !tbaa !42
+  %260 = fmul double %258, %259, !dbg !76
+  %261 = load double* @dt, align 8, !dbg !77, !tbaa !42
+  %262 = load double* @ty2, align 8, !dbg !77, !tbaa !42
+  %263 = fmul double %261, %262, !dbg !77
+  %264 = fmul double %261, %262, !dbg !78
+  %265 = load double* @ty1, align 8, !dbg !78, !tbaa !42
+  %266 = fmul double %261, %265, !dbg !78
+  %267 = fmul double %261, %262, !dbg !79
+  %268 = load double* @dt, align 8, !dbg !80, !tbaa !42
+  %269 = load double* @ty2, align 8, !dbg !80, !tbaa !42
+  %270 = fmul double %268, %269, !dbg !80
+  %271 = fmul double %268, %265, !dbg !80
+  %272 = load double* @dy3, align 8, !dbg !80, !tbaa !42
+  %273 = fmul double %271, %272, !dbg !80
+  %274 = fmul double %268, %269, !dbg !81
+  %275 = load double* @dt, align 8, !dbg !82, !tbaa !42
+  %276 = load double* @ty2, align 8, !dbg !82, !tbaa !42
+  %277 = fmul double %275, %276, !dbg !82
+  %278 = fmul double %277, 4.000000e-01, !dbg !82
+  %279 = fmul double %275, %276, !dbg !83
+  %280 = load double* @ty1, align 8, !dbg !83, !tbaa !42
+  %281 = fmul double %275, %280, !dbg !83
+  %282 = load double* @dt, align 8, !dbg !84, !tbaa !42
+  %283 = load double* @ty2, align 8, !dbg !84, !tbaa !42
+  %284 = fmul double %282, %283, !dbg !84
+  %285 = fmul double %282, %283, !dbg !85
+  %286 = fmul double %282, %280, !dbg !85
+  %287 = load double* @dy4, align 8, !dbg !85, !tbaa !42
+  %288 = fmul double %286, %287, !dbg !85
+  %289 = load double* @dt, align 8, !dbg !86, !tbaa !42
+  %290 = load double* @ty2, align 8, !dbg !86, !tbaa !42
+  %291 = fmul double %289, %290, !dbg !86
+  %292 = load double* @ty1, align 8, !dbg !86, !tbaa !42
+  %293 = fmul double %289, %292, !dbg !86
+  %294 = fmul double %289, %290, !dbg !87
+  %295 = fmul double %289, %292, !dbg !87
+  %296 = fmul double %295, 0xBFB89374BC6A7EF8, !dbg !87
+  %297 = load double* @dt, align 8, !dbg !88, !tbaa !42
+  %298 = load double* @ty2, align 8, !dbg !88, !tbaa !42
+  %299 = fmul double %297, %298, !dbg !88
+  %300 = load double* @ty1, align 8, !dbg !88, !tbaa !42
+  %301 = fmul double %297, %300, !dbg !88
+  %302 = fmul double %301, 0xBFB00AEC33E1F670, !dbg !88
+  %303 = fmul double %297, %298, !dbg !89
+  %304 = fmul double %297, %300, !dbg !89
+  %305 = fmul double %304, 0xBFB89374BC6A7EF8, !dbg !89
+  %306 = load double* @dt, align 8, !dbg !90, !tbaa !42
+  %307 = load double* @ty2, align 8, !dbg !90, !tbaa !42
+  %308 = fmul double %306, %307, !dbg !90
+  %309 = load double* @ty1, align 8, !dbg !90, !tbaa !42
+  %310 = fmul double %306, %309, !dbg !90
+  %311 = fmul double %310, 0x3FC916872B020C49, !dbg !90
+  %312 = load double* @dy5, align 8, !dbg !90, !tbaa !42
+  %313 = fmul double %310, %312, !dbg !90
+  %314 = add nsw i32 %k, 1, !dbg !91
+  %315 = sext i32 %314 to i64, !dbg !91
+  %316 = load double* @dt, align 8, !dbg !92, !tbaa !42
+  %317 = load double* @tz1, align 8, !dbg !92, !tbaa !42
+  %318 = fmul double %316, %317, !dbg !92
+  %319 = load double* @dz1, align 8, !dbg !92, !tbaa !42
+  %320 = fmul double %318, %319, !dbg !92
+  %321 = fsub double -0.000000e+00, %320, !dbg !92
+  %322 = load double* @tz2, align 8, !dbg !93, !tbaa !42
+  %323 = fmul double %316, %322, !dbg !93
+  %324 = load double* @dt, align 8, !dbg !94, !tbaa !42
+  %325 = fmul double %324, %322, !dbg !94
+  %326 = load double* @tz1, align 8, !dbg !94, !tbaa !42
+  %327 = fmul double %324, %326, !dbg !94
+  %328 = fmul double %324, %322, !dbg !95
+  %329 = fmul double %324, %326, !dbg !95
+  %330 = fmul double %329, 1.000000e-01, !dbg !95
+  %331 = load double* @dz2, align 8, !dbg !95, !tbaa !42
+  %332 = fmul double %329, %331, !dbg !95
+  %333 = load double* @dt, align 8, !dbg !96, !tbaa !42
+  %334 = load double* @tz2, align 8, !dbg !96, !tbaa !42
+  %335 = fmul double %333, %334, !dbg !96
+  %336 = fmul double %333, %334, !dbg !97
+  %337 = load double* @tz1, align 8, !dbg !97, !tbaa !42
+  %338 = fmul double %333, %337, !dbg !97
+  %339 = fmul double %333, %334, !dbg !98
+  %340 = fmul double %333, %337, !dbg !98
+  %341 = load double* @dz3, align 8, !dbg !98, !tbaa !42
+  %342 = fmul double %340, %341, !dbg !98
+  %343 = load double* @dt, align 8, !dbg !99, !tbaa !42
+  %344 = load double* @tz2, align 8, !dbg !99, !tbaa !42
+  %345 = fmul double %343, %344, !dbg !99
+  %346 = fmul double %343, %344, !dbg !100
+  %347 = load double* @tz1, align 8, !dbg !100, !tbaa !42
+  %348 = fmul double %343, %347, !dbg !100
+  %349 = fmul double %343, %344, !dbg !101
+  %350 = load double* @dt, align 8, !dbg !102, !tbaa !42
+  %351 = load double* @tz2, align 8, !dbg !102, !tbaa !42
+  %352 = fmul double %350, %351, !dbg !102
+  %353 = fmul double %350, %351, !dbg !103
+  %354 = fmul double %353, 1.600000e+00, !dbg !103
+  %355 = load double* @tz1, align 8, !dbg !103, !tbaa !42
+  %356 = fmul double %350, %355, !dbg !103
+  %357 = load double* @dz4, align 8, !dbg !103, !tbaa !42
+  %358 = fmul double %356, %357, !dbg !103
+  %359 = load double* @dt, align 8, !dbg !104, !tbaa !42
+  %360 = load double* @tz2, align 8, !dbg !104, !tbaa !42
+  %361 = fmul double %359, %360, !dbg !104
+  %362 = fmul double %361, 4.000000e-01, !dbg !104
+  %363 = fmul double %359, %360, !dbg !105
+  %364 = load double* @tz1, align 8, !dbg !105, !tbaa !42
+  %365 = fmul double %359, %364, !dbg !105
+  %366 = load double* @dt, align 8, !dbg !106, !tbaa !42
+  %367 = load double* @tz2, align 8, !dbg !106, !tbaa !42
+  %368 = fmul double %366, %367, !dbg !106
+  %369 = fmul double %366, %364, !dbg !106
+  %370 = fmul double %369, 0xBFB89374BC6A7EF8, !dbg !106
+  %371 = fmul double %366, %367, !dbg !107
+  %372 = load double* @tz1, align 8, !dbg !107, !tbaa !42
+  %373 = fmul double %366, %372, !dbg !107
+  %374 = fmul double %373, 0xBFB89374BC6A7EF8, !dbg !107
+  %375 = load double* @dt, align 8, !dbg !108, !tbaa !42
+  %376 = load double* @tz2, align 8, !dbg !108, !tbaa !42
+  %377 = fmul double %375, %376, !dbg !108
+  %378 = fmul double %375, %372, !dbg !108
+  %379 = fmul double %378, 0xBFB00AEC33E1F670, !dbg !108
+  %380 = fmul double %375, %376, !dbg !109
+  %381 = load double* @tz1, align 8, !dbg !109, !tbaa !42
+  %382 = fmul double %375, %381, !dbg !109
+  %383 = fmul double %382, 0x3FC916872B020C49, !dbg !109
+  %384 = load double* @dz5, align 8, !dbg !109, !tbaa !42
+  %385 = fmul double %382, %384, !dbg !109
+  %386 = load i32* @iend, align 4, !dbg !36, !tbaa !32
+  %387 = sext i32 %4 to i64
+  %388 = sext i32 %1 to i64
+  br label %389, !dbg !30
+
+; <label>:389                                     ; preds = %.lr.ph4, %._crit_edge
+  %indvars.iv6 = phi i64 [ %388, %.lr.ph4 ], [ %indvars.iv.next7, %._crit_edge ]
+  tail call void @llvm.dbg.value(metadata !{i32 %4}, i64 0, metadata !11), !dbg !36
+  br i1 %6, label %.lr.ph, label %._crit_edge, !dbg !36
+
+.lr.ph:                                           ; preds = %389
+  %390 = add nsw i64 %indvars.iv6, 1, !dbg !110
+  br label %391, !dbg !36
+
+; <label>:391                                     ; preds = %.lr.ph, %391
+  %indvars.iv = phi i64 [ %387, %.lr.ph ], [ %indvars.iv.next, %391 ]
+  %392 = getelementptr inbounds [12 x [13 x [13 x double]]]* @rho_i, i64 0, i64 %8, i64 %indvars.iv6, i64 %indvars.iv, !dbg !39
+  %393 = load double* %392, align 8, !dbg !39, !tbaa !42
+  tail call void @llvm.dbg.value(metadata !{double %393}, i64 0, metadata !17), !dbg !39
+  %394 = fmul double %393, %393, !dbg !111
+  tail call void @llvm.dbg.value(metadata !{double %394}, i64 0, metadata !18), !dbg !111
+  %395 = fmul double %393, %394, !dbg !112
+  tail call void @llvm.dbg.value(metadata !{double %395}, i64 0, metadata !19), !dbg !112
+  %396 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 0, i64 0, !dbg !41
+  store double %23, double* %396, align 8, !dbg !41, !tbaa !42
+  %397 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 1, i64 0, !dbg !113
+  store double 0.000000e+00, double* %397, align 8, !dbg !113, !tbaa !42
+  %398 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 2, i64 0, !dbg !114
+  store double 0.000000e+00, double* %398, align 8, !dbg !114, !tbaa !42
+  %399 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 3, i64 0, !dbg !115
+  store double 0.000000e+00, double* %399, align 8, !dbg !115, !tbaa !42
+  %400 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 4, i64 0, !dbg !116
+  store double 0.000000e+00, double* %400, align 8, !dbg !116, !tbaa !42
+  %401 = fmul double %394, 1.000000e-01, !dbg !44
+  %402 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %8, i64 %indvars.iv6, i64 %indvars.iv, i64 1, !dbg !44
+  %403 = load double* %402, align 8, !dbg !44, !tbaa !42
+  %404 = fmul double %401, %403, !dbg !44
+  %405 = fmul double %32, %404, !dbg !44
+  %406 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 0, i64 1, !dbg !44
+  store double %405, double* %406, align 8, !dbg !44, !tbaa !42
+  %407 = fmul double %393, %35, !dbg !45
+  %408 = fmul double %407, %41, !dbg !45
+  %409 = fadd double %408, 1.000000e+00, !dbg !45
+  %410 = fadd double %409, %50, !dbg !45
+  %411 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 1, i64 1, !dbg !45
+  store double %410, double* %411, align 8, !dbg !45, !tbaa !42
+  %412 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 2, i64 1, !dbg !117
+  store double 0.000000e+00, double* %412, align 8, !dbg !117, !tbaa !42
+  %413 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 3, i64 1, !dbg !118
+  store double 0.000000e+00, double* %413, align 8, !dbg !118, !tbaa !42
+  %414 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 4, i64 1, !dbg !119
+  store double 0.000000e+00, double* %414, align 8, !dbg !119, !tbaa !42
+  %415 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %8, i64 %indvars.iv6, i64 %indvars.iv, i64 2, !dbg !46
+  %416 = load double* %415, align 8, !dbg !46, !tbaa !42
+  %417 = fmul double %401, %416, !dbg !46
+  %418 = fmul double %417, %60, !dbg !46
+  %419 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 0, i64 2, !dbg !46
+  store double %418, double* %419, align 8, !dbg !46, !tbaa !42
+  %420 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 1, i64 2, !dbg !120
+  store double 0.000000e+00, double* %420, align 8, !dbg !120, !tbaa !42
+  %421 = fmul double %393, %63, !dbg !47
+  %422 = fmul double %421, %69, !dbg !47
+  %423 = fadd double %422, 1.000000e+00, !dbg !47
+  %424 = fadd double %423, %78, !dbg !47
+  %425 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 2, i64 2, !dbg !47
+  store double %424, double* %425, align 8, !dbg !47, !tbaa !42
+  %426 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 3, i64 2, !dbg !121
+  store double 0.000000e+00, double* %426, align 8, !dbg !121, !tbaa !42
+  %427 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 4, i64 2, !dbg !122
+  store double 0.000000e+00, double* %427, align 8, !dbg !122, !tbaa !42
+  %428 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %8, i64 %indvars.iv6, i64 %indvars.iv, i64 3, !dbg !48
+  %429 = load double* %428, align 8, !dbg !48, !tbaa !42
+  %430 = fmul double %401, %429, !dbg !48
+  %431 = fmul double %430, %88, !dbg !48
+  %432 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 0, i64 3, !dbg !48
+  store double %431, double* %432, align 8, !dbg !48, !tbaa !42
+  %433 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 1, i64 3, !dbg !123
+  store double 0.000000e+00, double* %433, align 8, !dbg !123, !tbaa !42
+  %434 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 2, i64 3, !dbg !124
+  store double 0.000000e+00, double* %434, align 8, !dbg !124, !tbaa !42
+  %435 = fmul double %393, %91, !dbg !49
+  %436 = fmul double %435, %97, !dbg !49
+  %437 = fadd double %436, 1.000000e+00, !dbg !49
+  %438 = fadd double %437, %106, !dbg !49
+  %439 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 3, i64 3, !dbg !49
+  store double %438, double* %439, align 8, !dbg !49, !tbaa !42
+  %440 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 4, i64 3, !dbg !125
+  store double 0.000000e+00, double* %440, align 8, !dbg !125, !tbaa !42
+  %441 = load double* %402, align 8, !dbg !50, !tbaa !42
+  %442 = fmul double %441, %441, !dbg !50
+  %443 = fmul double %116, %442, !dbg !50
+  %444 = load double* %415, align 8, !dbg !50, !tbaa !42
+  %445 = fmul double %444, %444, !dbg !50
+  %446 = fmul double %120, %445, !dbg !50
+  %447 = fadd double %443, %446, !dbg !50
+  %448 = load double* %428, align 8, !dbg !50, !tbaa !42
+  %449 = fmul double %448, %448, !dbg !50
+  %450 = fmul double %123, %449, !dbg !50
+  %451 = fadd double %447, %450, !dbg !50
+  %452 = fmul double %395, %451, !dbg !50
+  %453 = fmul double %394, %126, !dbg !50
+  %454 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %8, i64 %indvars.iv6, i64 %indvars.iv, i64 4, !dbg !50
+  %455 = load double* %454, align 8, !dbg !50, !tbaa !42
+  %456 = fmul double %453, %455, !dbg !50
+  %457 = fadd double %456, %452, !dbg !50
+  %458 = fmul double %108, %457, !dbg !50
+  %459 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 0, i64 4, !dbg !50
+  store double %458, double* %459, align 8, !dbg !50, !tbaa !42
+  %460 = fmul double %394, %137, !dbg !51
+  %461 = load double* %402, align 8, !dbg !51, !tbaa !42
+  %462 = fmul double %461, %460, !dbg !51
+  %463 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 1, i64 4, !dbg !51
+  store double %462, double* %463, align 8, !dbg !51, !tbaa !42
+  %464 = fmul double %394, %148, !dbg !52
+  %465 = load double* %415, align 8, !dbg !52, !tbaa !42
+  %466 = fmul double %465, %464, !dbg !52
+  %467 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 2, i64 4, !dbg !52
+  store double %466, double* %467, align 8, !dbg !52, !tbaa !42
+  %468 = fmul double %394, %159, !dbg !53
+  %469 = load double* %428, align 8, !dbg !53, !tbaa !42
+  %470 = fmul double %469, %468, !dbg !53
+  %471 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 3, i64 4, !dbg !53
+  store double %470, double* %471, align 8, !dbg !53, !tbaa !42
+  %472 = fmul double %393, %168, !dbg !54
+  %473 = fadd double %472, 1.000000e+00, !dbg !54
+  %474 = fadd double %473, %177, !dbg !54
+  %475 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @d, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 4, i64 4, !dbg !54
+  store double %474, double* %475, align 8, !dbg !54, !tbaa !42
+  %indvars.iv.next = add nsw i64 %indvars.iv, 1, !dbg !36
+  %476 = getelementptr inbounds [12 x [13 x [13 x double]]]* @rho_i, i64 0, i64 %8, i64 %indvars.iv6, i64 %indvars.iv.next, !dbg !126
+  %477 = load double* %476, align 8, !dbg !126, !tbaa !42
+  tail call void @llvm.dbg.value(metadata !{double %477}, i64 0, metadata !17), !dbg !126
+  %478 = fmul double %477, %477, !dbg !127
+  tail call void @llvm.dbg.value(metadata !{double %478}, i64 0, metadata !18), !dbg !127
+  %479 = fmul double %477, %478, !dbg !128
+  tail call void @llvm.dbg.value(metadata !{double %479}, i64 0, metadata !19), !dbg !128
+  %480 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 0, i64 0, !dbg !55
+  store double %183, double* %480, align 8, !dbg !55, !tbaa !42
+  %481 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 1, i64 0, !dbg !56
+  store double %185, double* %481, align 8, !dbg !56, !tbaa !42
+  %482 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 2, i64 0, !dbg !129
+  store double 0.000000e+00, double* %482, align 8, !dbg !129, !tbaa !42
+  %483 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 3, i64 0, !dbg !130
+  store double 0.000000e+00, double* %483, align 8, !dbg !130, !tbaa !42
+  %484 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 4, i64 0, !dbg !131
+  store double 0.000000e+00, double* %484, align 8, !dbg !131, !tbaa !42
+  %485 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %8, i64 %indvars.iv6, i64 %indvars.iv.next, i64 1, !dbg !57
+  %486 = load double* %485, align 8, !dbg !57, !tbaa !42
+  %487 = fmul double %477, %486, !dbg !57
+  %488 = fmul double %487, %487, !dbg !57
+  %489 = getelementptr inbounds [12 x [13 x [13 x double]]]* @qs, i64 0, i64 %8, i64 %indvars.iv6, i64 %indvars.iv.next, !dbg !57
+  %490 = load double* %489, align 8, !dbg !57, !tbaa !42
+  %491 = fmul double %490, 4.000000e-01, !dbg !57
+  %492 = fmul double %477, %491, !dbg !57
+  %493 = fsub double %492, %488, !dbg !57
+  %494 = fmul double %187, %493, !dbg !57
+  %495 = fmul double %478, 0xBFC1111111111111, !dbg !57
+  %496 = fmul double %495, %486, !dbg !57
+  %497 = fmul double %496, %189, !dbg !57
+  %498 = fsub double %494, %497, !dbg !57
+  %499 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 0, i64 1, !dbg !57
+  store double %498, double* %499, align 8, !dbg !57, !tbaa !42
+  %500 = load double* %485, align 8, !dbg !58, !tbaa !42
+  %501 = fmul double %477, %500, !dbg !58
+  %502 = fmul double %501, 1.600000e+00, !dbg !58
+  %503 = fmul double %190, %502, !dbg !58
+  %504 = fmul double %477, 0x3FC1111111111111, !dbg !58
+  %505 = fmul double %504, %191, !dbg !58
+  %506 = fsub double %503, %505, !dbg !58
+  %507 = fsub double %506, %193, !dbg !58
+  %508 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 1, i64 1, !dbg !58
+  store double %507, double* %508, align 8, !dbg !58, !tbaa !42
+  %509 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %8, i64 %indvars.iv6, i64 %indvars.iv.next, i64 2, !dbg !59
+  %510 = load double* %509, align 8, !dbg !59, !tbaa !42
+  %511 = fmul double %477, %510, !dbg !59
+  %512 = fmul double %511, -4.000000e-01, !dbg !59
+  %513 = fmul double %196, %512, !dbg !59
+  %514 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 2, i64 1, !dbg !59
+  store double %513, double* %514, align 8, !dbg !59, !tbaa !42
+  %515 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %8, i64 %indvars.iv6, i64 %indvars.iv.next, i64 3, !dbg !60
+  %516 = load double* %515, align 8, !dbg !60, !tbaa !42
+  %517 = fmul double %477, %516, !dbg !60
+  %518 = fmul double %517, -4.000000e-01, !dbg !60
+  %519 = fmul double %197, %518, !dbg !60
+  %520 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 3, i64 1, !dbg !60
+  store double %519, double* %520, align 8, !dbg !60, !tbaa !42
+  %521 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 4, i64 1, !dbg !61
+  store double %199, double* %521, align 8, !dbg !61, !tbaa !42
+  %522 = load double* %485, align 8, !dbg !62, !tbaa !42
+  %523 = load double* %509, align 8, !dbg !62, !tbaa !42
+  %524 = fmul double %522, %523, !dbg !62
+  %525 = fmul double %478, %524, !dbg !62
+  %526 = fmul double %200, %525, !dbg !62
+  %527 = fsub double -0.000000e+00, %526, !dbg !62
+  %528 = fmul double %478, -1.000000e-01, !dbg !62
+  %529 = fmul double %528, %523, !dbg !62
+  %530 = fmul double %529, %202, !dbg !62
+  %531 = fsub double %527, %530, !dbg !62
+  %532 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 0, i64 2, !dbg !62
+  store double %531, double* %532, align 8, !dbg !62, !tbaa !42
+  %533 = load double* %509, align 8, !dbg !63, !tbaa !42
+  %534 = fmul double %477, %533, !dbg !63
+  %535 = fmul double %205, %534, !dbg !63
+  %536 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 1, i64 2, !dbg !63
+  store double %535, double* %536, align 8, !dbg !63, !tbaa !42
+  %537 = load double* %485, align 8, !dbg !64, !tbaa !42
+  %538 = fmul double %477, %537, !dbg !64
+  %539 = fmul double %206, %538, !dbg !64
+  %540 = fmul double %477, 1.000000e-01, !dbg !64
+  %541 = fmul double %540, %207, !dbg !64
+  %542 = fsub double %539, %541, !dbg !64
+  %543 = fsub double %542, %209, !dbg !64
+  %544 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 2, i64 2, !dbg !64
+  store double %543, double* %544, align 8, !dbg !64, !tbaa !42
+  %545 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 3, i64 2, !dbg !132
+  store double 0.000000e+00, double* %545, align 8, !dbg !132, !tbaa !42
+  %546 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 4, i64 2, !dbg !133
+  store double 0.000000e+00, double* %546, align 8, !dbg !133, !tbaa !42
+  %547 = load double* %485, align 8, !dbg !65, !tbaa !42
+  %548 = load double* %515, align 8, !dbg !65, !tbaa !42
+  %549 = fmul double %547, %548, !dbg !65
+  %550 = fmul double %478, %549, !dbg !65
+  %551 = fmul double %212, %550, !dbg !65
+  %552 = fsub double -0.000000e+00, %551, !dbg !65
+  %553 = fmul double %528, %548, !dbg !65
+  %554 = fmul double %553, %214, !dbg !65
+  %555 = fsub double %552, %554, !dbg !65
+  %556 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 0, i64 3, !dbg !65
+  store double %555, double* %556, align 8, !dbg !65, !tbaa !42
+  %557 = load double* %515, align 8, !dbg !66, !tbaa !42
+  %558 = fmul double %477, %557, !dbg !66
+  %559 = fmul double %215, %558, !dbg !66
+  %560 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 1, i64 3, !dbg !66
+  store double %559, double* %560, align 8, !dbg !66, !tbaa !42
+  %561 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 2, i64 3, !dbg !134
+  store double 0.000000e+00, double* %561, align 8, !dbg !134, !tbaa !42
+  %562 = load double* %485, align 8, !dbg !67, !tbaa !42
+  %563 = fmul double %477, %562, !dbg !67
+  %564 = fmul double %216, %563, !dbg !67
+  %565 = fmul double %540, %217, !dbg !67
+  %566 = fsub double %564, %565, !dbg !67
+  %567 = fsub double %566, %219, !dbg !67
+  %568 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 3, i64 3, !dbg !67
+  store double %567, double* %568, align 8, !dbg !67, !tbaa !42
+  %569 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 4, i64 3, !dbg !135
+  store double 0.000000e+00, double* %569, align 8, !dbg !135, !tbaa !42
+  %570 = load double* %489, align 8, !dbg !68, !tbaa !42
+  %571 = fmul double %570, 8.000000e-01, !dbg !68
+  %572 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %8, i64 %indvars.iv6, i64 %indvars.iv.next, i64 4, !dbg !68
+  %573 = load double* %572, align 8, !dbg !68, !tbaa !42
+  %574 = fmul double %573, 1.400000e+00, !dbg !68
+  %575 = fsub double %571, %574, !dbg !68
+  %576 = load double* %485, align 8, !dbg !68, !tbaa !42
+  %577 = fmul double %478, %576, !dbg !68
+  %578 = fmul double %575, %577, !dbg !68
+  %579 = fmul double %222, %578, !dbg !68
+  %580 = fmul double %479, 0x3FB00AEC33E1F670, !dbg !68
+  %581 = fmul double %576, %576, !dbg !68
+  %582 = fmul double %580, %581, !dbg !68
+  %583 = fmul double %479, 0xBFB89374BC6A7EF8, !dbg !68
+  %584 = load double* %509, align 8, !dbg !68, !tbaa !42
+  %585 = fmul double %584, %584, !dbg !68
+  %586 = fmul double %583, %585, !dbg !68
+  %587 = fsub double %582, %586, !dbg !68
+  %588 = load double* %515, align 8, !dbg !68, !tbaa !42
+  %589 = fmul double %588, %588, !dbg !68
+  %590 = fmul double %583, %589, !dbg !68
+  %591 = fsub double %587, %590, !dbg !68
+  %592 = fmul double %478, 0x3FC916872B020C49, !dbg !68
+  %593 = fmul double %592, %573, !dbg !68
+  %594 = fsub double %591, %593, !dbg !68
+  %595 = fmul double %224, %594, !dbg !68
+  %596 = fsub double %579, %595, !dbg !68
+  %597 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 0, i64 4, !dbg !68
+  store double %596, double* %597, align 8, !dbg !68, !tbaa !42
+  %598 = load double* %572, align 8, !dbg !69, !tbaa !42
+  %599 = fmul double %477, %598, !dbg !69
+  %600 = fmul double %599, 1.400000e+00, !dbg !69
+  %601 = load double* %485, align 8, !dbg !69, !tbaa !42
+  %602 = fmul double %601, %601, !dbg !69
+  %603 = fmul double %478, %602, !dbg !69
+  %604 = load double* %489, align 8, !dbg !69, !tbaa !42
+  %605 = fmul double %477, %604, !dbg !69
+  %606 = fadd double %603, %605, !dbg !69
+  %607 = fmul double %606, 4.000000e-01, !dbg !69
+  %608 = fsub double %600, %607, !dbg !69
+  %609 = fmul double %225, %608, !dbg !69
+  %610 = fmul double %478, %227, !dbg !69
+  %611 = fmul double %601, %610, !dbg !69
+  %612 = fsub double %609, %611, !dbg !69
+  %613 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 1, i64 4, !dbg !69
+  store double %612, double* %613, align 8, !dbg !69, !tbaa !42
+  %614 = load double* %509, align 8, !dbg !70, !tbaa !42
+  %615 = load double* %485, align 8, !dbg !70, !tbaa !42
+  %616 = fmul double %614, %615, !dbg !70
+  %617 = fmul double %616, -4.000000e-01, !dbg !70
+  %618 = fmul double %478, %617, !dbg !70
+  %619 = fmul double %230, %618, !dbg !70
+  %620 = fmul double %478, %233, !dbg !70
+  %621 = fmul double %614, %620, !dbg !70
+  %622 = fsub double %619, %621, !dbg !70
+  %623 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 2, i64 4, !dbg !70
+  store double %622, double* %623, align 8, !dbg !70, !tbaa !42
+  %624 = load double* %515, align 8, !dbg !71, !tbaa !42
+  %625 = load double* %485, align 8, !dbg !71, !tbaa !42
+  %626 = fmul double %624, %625, !dbg !71
+  %627 = fmul double %626, -4.000000e-01, !dbg !71
+  %628 = fmul double %478, %627, !dbg !71
+  %629 = fmul double %234, %628, !dbg !71
+  %630 = fmul double %478, %236, !dbg !71
+  %631 = fmul double %624, %630, !dbg !71
+  %632 = fsub double %629, %631, !dbg !71
+  %633 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 3, i64 4, !dbg !71
+  store double %632, double* %633, align 8, !dbg !71, !tbaa !42
+  %634 = load double* %485, align 8, !dbg !72, !tbaa !42
+  %635 = fmul double %477, %634, !dbg !72
+  %636 = fmul double %635, 1.400000e+00, !dbg !72
+  %637 = fmul double %239, %636, !dbg !72
+  %638 = fmul double %477, %242, !dbg !72
+  %639 = fsub double %637, %638, !dbg !72
+  %640 = fsub double %639, %244, !dbg !72
+  %641 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @a, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 4, i64 4, !dbg !72
+  store double %640, double* %641, align 8, !dbg !72, !tbaa !42
+  %642 = getelementptr inbounds [12 x [13 x [13 x double]]]* @rho_i, i64 0, i64 %8, i64 %390, i64 %indvars.iv, !dbg !110
+  %643 = load double* %642, align 8, !dbg !110, !tbaa !42
+  tail call void @llvm.dbg.value(metadata !{double %643}, i64 0, metadata !17), !dbg !110
+  %644 = fmul double %643, %643, !dbg !136
+  tail call void @llvm.dbg.value(metadata !{double %644}, i64 0, metadata !18), !dbg !136
+  %645 = fmul double %643, %644, !dbg !137
+  tail call void @llvm.dbg.value(metadata !{double %645}, i64 0, metadata !19), !dbg !137
+  %646 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 0, i64 0, !dbg !73
+  store double %250, double* %646, align 8, !dbg !73, !tbaa !42
+  %647 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 1, i64 0, !dbg !138
+  store double 0.000000e+00, double* %647, align 8, !dbg !138, !tbaa !42
+  %648 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 2, i64 0, !dbg !74
+  store double %252, double* %648, align 8, !dbg !74, !tbaa !42
+  %649 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 3, i64 0, !dbg !139
+  store double 0.000000e+00, double* %649, align 8, !dbg !139, !tbaa !42
+  %650 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 4, i64 0, !dbg !140
+  store double 0.000000e+00, double* %650, align 8, !dbg !140, !tbaa !42
+  %651 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %8, i64 %390, i64 %indvars.iv, i64 1, !dbg !75
+  %652 = load double* %651, align 8, !dbg !75, !tbaa !42
+  %653 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %8, i64 %390, i64 %indvars.iv, i64 2, !dbg !75
+  %654 = load double* %653, align 8, !dbg !75, !tbaa !42
+  %655 = fmul double %652, %654, !dbg !75
+  %656 = fmul double %644, %655, !dbg !75
+  %657 = fmul double %254, %656, !dbg !75
+  %658 = fsub double -0.000000e+00, %657, !dbg !75
+  %659 = fmul double %644, -1.000000e-01, !dbg !75
+  %660 = fmul double %659, %652, !dbg !75
+  %661 = fmul double %660, %256, !dbg !75
+  %662 = fsub double %658, %661, !dbg !75
+  %663 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 0, i64 1, !dbg !75
+  store double %662, double* %663, align 8, !dbg !75, !tbaa !42
+  %664 = load double* %653, align 8, !dbg !76, !tbaa !42
+  %665 = fmul double %643, %664, !dbg !76
+  %666 = fmul double %257, %665, !dbg !76
+  %667 = fmul double %643, 1.000000e-01, !dbg !76
+  %668 = fmul double %667, %258, !dbg !76
+  %669 = fsub double %666, %668, !dbg !76
+  %670 = fsub double %669, %260, !dbg !76
+  %671 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 1, i64 1, !dbg !76
+  store double %670, double* %671, align 8, !dbg !76, !tbaa !42
+  %672 = load double* %651, align 8, !dbg !77, !tbaa !42
+  %673 = fmul double %643, %672, !dbg !77
+  %674 = fmul double %263, %673, !dbg !77
+  %675 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 2, i64 1, !dbg !77
+  store double %674, double* %675, align 8, !dbg !77, !tbaa !42
+  %676 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 3, i64 1, !dbg !141
+  store double 0.000000e+00, double* %676, align 8, !dbg !141, !tbaa !42
+  %677 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 4, i64 1, !dbg !142
+  store double 0.000000e+00, double* %677, align 8, !dbg !142, !tbaa !42
+  %678 = load double* %653, align 8, !dbg !78, !tbaa !42
+  %679 = fmul double %643, %678, !dbg !78
+  %680 = fmul double %679, %679, !dbg !78
+  %681 = getelementptr inbounds [12 x [13 x [13 x double]]]* @qs, i64 0, i64 %8, i64 %390, i64 %indvars.iv, !dbg !78
+  %682 = load double* %681, align 8, !dbg !78, !tbaa !42
+  %683 = fmul double %643, %682, !dbg !78
+  %684 = fmul double %683, 4.000000e-01, !dbg !78
+  %685 = fsub double %684, %680, !dbg !78
+  %686 = fmul double %264, %685, !dbg !78
+  %687 = fmul double %644, 0xBFC1111111111111, !dbg !78
+  %688 = fmul double %687, %678, !dbg !78
+  %689 = fmul double %688, %266, !dbg !78
+  %690 = fsub double %686, %689, !dbg !78
+  %691 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 0, i64 2, !dbg !78
+  store double %690, double* %691, align 8, !dbg !78, !tbaa !42
+  %692 = load double* %651, align 8, !dbg !79, !tbaa !42
+  %693 = fmul double %643, %692, !dbg !79
+  %694 = fmul double %693, -4.000000e-01, !dbg !79
+  %695 = fmul double %267, %694, !dbg !79
+  %696 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 1, i64 2, !dbg !79
+  store double %695, double* %696, align 8, !dbg !79, !tbaa !42
+  %697 = load double* %653, align 8, !dbg !80, !tbaa !42
+  %698 = fmul double %643, %697, !dbg !80
+  %699 = fmul double %698, 1.600000e+00, !dbg !80
+  %700 = fmul double %270, %699, !dbg !80
+  %701 = fmul double %643, 0x3FC1111111111111, !dbg !80
+  %702 = fmul double %701, %271, !dbg !80
+  %703 = fsub double %700, %702, !dbg !80
+  %704 = fsub double %703, %273, !dbg !80
+  %705 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 2, i64 2, !dbg !80
+  store double %704, double* %705, align 8, !dbg !80, !tbaa !42
+  %706 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %8, i64 %390, i64 %indvars.iv, i64 3, !dbg !81
+  %707 = load double* %706, align 8, !dbg !81, !tbaa !42
+  %708 = fmul double %643, %707, !dbg !81
+  %709 = fmul double %708, -4.000000e-01, !dbg !81
+  %710 = fmul double %274, %709, !dbg !81
+  %711 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 3, i64 2, !dbg !81
+  store double %710, double* %711, align 8, !dbg !81, !tbaa !42
+  %712 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 4, i64 2, !dbg !82
+  store double %278, double* %712, align 8, !dbg !82, !tbaa !42
+  %713 = load double* %653, align 8, !dbg !83, !tbaa !42
+  %714 = load double* %706, align 8, !dbg !83, !tbaa !42
+  %715 = fmul double %713, %714, !dbg !83
+  %716 = fmul double %644, %715, !dbg !83
+  %717 = fmul double %279, %716, !dbg !83
+  %718 = fsub double -0.000000e+00, %717, !dbg !83
+  %719 = fmul double %659, %714, !dbg !83
+  %720 = fmul double %719, %281, !dbg !83
+  %721 = fsub double %718, %720, !dbg !83
+  %722 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 0, i64 3, !dbg !83
+  store double %721, double* %722, align 8, !dbg !83, !tbaa !42
+  %723 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 1, i64 3, !dbg !143
+  store double 0.000000e+00, double* %723, align 8, !dbg !143, !tbaa !42
+  %724 = load double* %706, align 8, !dbg !84, !tbaa !42
+  %725 = fmul double %643, %724, !dbg !84
+  %726 = fmul double %284, %725, !dbg !84
+  %727 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 2, i64 3, !dbg !84
+  store double %726, double* %727, align 8, !dbg !84, !tbaa !42
+  %728 = load double* %653, align 8, !dbg !85, !tbaa !42
+  %729 = fmul double %643, %728, !dbg !85
+  %730 = fmul double %285, %729, !dbg !85
+  %731 = fmul double %667, %286, !dbg !85
+  %732 = fsub double %730, %731, !dbg !85
+  %733 = fsub double %732, %288, !dbg !85
+  %734 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 3, i64 3, !dbg !85
+  store double %733, double* %734, align 8, !dbg !85, !tbaa !42
+  %735 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 4, i64 3, !dbg !144
+  store double 0.000000e+00, double* %735, align 8, !dbg !144, !tbaa !42
+  %736 = load double* %681, align 8, !dbg !86, !tbaa !42
+  %737 = fmul double %736, 8.000000e-01, !dbg !86
+  %738 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %8, i64 %390, i64 %indvars.iv, i64 4, !dbg !86
+  %739 = load double* %738, align 8, !dbg !86, !tbaa !42
+  %740 = fmul double %739, 1.400000e+00, !dbg !86
+  %741 = fsub double %737, %740, !dbg !86
+  %742 = load double* %653, align 8, !dbg !86, !tbaa !42
+  %743 = fmul double %644, %742, !dbg !86
+  %744 = fmul double %741, %743, !dbg !86
+  %745 = fmul double %291, %744, !dbg !86
+  %746 = fmul double %645, 0x3FB89374BC6A7EF8, !dbg !86
+  %747 = load double* %651, align 8, !dbg !86, !tbaa !42
+  %748 = fmul double %747, %747, !dbg !86
+  %749 = fmul double %746, %748, !dbg !86
+  %750 = fmul double %645, 0xBFB00AEC33E1F670, !dbg !86
+  %751 = fmul double %742, %742, !dbg !86
+  %752 = fmul double %750, %751, !dbg !86
+  %753 = fsub double %749, %752, !dbg !86
+  %754 = fmul double %645, 0xBFB89374BC6A7EF8, !dbg !86
+  %755 = load double* %706, align 8, !dbg !86, !tbaa !42
+  %756 = fmul double %755, %755, !dbg !86
+  %757 = fmul double %754, %756, !dbg !86
+  %758 = fsub double %753, %757, !dbg !86
+  %759 = fmul double %644, 0x3FC916872B020C49, !dbg !86
+  %760 = fmul double %759, %739, !dbg !86
+  %761 = fsub double %758, %760, !dbg !86
+  %762 = fmul double %293, %761, !dbg !86
+  %763 = fsub double %745, %762, !dbg !86
+  %764 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 0, i64 4, !dbg !86
+  store double %763, double* %764, align 8, !dbg !86, !tbaa !42
+  %765 = load double* %651, align 8, !dbg !87, !tbaa !42
+  %766 = load double* %653, align 8, !dbg !87, !tbaa !42
+  %767 = fmul double %765, %766, !dbg !87
+  %768 = fmul double %767, -4.000000e-01, !dbg !87
+  %769 = fmul double %644, %768, !dbg !87
+  %770 = fmul double %294, %769, !dbg !87
+  %771 = fmul double %644, %296, !dbg !87
+  %772 = fmul double %765, %771, !dbg !87
+  %773 = fsub double %770, %772, !dbg !87
+  %774 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 1, i64 4, !dbg !87
+  store double %773, double* %774, align 8, !dbg !87, !tbaa !42
+  %775 = load double* %738, align 8, !dbg !88, !tbaa !42
+  %776 = fmul double %643, %775, !dbg !88
+  %777 = fmul double %776, 1.400000e+00, !dbg !88
+  %778 = load double* %681, align 8, !dbg !88, !tbaa !42
+  %779 = fmul double %643, %778, !dbg !88
+  %780 = load double* %653, align 8, !dbg !88, !tbaa !42
+  %781 = fmul double %780, %780, !dbg !88
+  %782 = fmul double %644, %781, !dbg !88
+  %783 = fadd double %779, %782, !dbg !88
+  %784 = fmul double %783, 4.000000e-01, !dbg !88
+  %785 = fsub double %777, %784, !dbg !88
+  %786 = fmul double %299, %785, !dbg !88
+  %787 = fmul double %644, %302, !dbg !88
+  %788 = fmul double %780, %787, !dbg !88
+  %789 = fsub double %786, %788, !dbg !88
+  %790 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 2, i64 4, !dbg !88
+  store double %789, double* %790, align 8, !dbg !88, !tbaa !42
+  %791 = load double* %653, align 8, !dbg !89, !tbaa !42
+  %792 = load double* %706, align 8, !dbg !89, !tbaa !42
+  %793 = fmul double %791, %792, !dbg !89
+  %794 = fmul double %793, -4.000000e-01, !dbg !89
+  %795 = fmul double %644, %794, !dbg !89
+  %796 = fmul double %303, %795, !dbg !89
+  %797 = fmul double %644, %305, !dbg !89
+  %798 = fmul double %792, %797, !dbg !89
+  %799 = fsub double %796, %798, !dbg !89
+  %800 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 3, i64 4, !dbg !89
+  store double %799, double* %800, align 8, !dbg !89, !tbaa !42
+  %801 = load double* %653, align 8, !dbg !90, !tbaa !42
+  %802 = fmul double %643, %801, !dbg !90
+  %803 = fmul double %802, 1.400000e+00, !dbg !90
+  %804 = fmul double %308, %803, !dbg !90
+  %805 = fmul double %643, %311, !dbg !90
+  %806 = fsub double %804, %805, !dbg !90
+  %807 = fsub double %806, %313, !dbg !90
+  %808 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @b, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 4, i64 4, !dbg !90
+  store double %807, double* %808, align 8, !dbg !90, !tbaa !42
+  %809 = getelementptr inbounds [12 x [13 x [13 x double]]]* @rho_i, i64 0, i64 %315, i64 %indvars.iv6, i64 %indvars.iv, !dbg !91
+  %810 = load double* %809, align 8, !dbg !91, !tbaa !42
+  tail call void @llvm.dbg.value(metadata !{double %810}, i64 0, metadata !17), !dbg !91
+  %811 = fmul double %810, %810, !dbg !145
+  tail call void @llvm.dbg.value(metadata !{double %811}, i64 0, metadata !18), !dbg !145
+  %812 = fmul double %810, %811, !dbg !146
+  tail call void @llvm.dbg.value(metadata !{double %812}, i64 0, metadata !19), !dbg !146
+  %813 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 0, i64 0, !dbg !92
+  store double %321, double* %813, align 8, !dbg !92, !tbaa !42
+  %814 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 1, i64 0, !dbg !147
+  store double 0.000000e+00, double* %814, align 8, !dbg !147, !tbaa !42
+  %815 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 2, i64 0, !dbg !148
+  store double 0.000000e+00, double* %815, align 8, !dbg !148, !tbaa !42
+  %816 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 3, i64 0, !dbg !93
+  store double %323, double* %816, align 8, !dbg !93, !tbaa !42
+  %817 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 4, i64 0, !dbg !149
+  store double 0.000000e+00, double* %817, align 8, !dbg !149, !tbaa !42
+  %818 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %315, i64 %indvars.iv6, i64 %indvars.iv, i64 1, !dbg !94
+  %819 = load double* %818, align 8, !dbg !94, !tbaa !42
+  %820 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %315, i64 %indvars.iv6, i64 %indvars.iv, i64 3, !dbg !94
+  %821 = load double* %820, align 8, !dbg !94, !tbaa !42
+  %822 = fmul double %819, %821, !dbg !94
+  %823 = fmul double %811, %822, !dbg !94
+  %824 = fmul double %325, %823, !dbg !94
+  %825 = fsub double -0.000000e+00, %824, !dbg !94
+  %826 = fmul double %811, -1.000000e-01, !dbg !94
+  %827 = fmul double %826, %819, !dbg !94
+  %828 = fmul double %827, %327, !dbg !94
+  %829 = fsub double %825, %828, !dbg !94
+  %830 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 0, i64 1, !dbg !94
+  store double %829, double* %830, align 8, !dbg !94, !tbaa !42
+  %831 = load double* %820, align 8, !dbg !95, !tbaa !42
+  %832 = fmul double %810, %831, !dbg !95
+  %833 = fmul double %328, %832, !dbg !95
+  %834 = fmul double %810, %330, !dbg !95
+  %835 = fsub double %833, %834, !dbg !95
+  %836 = fsub double %835, %332, !dbg !95
+  %837 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 1, i64 1, !dbg !95
+  store double %836, double* %837, align 8, !dbg !95, !tbaa !42
+  %838 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 2, i64 1, !dbg !150
+  store double 0.000000e+00, double* %838, align 8, !dbg !150, !tbaa !42
+  %839 = load double* %818, align 8, !dbg !96, !tbaa !42
+  %840 = fmul double %810, %839, !dbg !96
+  %841 = fmul double %335, %840, !dbg !96
+  %842 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 3, i64 1, !dbg !96
+  store double %841, double* %842, align 8, !dbg !96, !tbaa !42
+  %843 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 4, i64 1, !dbg !151
+  store double 0.000000e+00, double* %843, align 8, !dbg !151, !tbaa !42
+  %844 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %315, i64 %indvars.iv6, i64 %indvars.iv, i64 2, !dbg !97
+  %845 = load double* %844, align 8, !dbg !97, !tbaa !42
+  %846 = load double* %820, align 8, !dbg !97, !tbaa !42
+  %847 = fmul double %845, %846, !dbg !97
+  %848 = fmul double %811, %847, !dbg !97
+  %849 = fmul double %336, %848, !dbg !97
+  %850 = fsub double -0.000000e+00, %849, !dbg !97
+  %851 = fmul double %826, %845, !dbg !97
+  %852 = fmul double %851, %338, !dbg !97
+  %853 = fsub double %850, %852, !dbg !97
+  %854 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 0, i64 2, !dbg !97
+  store double %853, double* %854, align 8, !dbg !97, !tbaa !42
+  %855 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 1, i64 2, !dbg !152
+  store double 0.000000e+00, double* %855, align 8, !dbg !152, !tbaa !42
+  %856 = load double* %820, align 8, !dbg !98, !tbaa !42
+  %857 = fmul double %810, %856, !dbg !98
+  %858 = fmul double %339, %857, !dbg !98
+  %859 = fmul double %810, 1.000000e-01, !dbg !98
+  %860 = fmul double %859, %340, !dbg !98
+  %861 = fsub double %858, %860, !dbg !98
+  %862 = fsub double %861, %342, !dbg !98
+  %863 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 2, i64 2, !dbg !98
+  store double %862, double* %863, align 8, !dbg !98, !tbaa !42
+  %864 = load double* %844, align 8, !dbg !99, !tbaa !42
+  %865 = fmul double %810, %864, !dbg !99
+  %866 = fmul double %345, %865, !dbg !99
+  %867 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 3, i64 2, !dbg !99
+  store double %866, double* %867, align 8, !dbg !99, !tbaa !42
+  %868 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 4, i64 2, !dbg !153
+  store double 0.000000e+00, double* %868, align 8, !dbg !153, !tbaa !42
+  %869 = load double* %820, align 8, !dbg !100, !tbaa !42
+  %870 = fmul double %810, %869, !dbg !100
+  %871 = fmul double %870, %870, !dbg !100
+  %872 = getelementptr inbounds [12 x [13 x [13 x double]]]* @qs, i64 0, i64 %315, i64 %indvars.iv6, i64 %indvars.iv, !dbg !100
+  %873 = load double* %872, align 8, !dbg !100, !tbaa !42
+  %874 = fmul double %810, %873, !dbg !100
+  %875 = fmul double %874, 4.000000e-01, !dbg !100
+  %876 = fsub double %875, %871, !dbg !100
+  %877 = fmul double %346, %876, !dbg !100
+  %878 = fmul double %811, 0xBFC1111111111111, !dbg !100
+  %879 = fmul double %878, %869, !dbg !100
+  %880 = fmul double %879, %348, !dbg !100
+  %881 = fsub double %877, %880, !dbg !100
+  %882 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 0, i64 3, !dbg !100
+  store double %881, double* %882, align 8, !dbg !100, !tbaa !42
+  %883 = load double* %818, align 8, !dbg !101, !tbaa !42
+  %884 = fmul double %810, %883, !dbg !101
+  %885 = fmul double %884, -4.000000e-01, !dbg !101
+  %886 = fmul double %349, %885, !dbg !101
+  %887 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 1, i64 3, !dbg !101
+  store double %886, double* %887, align 8, !dbg !101, !tbaa !42
+  %888 = load double* %844, align 8, !dbg !102, !tbaa !42
+  %889 = fmul double %810, %888, !dbg !102
+  %890 = fmul double %889, -4.000000e-01, !dbg !102
+  %891 = fmul double %352, %890, !dbg !102
+  %892 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 2, i64 3, !dbg !102
+  store double %891, double* %892, align 8, !dbg !102, !tbaa !42
+  %893 = load double* %820, align 8, !dbg !103, !tbaa !42
+  %894 = fmul double %810, %893, !dbg !103
+  %895 = fmul double %354, %894, !dbg !103
+  %896 = fmul double %810, 0x3FC1111111111111, !dbg !103
+  %897 = fmul double %896, %356, !dbg !103
+  %898 = fsub double %895, %897, !dbg !103
+  %899 = fsub double %898, %358, !dbg !103
+  %900 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 3, i64 3, !dbg !103
+  store double %899, double* %900, align 8, !dbg !103, !tbaa !42
+  %901 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 4, i64 3, !dbg !104
+  store double %362, double* %901, align 8, !dbg !104, !tbaa !42
+  %902 = load double* %872, align 8, !dbg !105, !tbaa !42
+  %903 = fmul double %902, 8.000000e-01, !dbg !105
+  %904 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %315, i64 %indvars.iv6, i64 %indvars.iv, i64 4, !dbg !105
+  %905 = load double* %904, align 8, !dbg !105, !tbaa !42
+  %906 = fmul double %905, 1.400000e+00, !dbg !105
+  %907 = fsub double %903, %906, !dbg !105
+  %908 = load double* %820, align 8, !dbg !105, !tbaa !42
+  %909 = fmul double %811, %908, !dbg !105
+  %910 = fmul double %907, %909, !dbg !105
+  %911 = fmul double %363, %910, !dbg !105
+  %912 = fmul double %812, 0x3FB89374BC6A7EF8, !dbg !105
+  %913 = load double* %818, align 8, !dbg !105, !tbaa !42
+  %914 = fmul double %913, %913, !dbg !105
+  %915 = fmul double %912, %914, !dbg !105
+  %916 = fmul double %812, 0xBFB89374BC6A7EF8, !dbg !105
+  %917 = load double* %844, align 8, !dbg !105, !tbaa !42
+  %918 = fmul double %917, %917, !dbg !105
+  %919 = fmul double %916, %918, !dbg !105
+  %920 = fsub double %915, %919, !dbg !105
+  %921 = fmul double %812, 0xBFB00AEC33E1F670, !dbg !105
+  %922 = fmul double %908, %908, !dbg !105
+  %923 = fmul double %921, %922, !dbg !105
+  %924 = fsub double %920, %923, !dbg !105
+  %925 = fmul double %811, 0x3FC916872B020C49, !dbg !105
+  %926 = fmul double %925, %905, !dbg !105
+  %927 = fsub double %924, %926, !dbg !105
+  %928 = fmul double %365, %927, !dbg !105
+  %929 = fsub double %911, %928, !dbg !105
+  %930 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 0, i64 4, !dbg !105
+  store double %929, double* %930, align 8, !dbg !105, !tbaa !42
+  %931 = load double* %818, align 8, !dbg !106, !tbaa !42
+  %932 = load double* %820, align 8, !dbg !106, !tbaa !42
+  %933 = fmul double %931, %932, !dbg !106
+  %934 = fmul double %933, -4.000000e-01, !dbg !106
+  %935 = fmul double %811, %934, !dbg !106
+  %936 = fmul double %368, %935, !dbg !106
+  %937 = fmul double %811, %370, !dbg !106
+  %938 = fmul double %931, %937, !dbg !106
+  %939 = fsub double %936, %938, !dbg !106
+  %940 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 1, i64 4, !dbg !106
+  store double %939, double* %940, align 8, !dbg !106, !tbaa !42
+  %941 = load double* %844, align 8, !dbg !107, !tbaa !42
+  %942 = load double* %820, align 8, !dbg !107, !tbaa !42
+  %943 = fmul double %941, %942, !dbg !107
+  %944 = fmul double %943, -4.000000e-01, !dbg !107
+  %945 = fmul double %811, %944, !dbg !107
+  %946 = fmul double %371, %945, !dbg !107
+  %947 = fmul double %811, %374, !dbg !107
+  %948 = fmul double %941, %947, !dbg !107
+  %949 = fsub double %946, %948, !dbg !107
+  %950 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 2, i64 4, !dbg !107
+  store double %949, double* %950, align 8, !dbg !107, !tbaa !42
+  %951 = load double* %904, align 8, !dbg !108, !tbaa !42
+  %952 = fmul double %810, %951, !dbg !108
+  %953 = fmul double %952, 1.400000e+00, !dbg !108
+  %954 = load double* %872, align 8, !dbg !108, !tbaa !42
+  %955 = fmul double %810, %954, !dbg !108
+  %956 = load double* %820, align 8, !dbg !108, !tbaa !42
+  %957 = fmul double %956, %956, !dbg !108
+  %958 = fmul double %811, %957, !dbg !108
+  %959 = fadd double %955, %958, !dbg !108
+  %960 = fmul double %959, 4.000000e-01, !dbg !108
+  %961 = fsub double %953, %960, !dbg !108
+  %962 = fmul double %377, %961, !dbg !108
+  %963 = fmul double %811, %379, !dbg !108
+  %964 = fmul double %956, %963, !dbg !108
+  %965 = fsub double %962, %964, !dbg !108
+  %966 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 3, i64 4, !dbg !108
+  store double %965, double* %966, align 8, !dbg !108, !tbaa !42
+  %967 = load double* %820, align 8, !dbg !109, !tbaa !42
+  %968 = fmul double %810, %967, !dbg !109
+  %969 = fmul double %968, 1.400000e+00, !dbg !109
+  %970 = fmul double %380, %969, !dbg !109
+  %971 = fmul double %810, %383, !dbg !109
+  %972 = fsub double %970, %971, !dbg !109
+  %973 = fsub double %972, %385, !dbg !109
+  %974 = getelementptr inbounds [12 x [13 x [5 x [5 x double]]]]* @c, i64 0, i64 %indvars.iv6, i64 %indvars.iv, i64 4, i64 4, !dbg !109
+  store double %973, double* %974, align 8, !dbg !109, !tbaa !42
+  %975 = trunc i64 %indvars.iv.next to i32, !dbg !36
+  %976 = icmp slt i32 %975, %386, !dbg !36
+  br i1 %976, label %391, label %._crit_edge, !dbg !36
+
+._crit_edge:                                      ; preds = %391, %389
+  %indvars.iv.next7 = add nsw i64 %indvars.iv6, 1, !dbg !30
+  %977 = trunc i64 %indvars.iv.next7 to i32, !dbg !30
+  %978 = icmp slt i32 %977, %7, !dbg !30
+  br i1 %978, label %389, label %._crit_edge5, !dbg !30
+
+._crit_edge5:                                     ; preds = %._crit_edge, %0
+  ret void, !dbg !154
+}
+
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.value(metadata, i64, metadata) #1
+
+attributes #0 = { nounwind uwtable "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #1 = { nounwind readnone }
+
+!llvm.dbg.cu = !{!0}
+!llvm.module.flags = !{!20, !21}
+!llvm.ident = !{!22}
+
+!0 = metadata !{i32 786449, metadata !1, i32 12, metadata !"clang version 3.4.2 (tags/RELEASE_34/dot2-final)", i1 true, metadata !"", i32 0, metadata !2, metadata !2, metadata !3, metadata !2, metadata !2, metadata !""} ; [ DW_TAG_compile_unit ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/jacu.c] [DW_LANG_C99]
+!1 = metadata !{metadata !"jacu.c", metadata !"/home/azguolu/ARAT-0.1/llvm-tracer/example/lu"}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{i32 786478, metadata !1, metadata !5, metadata !"jacu", metadata !"jacu", metadata !"", i32 39, metadata !6, i1 false, i1 true, i32 0, i32 0, null, i32 256, i1 true, void (i32)* @jacu, null, null, metadata !9, i32 40} ; [ DW_TAG_subprogram ] [line 39] [def] [scope 40] [jacu]
+!5 = metadata !{i32 786473, metadata !1}          ; [ DW_TAG_file_type ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/jacu.c]
+!6 = metadata !{i32 786453, i32 0, null, metadata !"", i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !7, i32 0, null, null, null} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!7 = metadata !{null, metadata !8}
+!8 = metadata !{i32 786468, null, null, metadata !"int", i32 0, i64 32, i64 32, i64 0, i32 0, i32 5} ; [ DW_TAG_base_type ] [int] [line 0, size 32, align 32, offset 0, enc DW_ATE_signed]
+!9 = metadata !{metadata !10, metadata !11, metadata !12, metadata !13, metadata !15, metadata !16, metadata !17, metadata !18, metadata !19}
+!10 = metadata !{i32 786689, metadata !4, metadata !"k", metadata !5, i32 16777255, metadata !8, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [k] [line 39]
+!11 = metadata !{i32 786688, metadata !4, metadata !"i", metadata !5, i32 44, metadata !8, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [i] [line 44]
+!12 = metadata !{i32 786688, metadata !4, metadata !"j", metadata !5, i32 44, metadata !8, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [j] [line 44]
+!13 = metadata !{i32 786688, metadata !4, metadata !"r43", metadata !5, i32 45, metadata !14, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [r43] [line 45]
+!14 = metadata !{i32 786468, null, null, metadata !"double", i32 0, i64 64, i64 64, i64 0, i32 0, i32 4} ; [ DW_TAG_base_type ] [double] [line 0, size 64, align 64, offset 0, enc DW_ATE_float]
+!15 = metadata !{i32 786688, metadata !4, metadata !"c1345", metadata !5, i32 46, metadata !14, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [c1345] [line 46]
+!16 = metadata !{i32 786688, metadata !4, metadata !"c34", metadata !5, i32 47, metadata !14, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [c34] [line 47]
+!17 = metadata !{i32 786688, metadata !4, metadata !"tmp1", metadata !5, i32 48, metadata !14, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [tmp1] [line 48]
+!18 = metadata !{i32 786688, metadata !4, metadata !"tmp2", metadata !5, i32 48, metadata !14, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [tmp2] [line 48]
+!19 = metadata !{i32 786688, metadata !4, metadata !"tmp3", metadata !5, i32 48, metadata !14, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [tmp3] [line 48]
+!20 = metadata !{i32 2, metadata !"Dwarf Version", i32 4}
+!21 = metadata !{i32 1, metadata !"Debug Info Version", i32 1}
+!22 = metadata !{metadata !"clang version 3.4.2 (tags/RELEASE_34/dot2-final)"}
+!23 = metadata !{i32 39, i32 0, metadata !4, null}
+!24 = metadata !{double 0x3FF5555555555555}
+!25 = metadata !{i32 50, i32 0, metadata !4, null}
+!26 = metadata !{double 0x3FC916872B020C49}
+!27 = metadata !{i32 51, i32 0, metadata !4, null}
+!28 = metadata !{double 1.000000e-01}
+!29 = metadata !{i32 52, i32 0, metadata !4, null}
+!30 = metadata !{i32 54, i32 0, metadata !31, null}
+!31 = metadata !{i32 786443, metadata !1, metadata !4, i32 54, i32 0, i32 0} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/jacu.c]
+!32 = metadata !{metadata !33, metadata !33, i64 0}
+!33 = metadata !{metadata !"int", metadata !34, i64 0}
+!34 = metadata !{metadata !"omnipotent char", metadata !35, i64 0}
+!35 = metadata !{metadata !"Simple C/C++ TBAA"}
+!36 = metadata !{i32 55, i32 0, metadata !37, null}
+!37 = metadata !{i32 786443, metadata !1, metadata !38, i32 55, i32 0, i32 2} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/jacu.c]
+!38 = metadata !{i32 786443, metadata !1, metadata !31, i32 54, i32 0, i32 1} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/jacu.c]
+!39 = metadata !{i32 59, i32 0, metadata !40, null}
+!40 = metadata !{i32 786443, metadata !1, metadata !37, i32 55, i32 0, i32 3} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/jacu.c]
+!41 = metadata !{i32 63, i32 0, metadata !40, null}
+!42 = metadata !{metadata !43, metadata !43, i64 0}
+!43 = metadata !{metadata !"double", metadata !34, i64 0}
+!44 = metadata !{i32 69, i32 0, metadata !40, null}
+!45 = metadata !{i32 72, i32 0, metadata !40, null}
+!46 = metadata !{i32 80, i32 0, metadata !40, null}
+!47 = metadata !{i32 84, i32 0, metadata !40, null}
+!48 = metadata !{i32 91, i32 0, metadata !40, null}
+!49 = metadata !{i32 96, i32 0, metadata !40, null}
+!50 = metadata !{i32 102, i32 0, metadata !40, null}
+!51 = metadata !{i32 115, i32 0, metadata !40, null}
+!52 = metadata !{i32 119, i32 0, metadata !40, null}
+!53 = metadata !{i32 123, i32 0, metadata !40, null}
+!54 = metadata !{i32 127, i32 0, metadata !40, null}
+!55 = metadata !{i32 138, i32 0, metadata !40, null}
+!56 = metadata !{i32 139, i32 0, metadata !40, null}
+!57 = metadata !{i32 144, i32 0, metadata !40, null}
+!58 = metadata !{i32 148, i32 0, metadata !40, null}
+!59 = metadata !{i32 152, i32 0, metadata !40, null}
+!60 = metadata !{i32 154, i32 0, metadata !40, null}
+!61 = metadata !{i32 156, i32 0, metadata !40, null}
+!62 = metadata !{i32 158, i32 0, metadata !40, null}
+!63 = metadata !{i32 161, i32 0, metadata !40, null}
+!64 = metadata !{i32 162, i32 0, metadata !40, null}
+!65 = metadata !{i32 168, i32 0, metadata !40, null}
+!66 = metadata !{i32 171, i32 0, metadata !40, null}
+!67 = metadata !{i32 173, i32 0, metadata !40, null}
+!68 = metadata !{i32 178, i32 0, metadata !40, null}
+!69 = metadata !{i32 187, i32 0, metadata !40, null}
+!70 = metadata !{i32 194, i32 0, metadata !40, null}
+!71 = metadata !{i32 198, i32 0, metadata !40, null}
+!72 = metadata !{i32 202, i32 0, metadata !40, null}
+!73 = metadata !{i32 214, i32 0, metadata !40, null}
+!74 = metadata !{i32 216, i32 0, metadata !40, null}
+!75 = metadata !{i32 220, i32 0, metadata !40, null}
+!76 = metadata !{i32 223, i32 0, metadata !40, null}
+!77 = metadata !{i32 226, i32 0, metadata !40, null}
+!78 = metadata !{i32 230, i32 0, metadata !40, null}
+!79 = metadata !{i32 234, i32 0, metadata !40, null}
+!80 = metadata !{i32 236, i32 0, metadata !40, null}
+!81 = metadata !{i32 240, i32 0, metadata !40, null}
+!82 = metadata !{i32 242, i32 0, metadata !40, null}
+!83 = metadata !{i32 244, i32 0, metadata !40, null}
+!84 = metadata !{i32 248, i32 0, metadata !40, null}
+!85 = metadata !{i32 249, i32 0, metadata !40, null}
+!86 = metadata !{i32 254, i32 0, metadata !40, null}
+!87 = metadata !{i32 263, i32 0, metadata !40, null}
+!88 = metadata !{i32 267, i32 0, metadata !40, null}
+!89 = metadata !{i32 274, i32 0, metadata !40, null}
+!90 = metadata !{i32 277, i32 0, metadata !40, null}
+!91 = metadata !{i32 285, i32 0, metadata !40, null}
+!92 = metadata !{i32 289, i32 0, metadata !40, null}
+!93 = metadata !{i32 292, i32 0, metadata !40, null}
+!94 = metadata !{i32 295, i32 0, metadata !40, null}
+!95 = metadata !{i32 298, i32 0, metadata !40, null}
+!96 = metadata !{i32 302, i32 0, metadata !40, null}
+!97 = metadata !{i32 305, i32 0, metadata !40, null}
+!98 = metadata !{i32 309, i32 0, metadata !40, null}
+!99 = metadata !{i32 312, i32 0, metadata !40, null}
+!100 = metadata !{i32 315, i32 0, metadata !40, null}
+!101 = metadata !{i32 319, i32 0, metadata !40, null}
+!102 = metadata !{i32 321, i32 0, metadata !40, null}
+!103 = metadata !{i32 323, i32 0, metadata !40, null}
+!104 = metadata !{i32 327, i32 0, metadata !40, null}
+!105 = metadata !{i32 329, i32 0, metadata !40, null}
+!106 = metadata !{i32 338, i32 0, metadata !40, null}
+!107 = metadata !{i32 341, i32 0, metadata !40, null}
+!108 = metadata !{i32 344, i32 0, metadata !40, null}
+!109 = metadata !{i32 350, i32 0, metadata !40, null}
+!110 = metadata !{i32 210, i32 0, metadata !40, null}
+!111 = metadata !{i32 60, i32 0, metadata !40, null}
+!112 = metadata !{i32 61, i32 0, metadata !40, null}
+!113 = metadata !{i32 64, i32 0, metadata !40, null}
+!114 = metadata !{i32 65, i32 0, metadata !40, null}
+!115 = metadata !{i32 66, i32 0, metadata !40, null}
+!116 = metadata !{i32 67, i32 0, metadata !40, null}
+!117 = metadata !{i32 76, i32 0, metadata !40, null}
+!118 = metadata !{i32 77, i32 0, metadata !40, null}
+!119 = metadata !{i32 78, i32 0, metadata !40, null}
+!120 = metadata !{i32 83, i32 0, metadata !40, null}
+!121 = metadata !{i32 88, i32 0, metadata !40, null}
+!122 = metadata !{i32 89, i32 0, metadata !40, null}
+!123 = metadata !{i32 94, i32 0, metadata !40, null}
+!124 = metadata !{i32 95, i32 0, metadata !40, null}
+!125 = metadata !{i32 100, i32 0, metadata !40, null}
+!126 = metadata !{i32 134, i32 0, metadata !40, null}
+!127 = metadata !{i32 135, i32 0, metadata !40, null}
+!128 = metadata !{i32 136, i32 0, metadata !40, null}
+!129 = metadata !{i32 140, i32 0, metadata !40, null}
+!130 = metadata !{i32 141, i32 0, metadata !40, null}
+!131 = metadata !{i32 142, i32 0, metadata !40, null}
+!132 = metadata !{i32 165, i32 0, metadata !40, null}
+!133 = metadata !{i32 166, i32 0, metadata !40, null}
+!134 = metadata !{i32 172, i32 0, metadata !40, null}
+!135 = metadata !{i32 176, i32 0, metadata !40, null}
+!136 = metadata !{i32 211, i32 0, metadata !40, null}
+!137 = metadata !{i32 212, i32 0, metadata !40, null}
+!138 = metadata !{i32 215, i32 0, metadata !40, null}
+!139 = metadata !{i32 217, i32 0, metadata !40, null}
+!140 = metadata !{i32 218, i32 0, metadata !40, null}
+!141 = metadata !{i32 227, i32 0, metadata !40, null}
+!142 = metadata !{i32 228, i32 0, metadata !40, null}
+!143 = metadata !{i32 247, i32 0, metadata !40, null}
+!144 = metadata !{i32 252, i32 0, metadata !40, null}
+!145 = metadata !{i32 286, i32 0, metadata !40, null}
+!146 = metadata !{i32 287, i32 0, metadata !40, null}
+!147 = metadata !{i32 290, i32 0, metadata !40, null}
+!148 = metadata !{i32 291, i32 0, metadata !40, null}
+!149 = metadata !{i32 293, i32 0, metadata !40, null}
+!150 = metadata !{i32 301, i32 0, metadata !40, null}
+!151 = metadata !{i32 303, i32 0, metadata !40, null}
+!152 = metadata !{i32 308, i32 0, metadata !40, null}
+!153 = metadata !{i32 313, i32 0, metadata !40, null}
+!154 = metadata !{i32 356, i32 0, metadata !4, null}

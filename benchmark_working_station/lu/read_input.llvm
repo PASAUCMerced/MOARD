@@ -1,0 +1,433 @@
+; ModuleID = 'read_input.c'
+target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-unknown-linux-gnu"
+
+%struct._IO_FILE = type { i32, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, %struct._IO_marker*, %struct._IO_FILE*, i32, i32, i64, i16, i8, [1 x i8], i8*, i64, i8*, i8*, i8*, i8*, i64, i32, [20 x i8] }
+%struct._IO_marker = type { %struct._IO_marker*, %struct._IO_FILE*, i32 }
+
+@.str = private unnamed_addr constant [59 x i8] c"\0A\0A NAS Parallel Benchmarks (NPB3.3-SER-C) - LU Benchmark\0A\0A\00", align 1
+@.str.1 = private unnamed_addr constant [13 x i8] c"inputlu.data\00", align 1
+@.str.2 = private unnamed_addr constant [2 x i8] c"r\00", align 1
+@.str.3 = private unnamed_addr constant [38 x i8] c"Reading from input file inputlu.data\0A\00", align 1
+@.str.4 = private unnamed_addr constant [5 x i8] c"%d%d\00", align 1
+@ipr = external global i32, align 4
+@inorm = external global i32, align 4
+@.str.5 = private unnamed_addr constant [3 x i8] c"%d\00", align 1
+@itmax = external global i32, align 4
+@.str.6 = private unnamed_addr constant [4 x i8] c"%lf\00", align 1
+@dt = external global double, align 8
+@omega = external global double, align 8
+@.str.7 = private unnamed_addr constant [16 x i8] c"%lf%lf%lf%lf%lf\00", align 1
+@tolrsd = external global [5 x double], align 16
+@.str.8 = private unnamed_addr constant [7 x i8] c"%d%d%d\00", align 1
+@nx0 = external global i32, align 4
+@ny0 = external global i32, align 4
+@nz0 = external global i32, align 4
+@.str.9 = private unnamed_addr constant [86 x i8] c"     PROBLEM SIZE IS TOO SMALL - \0A     SET EACH OF NX, NY AND NZ AT LEAST EQUAL TO 5\0A\00", align 1
+@.str.10 = private unnamed_addr constant [115 x i8] c"     PROBLEM SIZE IS TOO LARGE - \0A     NX, NY AND NZ SHOULD BE EQUAL TO \0A     ISIZ1, ISIZ2 AND ISIZ3 RESPECTIVELY\0A\00", align 1
+@.str.11 = private unnamed_addr constant [20 x i8] c" Size: %4dx%4dx%4d\0A\00", align 1
+@.str.12 = private unnamed_addr constant [18 x i8] c" Iterations: %4d\0A\00", align 1
+@.str.13 = private unnamed_addr constant [2 x i8] c"\0A\00", align 1
+
+; Function Attrs: noinline nounwind uwtable
+define void @read_input() #0 !dbg !6 {
+  %1 = tail call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([59 x i8], [59 x i8]* @.str, i64 0, i64 0)) #4, !dbg !78
+  %2 = tail call %struct._IO_FILE* @fopen(i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.1, i64 0, i64 0), i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.2, i64 0, i64 0)) #4, !dbg !79
+  tail call void @llvm.dbg.value(metadata %struct._IO_FILE* %2, i64 0, metadata !10, metadata !81), !dbg !82
+  %3 = icmp eq %struct._IO_FILE* %2, null, !dbg !83
+  br i1 %3, label %57, label %4, !dbg !84
+
+; <label>:4                                       ; preds = %0
+  %5 = tail call i32 (i8*, ...) @printf(i8* nonnull getelementptr inbounds ([38 x i8], [38 x i8]* @.str.3, i64 0, i64 0)) #4, !dbg !85
+  br label %6, !dbg !87
+
+; <label>:6                                       ; preds = %6, %4
+  %7 = tail call i32 @fgetc(%struct._IO_FILE* %2) #4, !dbg !88
+  %8 = icmp eq i32 %7, 10, !dbg !90
+  br i1 %8, label %.preheader16, label %6, !dbg !91
+
+.preheader16:                                     ; preds = %6, %.preheader16
+  %9 = tail call i32 @fgetc(%struct._IO_FILE* %2) #4, !dbg !92
+  %10 = icmp eq i32 %9, 10, !dbg !93
+  br i1 %10, label %11, label %.preheader16, !dbg !94
+
+; <label>:11                                      ; preds = %.preheader16
+  %12 = tail call i32 (%struct._IO_FILE*, i8*, ...) @__isoc99_fscanf(%struct._IO_FILE* %2, i8* nonnull getelementptr inbounds ([5 x i8], [5 x i8]* @.str.4, i64 0, i64 0), i32* nonnull @ipr, i32* nonnull @inorm) #4, !dbg !95
+  tail call void @llvm.dbg.value(metadata i32 0, i64 0, metadata !73, metadata !81), !dbg !96
+  br label %13, !dbg !97
+
+; <label>:13                                      ; preds = %13, %11
+  %14 = tail call i32 @fgetc(%struct._IO_FILE* %2) #4, !dbg !98
+  %15 = icmp eq i32 %14, 10, !dbg !99
+  br i1 %15, label %.preheader15, label %13, !dbg !100
+
+.preheader15:                                     ; preds = %13, %.preheader15
+  %16 = tail call i32 @fgetc(%struct._IO_FILE* %2) #4, !dbg !101
+  %17 = icmp eq i32 %16, 10, !dbg !102
+  br i1 %17, label %.preheader14, label %.preheader15, !dbg !103
+
+.preheader14:                                     ; preds = %.preheader15, %.preheader14
+  %18 = tail call i32 @fgetc(%struct._IO_FILE* %2) #4, !dbg !104
+  %19 = icmp eq i32 %18, 10, !dbg !105
+  br i1 %19, label %20, label %.preheader14, !dbg !106
+
+; <label>:20                                      ; preds = %.preheader14
+  %21 = tail call i32 (%struct._IO_FILE*, i8*, ...) @__isoc99_fscanf(%struct._IO_FILE* %2, i8* nonnull getelementptr inbounds ([3 x i8], [3 x i8]* @.str.5, i64 0, i64 0), i32* nonnull @itmax) #4, !dbg !107
+  tail call void @llvm.dbg.value(metadata i32 0, i64 0, metadata !73, metadata !81), !dbg !96
+  br label %22, !dbg !108
+
+; <label>:22                                      ; preds = %22, %20
+  %23 = tail call i32 @fgetc(%struct._IO_FILE* %2) #4, !dbg !109
+  %24 = icmp eq i32 %23, 10, !dbg !110
+  br i1 %24, label %.preheader13, label %22, !dbg !111
+
+.preheader13:                                     ; preds = %22, %.preheader13
+  %25 = tail call i32 @fgetc(%struct._IO_FILE* %2) #4, !dbg !112
+  %26 = icmp eq i32 %25, 10, !dbg !113
+  br i1 %26, label %.preheader12, label %.preheader13, !dbg !114
+
+.preheader12:                                     ; preds = %.preheader13, %.preheader12
+  %27 = tail call i32 @fgetc(%struct._IO_FILE* %2) #4, !dbg !115
+  %28 = icmp eq i32 %27, 10, !dbg !116
+  br i1 %28, label %29, label %.preheader12, !dbg !117
+
+; <label>:29                                      ; preds = %.preheader12
+  %30 = tail call i32 (%struct._IO_FILE*, i8*, ...) @__isoc99_fscanf(%struct._IO_FILE* %2, i8* nonnull getelementptr inbounds ([4 x i8], [4 x i8]* @.str.6, i64 0, i64 0), double* nonnull @dt) #4, !dbg !118
+  tail call void @llvm.dbg.value(metadata i32 0, i64 0, metadata !73, metadata !81), !dbg !96
+  br label %31, !dbg !119
+
+; <label>:31                                      ; preds = %31, %29
+  %32 = tail call i32 @fgetc(%struct._IO_FILE* %2) #4, !dbg !120
+  %33 = icmp eq i32 %32, 10, !dbg !121
+  br i1 %33, label %.preheader11, label %31, !dbg !122
+
+.preheader11:                                     ; preds = %31, %.preheader11
+  %34 = tail call i32 @fgetc(%struct._IO_FILE* %2) #4, !dbg !123
+  %35 = icmp eq i32 %34, 10, !dbg !124
+  br i1 %35, label %.preheader10, label %.preheader11, !dbg !125
+
+.preheader10:                                     ; preds = %.preheader11, %.preheader10
+  %36 = tail call i32 @fgetc(%struct._IO_FILE* %2) #4, !dbg !126
+  %37 = icmp eq i32 %36, 10, !dbg !127
+  br i1 %37, label %38, label %.preheader10, !dbg !128
+
+; <label>:38                                      ; preds = %.preheader10
+  %39 = tail call i32 (%struct._IO_FILE*, i8*, ...) @__isoc99_fscanf(%struct._IO_FILE* %2, i8* nonnull getelementptr inbounds ([4 x i8], [4 x i8]* @.str.6, i64 0, i64 0), double* nonnull @omega) #4, !dbg !129
+  tail call void @llvm.dbg.value(metadata i32 0, i64 0, metadata !73, metadata !81), !dbg !96
+  br label %40, !dbg !130
+
+; <label>:40                                      ; preds = %40, %38
+  %41 = tail call i32 @fgetc(%struct._IO_FILE* %2) #4, !dbg !131
+  %42 = icmp eq i32 %41, 10, !dbg !132
+  br i1 %42, label %.preheader9, label %40, !dbg !133
+
+.preheader9:                                      ; preds = %40, %.preheader9
+  %43 = tail call i32 @fgetc(%struct._IO_FILE* %2) #4, !dbg !134
+  %44 = icmp eq i32 %43, 10, !dbg !135
+  br i1 %44, label %.preheader8, label %.preheader9, !dbg !136
+
+.preheader8:                                      ; preds = %.preheader9, %.preheader8
+  %45 = tail call i32 @fgetc(%struct._IO_FILE* %2) #4, !dbg !137
+  %46 = icmp eq i32 %45, 10, !dbg !138
+  br i1 %46, label %47, label %.preheader8, !dbg !139
+
+; <label>:47                                      ; preds = %.preheader8
+  %48 = tail call i32 (%struct._IO_FILE*, i8*, ...) @__isoc99_fscanf(%struct._IO_FILE* %2, i8* nonnull getelementptr inbounds ([16 x i8], [16 x i8]* @.str.7, i64 0, i64 0), double* nonnull getelementptr inbounds ([5 x double], [5 x double]* @tolrsd, i64 0, i64 0), double* nonnull getelementptr inbounds ([5 x double], [5 x double]* @tolrsd, i64 0, i64 1), double* nonnull getelementptr inbounds ([5 x double], [5 x double]* @tolrsd, i64 0, i64 2), double* nonnull getelementptr inbounds ([5 x double], [5 x double]* @tolrsd, i64 0, i64 3), double* nonnull getelementptr inbounds ([5 x double], [5 x double]* @tolrsd, i64 0, i64 4)) #4, !dbg !140
+  tail call void @llvm.dbg.value(metadata i32 0, i64 0, metadata !73, metadata !81), !dbg !96
+  br label %49, !dbg !141
+
+; <label>:49                                      ; preds = %49, %47
+  %50 = tail call i32 @fgetc(%struct._IO_FILE* %2) #4, !dbg !142
+  %51 = icmp eq i32 %50, 10, !dbg !143
+  br i1 %51, label %.preheader, label %49, !dbg !144
+
+.preheader:                                       ; preds = %49, %.preheader
+  %52 = tail call i32 @fgetc(%struct._IO_FILE* %2) #4, !dbg !145
+  %53 = icmp eq i32 %52, 10, !dbg !146
+  br i1 %53, label %54, label %.preheader, !dbg !147
+
+; <label>:54                                      ; preds = %.preheader
+  %55 = tail call i32 (%struct._IO_FILE*, i8*, ...) @__isoc99_fscanf(%struct._IO_FILE* %2, i8* nonnull getelementptr inbounds ([7 x i8], [7 x i8]* @.str.8, i64 0, i64 0), i32* nonnull @nx0, i32* nonnull @ny0, i32* nonnull @nz0) #4, !dbg !148
+  tail call void @llvm.dbg.value(metadata i32 0, i64 0, metadata !73, metadata !81), !dbg !96
+  %56 = tail call i32 @fclose(%struct._IO_FILE* %2) #4, !dbg !149
+  br label %58, !dbg !150
+
+; <label>:57                                      ; preds = %0
+  store i32 1, i32* @ipr, align 4, !dbg !151, !tbaa !153
+  store i32 50, i32* @inorm, align 4, !dbg !157, !tbaa !153
+  store i32 50, i32* @itmax, align 4, !dbg !158, !tbaa !153
+  store double 5.000000e-01, double* @dt, align 8, !dbg !159, !tbaa !160
+  store double 1.200000e+00, double* @omega, align 8, !dbg !162, !tbaa !160
+  store double 1.000000e-08, double* getelementptr inbounds ([5 x double], [5 x double]* @tolrsd, i64 0, i64 0), align 16, !dbg !163, !tbaa !160
+  store double 1.000000e-08, double* getelementptr inbounds ([5 x double], [5 x double]* @tolrsd, i64 0, i64 1), align 8, !dbg !164, !tbaa !160
+  store double 1.000000e-08, double* getelementptr inbounds ([5 x double], [5 x double]* @tolrsd, i64 0, i64 2), align 16, !dbg !165, !tbaa !160
+  store double 1.000000e-08, double* getelementptr inbounds ([5 x double], [5 x double]* @tolrsd, i64 0, i64 3), align 8, !dbg !166, !tbaa !160
+  store double 1.000000e-08, double* getelementptr inbounds ([5 x double], [5 x double]* @tolrsd, i64 0, i64 4), align 16, !dbg !167, !tbaa !160
+  store i32 12, i32* @nx0, align 4, !dbg !168, !tbaa !153
+  store i32 12, i32* @ny0, align 4, !dbg !169, !tbaa !153
+  store i32 12, i32* @nz0, align 4, !dbg !170, !tbaa !153
+  br label %58
+
+; <label>:58                                      ; preds = %57, %54
+  %59 = load i32, i32* @nx0, align 4, !dbg !171, !tbaa !153
+  %60 = icmp slt i32 %59, 4, !dbg !173
+  %61 = load i32, i32* @ny0, align 4, !dbg !174
+  %62 = icmp slt i32 %61, 4, !dbg !176
+  %or.cond = or i1 %60, %62, !dbg !177
+  %63 = load i32, i32* @nz0, align 4, !dbg !178
+  %64 = icmp slt i32 %63, 4, !dbg !180
+  %or.cond3 = or i1 %or.cond, %64, !dbg !177
+  br i1 %or.cond3, label %65, label %67, !dbg !177
+
+; <label>:65                                      ; preds = %58
+  %66 = tail call i32 (i8*, ...) @printf(i8* nonnull getelementptr inbounds ([86 x i8], [86 x i8]* @.str.9, i64 0, i64 0)) #4, !dbg !181
+  tail call void @exit(i32 1) #5, !dbg !183
+  unreachable, !dbg !183
+
+; <label>:67                                      ; preds = %58
+  %68 = icmp sgt i32 %59, 12, !dbg !184
+  %69 = icmp sgt i32 %61, 12, !dbg !186
+  %or.cond5 = or i1 %68, %69, !dbg !188
+  %70 = icmp sgt i32 %63, 12, !dbg !189
+  %or.cond7 = or i1 %or.cond5, %70, !dbg !188
+  br i1 %or.cond7, label %71, label %73, !dbg !188
+
+; <label>:71                                      ; preds = %67
+  %72 = tail call i32 (i8*, ...) @printf(i8* nonnull getelementptr inbounds ([115 x i8], [115 x i8]* @.str.10, i64 0, i64 0)) #4, !dbg !191
+  tail call void @exit(i32 1) #5, !dbg !193
+  unreachable, !dbg !193
+
+; <label>:73                                      ; preds = %67
+  %74 = tail call i32 (i8*, ...) @printf(i8* nonnull getelementptr inbounds ([20 x i8], [20 x i8]* @.str.11, i64 0, i64 0), i32 %59, i32 %61, i32 %63) #4, !dbg !194
+  %75 = load i32, i32* @itmax, align 4, !dbg !195, !tbaa !153
+  %76 = tail call i32 (i8*, ...) @printf(i8* nonnull getelementptr inbounds ([18 x i8], [18 x i8]* @.str.12, i64 0, i64 0), i32 %75) #4, !dbg !196
+  %77 = tail call i32 (i8*, ...) @printf(i8* nonnull getelementptr inbounds ([2 x i8], [2 x i8]* @.str.13, i64 0, i64 0)) #4, !dbg !197
+  ret void, !dbg !198
+}
+
+declare i32 @printf(i8*, ...) #1
+
+declare %struct._IO_FILE* @fopen(i8*, i8*) #1
+
+declare i32 @fgetc(%struct._IO_FILE*) #1
+
+declare i32 @__isoc99_fscanf(%struct._IO_FILE*, i8*, ...) #1
+
+declare i32 @fclose(%struct._IO_FILE*) #1
+
+; Function Attrs: noreturn nounwind
+declare void @exit(i32) #2
+
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.value(metadata, i64, metadata, metadata) #3
+
+attributes #0 = { noinline nounwind uwtable "disable-tail-calls"="false" "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+fxsr,+mmx,+sse,+sse2" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #1 = { "disable-tail-calls"="false" "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+fxsr,+mmx,+sse,+sse2" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #2 = { noreturn nounwind "disable-tail-calls"="false" "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+fxsr,+mmx,+sse,+sse2" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #3 = { nounwind readnone }
+attributes #4 = { nobuiltin nounwind }
+attributes #5 = { nobuiltin noreturn nounwind }
+
+!llvm.dbg.cu = !{!0}
+!llvm.module.flags = !{!74, !75, !76}
+!llvm.ident = !{!77}
+
+!0 = distinct !DICompileUnit(language: DW_LANG_C99, file: !1, producer: "clang version 3.8.0 (tags/RELEASE_380/final)", isOptimized: true, runtimeVersion: 0, emissionKind: 1, enums: !2, retainedTypes: !3, subprograms: !5)
+!1 = !DIFile(filename: "read_input.c", directory: "/home/jingl/trace_analysis_code/trace_analysis_code_lulesh_m_delv_zeta/benchmark_working_station/lu")
+!2 = !{}
+!3 = !{!4}
+!4 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: null, size: 64, align: 64)
+!5 = !{!6}
+!6 = distinct !DISubprogram(name: "read_input", scope: !1, file: !1, line: 38, type: !7, isLocal: false, isDefinition: true, scopeLine: 39, isOptimized: true, variables: !9)
+!7 = !DISubroutineType(types: !8)
+!8 = !{null}
+!9 = !{!10, !73}
+!10 = !DILocalVariable(name: "fp", scope: !6, file: !1, line: 40, type: !11)
+!11 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !12, size: 64, align: 64)
+!12 = !DIDerivedType(tag: DW_TAG_typedef, name: "FILE", file: !13, line: 48, baseType: !14)
+!13 = !DIFile(filename: "/usr/include/stdio.h", directory: "/home/jingl/trace_analysis_code/trace_analysis_code_lulesh_m_delv_zeta/benchmark_working_station/lu")
+!14 = !DICompositeType(tag: DW_TAG_structure_type, name: "_IO_FILE", file: !15, line: 245, size: 1728, align: 64, elements: !16)
+!15 = !DIFile(filename: "/usr/include/libio.h", directory: "/home/jingl/trace_analysis_code/trace_analysis_code_lulesh_m_delv_zeta/benchmark_working_station/lu")
+!16 = !{!17, !19, !22, !23, !24, !25, !26, !27, !28, !29, !30, !31, !32, !40, !41, !42, !43, !47, !49, !51, !55, !58, !60, !61, !62, !63, !64, !68, !69}
+!17 = !DIDerivedType(tag: DW_TAG_member, name: "_flags", scope: !14, file: !15, line: 246, baseType: !18, size: 32, align: 32)
+!18 = !DIBasicType(name: "int", size: 32, align: 32, encoding: DW_ATE_signed)
+!19 = !DIDerivedType(tag: DW_TAG_member, name: "_IO_read_ptr", scope: !14, file: !15, line: 251, baseType: !20, size: 64, align: 64, offset: 64)
+!20 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !21, size: 64, align: 64)
+!21 = !DIBasicType(name: "char", size: 8, align: 8, encoding: DW_ATE_signed_char)
+!22 = !DIDerivedType(tag: DW_TAG_member, name: "_IO_read_end", scope: !14, file: !15, line: 252, baseType: !20, size: 64, align: 64, offset: 128)
+!23 = !DIDerivedType(tag: DW_TAG_member, name: "_IO_read_base", scope: !14, file: !15, line: 253, baseType: !20, size: 64, align: 64, offset: 192)
+!24 = !DIDerivedType(tag: DW_TAG_member, name: "_IO_write_base", scope: !14, file: !15, line: 254, baseType: !20, size: 64, align: 64, offset: 256)
+!25 = !DIDerivedType(tag: DW_TAG_member, name: "_IO_write_ptr", scope: !14, file: !15, line: 255, baseType: !20, size: 64, align: 64, offset: 320)
+!26 = !DIDerivedType(tag: DW_TAG_member, name: "_IO_write_end", scope: !14, file: !15, line: 256, baseType: !20, size: 64, align: 64, offset: 384)
+!27 = !DIDerivedType(tag: DW_TAG_member, name: "_IO_buf_base", scope: !14, file: !15, line: 257, baseType: !20, size: 64, align: 64, offset: 448)
+!28 = !DIDerivedType(tag: DW_TAG_member, name: "_IO_buf_end", scope: !14, file: !15, line: 258, baseType: !20, size: 64, align: 64, offset: 512)
+!29 = !DIDerivedType(tag: DW_TAG_member, name: "_IO_save_base", scope: !14, file: !15, line: 260, baseType: !20, size: 64, align: 64, offset: 576)
+!30 = !DIDerivedType(tag: DW_TAG_member, name: "_IO_backup_base", scope: !14, file: !15, line: 261, baseType: !20, size: 64, align: 64, offset: 640)
+!31 = !DIDerivedType(tag: DW_TAG_member, name: "_IO_save_end", scope: !14, file: !15, line: 262, baseType: !20, size: 64, align: 64, offset: 704)
+!32 = !DIDerivedType(tag: DW_TAG_member, name: "_markers", scope: !14, file: !15, line: 264, baseType: !33, size: 64, align: 64, offset: 768)
+!33 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !34, size: 64, align: 64)
+!34 = !DICompositeType(tag: DW_TAG_structure_type, name: "_IO_marker", file: !15, line: 160, size: 192, align: 64, elements: !35)
+!35 = !{!36, !37, !39}
+!36 = !DIDerivedType(tag: DW_TAG_member, name: "_next", scope: !34, file: !15, line: 161, baseType: !33, size: 64, align: 64)
+!37 = !DIDerivedType(tag: DW_TAG_member, name: "_sbuf", scope: !34, file: !15, line: 162, baseType: !38, size: 64, align: 64, offset: 64)
+!38 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !14, size: 64, align: 64)
+!39 = !DIDerivedType(tag: DW_TAG_member, name: "_pos", scope: !34, file: !15, line: 166, baseType: !18, size: 32, align: 32, offset: 128)
+!40 = !DIDerivedType(tag: DW_TAG_member, name: "_chain", scope: !14, file: !15, line: 266, baseType: !38, size: 64, align: 64, offset: 832)
+!41 = !DIDerivedType(tag: DW_TAG_member, name: "_fileno", scope: !14, file: !15, line: 268, baseType: !18, size: 32, align: 32, offset: 896)
+!42 = !DIDerivedType(tag: DW_TAG_member, name: "_flags2", scope: !14, file: !15, line: 272, baseType: !18, size: 32, align: 32, offset: 928)
+!43 = !DIDerivedType(tag: DW_TAG_member, name: "_old_offset", scope: !14, file: !15, line: 274, baseType: !44, size: 64, align: 64, offset: 960)
+!44 = !DIDerivedType(tag: DW_TAG_typedef, name: "__off_t", file: !45, line: 131, baseType: !46)
+!45 = !DIFile(filename: "/usr/include/x86_64-linux-gnu/bits/types.h", directory: "/home/jingl/trace_analysis_code/trace_analysis_code_lulesh_m_delv_zeta/benchmark_working_station/lu")
+!46 = !DIBasicType(name: "long int", size: 64, align: 64, encoding: DW_ATE_signed)
+!47 = !DIDerivedType(tag: DW_TAG_member, name: "_cur_column", scope: !14, file: !15, line: 278, baseType: !48, size: 16, align: 16, offset: 1024)
+!48 = !DIBasicType(name: "unsigned short", size: 16, align: 16, encoding: DW_ATE_unsigned)
+!49 = !DIDerivedType(tag: DW_TAG_member, name: "_vtable_offset", scope: !14, file: !15, line: 279, baseType: !50, size: 8, align: 8, offset: 1040)
+!50 = !DIBasicType(name: "signed char", size: 8, align: 8, encoding: DW_ATE_signed_char)
+!51 = !DIDerivedType(tag: DW_TAG_member, name: "_shortbuf", scope: !14, file: !15, line: 280, baseType: !52, size: 8, align: 8, offset: 1048)
+!52 = !DICompositeType(tag: DW_TAG_array_type, baseType: !21, size: 8, align: 8, elements: !53)
+!53 = !{!54}
+!54 = !DISubrange(count: 1)
+!55 = !DIDerivedType(tag: DW_TAG_member, name: "_lock", scope: !14, file: !15, line: 284, baseType: !56, size: 64, align: 64, offset: 1088)
+!56 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !57, size: 64, align: 64)
+!57 = !DIDerivedType(tag: DW_TAG_typedef, name: "_IO_lock_t", file: !15, line: 154, baseType: null)
+!58 = !DIDerivedType(tag: DW_TAG_member, name: "_offset", scope: !14, file: !15, line: 293, baseType: !59, size: 64, align: 64, offset: 1152)
+!59 = !DIDerivedType(tag: DW_TAG_typedef, name: "__off64_t", file: !45, line: 132, baseType: !46)
+!60 = !DIDerivedType(tag: DW_TAG_member, name: "__pad1", scope: !14, file: !15, line: 302, baseType: !4, size: 64, align: 64, offset: 1216)
+!61 = !DIDerivedType(tag: DW_TAG_member, name: "__pad2", scope: !14, file: !15, line: 303, baseType: !4, size: 64, align: 64, offset: 1280)
+!62 = !DIDerivedType(tag: DW_TAG_member, name: "__pad3", scope: !14, file: !15, line: 304, baseType: !4, size: 64, align: 64, offset: 1344)
+!63 = !DIDerivedType(tag: DW_TAG_member, name: "__pad4", scope: !14, file: !15, line: 305, baseType: !4, size: 64, align: 64, offset: 1408)
+!64 = !DIDerivedType(tag: DW_TAG_member, name: "__pad5", scope: !14, file: !15, line: 306, baseType: !65, size: 64, align: 64, offset: 1472)
+!65 = !DIDerivedType(tag: DW_TAG_typedef, name: "size_t", file: !66, line: 62, baseType: !67)
+!66 = !DIFile(filename: "/opt/pasa_lib/llvm-3.8.0/bin/../lib/clang/3.8.0/include/stddef.h", directory: "/home/jingl/trace_analysis_code/trace_analysis_code_lulesh_m_delv_zeta/benchmark_working_station/lu")
+!67 = !DIBasicType(name: "long unsigned int", size: 64, align: 64, encoding: DW_ATE_unsigned)
+!68 = !DIDerivedType(tag: DW_TAG_member, name: "_mode", scope: !14, file: !15, line: 308, baseType: !18, size: 32, align: 32, offset: 1536)
+!69 = !DIDerivedType(tag: DW_TAG_member, name: "_unused2", scope: !14, file: !15, line: 310, baseType: !70, size: 160, align: 8, offset: 1568)
+!70 = !DICompositeType(tag: DW_TAG_array_type, baseType: !21, size: 160, align: 8, elements: !71)
+!71 = !{!72}
+!72 = !DISubrange(count: 20)
+!73 = !DILocalVariable(name: "result", scope: !6, file: !1, line: 41, type: !18)
+!74 = !{i32 2, !"Dwarf Version", i32 4}
+!75 = !{i32 2, !"Debug Info Version", i32 3}
+!76 = !{i32 1, !"PIC Level", i32 2}
+!77 = !{!"clang version 3.8.0 (tags/RELEASE_380/final)"}
+!78 = !DILocation(line: 54, column: 3, scope: !6)
+!79 = !DILocation(line: 56, column: 13, scope: !80)
+!80 = distinct !DILexicalBlock(scope: !6, file: !1, line: 56, column: 7)
+!81 = !DIExpression()
+!82 = !DILocation(line: 40, column: 9, scope: !6)
+!83 = !DILocation(line: 56, column: 41, scope: !80)
+!84 = !DILocation(line: 56, column: 7, scope: !6)
+!85 = !DILocation(line: 57, column: 5, scope: !86)
+!86 = distinct !DILexicalBlock(scope: !80, file: !1, line: 56, column: 50)
+!87 = !DILocation(line: 59, column: 5, scope: !86)
+!88 = !DILocation(line: 59, column: 12, scope: !89)
+!89 = !DILexicalBlockFile(scope: !86, file: !1, discriminator: 1)
+!90 = !DILocation(line: 59, column: 22, scope: !89)
+!91 = !DILocation(line: 59, column: 5, scope: !89)
+!92 = !DILocation(line: 60, column: 12, scope: !89)
+!93 = !DILocation(line: 60, column: 22, scope: !89)
+!94 = !DILocation(line: 60, column: 5, scope: !89)
+!95 = !DILocation(line: 61, column: 14, scope: !86)
+!96 = !DILocation(line: 41, column: 7, scope: !6)
+!97 = !DILocation(line: 62, column: 5, scope: !86)
+!98 = !DILocation(line: 62, column: 12, scope: !89)
+!99 = !DILocation(line: 62, column: 22, scope: !89)
+!100 = !DILocation(line: 62, column: 5, scope: !89)
+!101 = !DILocation(line: 64, column: 12, scope: !89)
+!102 = !DILocation(line: 64, column: 22, scope: !89)
+!103 = !DILocation(line: 64, column: 5, scope: !89)
+!104 = !DILocation(line: 65, column: 12, scope: !89)
+!105 = !DILocation(line: 65, column: 22, scope: !89)
+!106 = !DILocation(line: 65, column: 5, scope: !89)
+!107 = !DILocation(line: 66, column: 14, scope: !86)
+!108 = !DILocation(line: 67, column: 5, scope: !86)
+!109 = !DILocation(line: 67, column: 12, scope: !89)
+!110 = !DILocation(line: 67, column: 22, scope: !89)
+!111 = !DILocation(line: 67, column: 5, scope: !89)
+!112 = !DILocation(line: 69, column: 12, scope: !89)
+!113 = !DILocation(line: 69, column: 22, scope: !89)
+!114 = !DILocation(line: 69, column: 5, scope: !89)
+!115 = !DILocation(line: 70, column: 12, scope: !89)
+!116 = !DILocation(line: 70, column: 22, scope: !89)
+!117 = !DILocation(line: 70, column: 5, scope: !89)
+!118 = !DILocation(line: 71, column: 14, scope: !86)
+!119 = !DILocation(line: 72, column: 5, scope: !86)
+!120 = !DILocation(line: 72, column: 12, scope: !89)
+!121 = !DILocation(line: 72, column: 22, scope: !89)
+!122 = !DILocation(line: 72, column: 5, scope: !89)
+!123 = !DILocation(line: 74, column: 12, scope: !89)
+!124 = !DILocation(line: 74, column: 22, scope: !89)
+!125 = !DILocation(line: 74, column: 5, scope: !89)
+!126 = !DILocation(line: 75, column: 12, scope: !89)
+!127 = !DILocation(line: 75, column: 22, scope: !89)
+!128 = !DILocation(line: 75, column: 5, scope: !89)
+!129 = !DILocation(line: 76, column: 14, scope: !86)
+!130 = !DILocation(line: 77, column: 5, scope: !86)
+!131 = !DILocation(line: 77, column: 12, scope: !89)
+!132 = !DILocation(line: 77, column: 22, scope: !89)
+!133 = !DILocation(line: 77, column: 5, scope: !89)
+!134 = !DILocation(line: 79, column: 12, scope: !89)
+!135 = !DILocation(line: 79, column: 22, scope: !89)
+!136 = !DILocation(line: 79, column: 5, scope: !89)
+!137 = !DILocation(line: 80, column: 12, scope: !89)
+!138 = !DILocation(line: 80, column: 22, scope: !89)
+!139 = !DILocation(line: 80, column: 5, scope: !89)
+!140 = !DILocation(line: 81, column: 14, scope: !86)
+!141 = !DILocation(line: 83, column: 5, scope: !86)
+!142 = !DILocation(line: 83, column: 12, scope: !89)
+!143 = !DILocation(line: 83, column: 22, scope: !89)
+!144 = !DILocation(line: 83, column: 5, scope: !89)
+!145 = !DILocation(line: 84, column: 12, scope: !89)
+!146 = !DILocation(line: 84, column: 22, scope: !89)
+!147 = !DILocation(line: 84, column: 5, scope: !89)
+!148 = !DILocation(line: 85, column: 14, scope: !86)
+!149 = !DILocation(line: 86, column: 5, scope: !86)
+!150 = !DILocation(line: 87, column: 3, scope: !86)
+!151 = !DILocation(line: 88, column: 9, scope: !152)
+!152 = distinct !DILexicalBlock(scope: !80, file: !1, line: 87, column: 10)
+!153 = !{!154, !154, i64 0}
+!154 = !{!"int", !155, i64 0}
+!155 = !{!"omnipotent char", !156, i64 0}
+!156 = !{!"Simple C/C++ TBAA"}
+!157 = !DILocation(line: 89, column: 11, scope: !152)
+!158 = !DILocation(line: 90, column: 11, scope: !152)
+!159 = !DILocation(line: 91, column: 8, scope: !152)
+!160 = !{!161, !161, i64 0}
+!161 = !{!"double", !155, i64 0}
+!162 = !DILocation(line: 92, column: 11, scope: !152)
+!163 = !DILocation(line: 93, column: 15, scope: !152)
+!164 = !DILocation(line: 94, column: 15, scope: !152)
+!165 = !DILocation(line: 95, column: 15, scope: !152)
+!166 = !DILocation(line: 96, column: 15, scope: !152)
+!167 = !DILocation(line: 97, column: 15, scope: !152)
+!168 = !DILocation(line: 98, column: 9, scope: !152)
+!169 = !DILocation(line: 99, column: 9, scope: !152)
+!170 = !DILocation(line: 100, column: 9, scope: !152)
+!171 = !DILocation(line: 106, column: 10, scope: !172)
+!172 = distinct !DILexicalBlock(scope: !6, file: !1, line: 106, column: 8)
+!173 = !DILocation(line: 106, column: 14, scope: !172)
+!174 = !DILocation(line: 106, column: 25, scope: !175)
+!175 = !DILexicalBlockFile(scope: !172, file: !1, discriminator: 1)
+!176 = !DILocation(line: 106, column: 29, scope: !175)
+!177 = !DILocation(line: 106, column: 20, scope: !172)
+!178 = !DILocation(line: 106, column: 40, scope: !179)
+!179 = !DILexicalBlockFile(scope: !172, file: !1, discriminator: 2)
+!180 = !DILocation(line: 106, column: 44, scope: !179)
+!181 = !DILocation(line: 107, column: 5, scope: !182)
+!182 = distinct !DILexicalBlock(scope: !172, file: !1, line: 106, column: 52)
+!183 = !DILocation(line: 109, column: 5, scope: !182)
+!184 = !DILocation(line: 112, column: 14, scope: !185)
+!185 = distinct !DILexicalBlock(scope: !6, file: !1, line: 112, column: 8)
+!186 = !DILocation(line: 112, column: 33, scope: !187)
+!187 = !DILexicalBlockFile(scope: !185, file: !1, discriminator: 1)
+!188 = !DILocation(line: 112, column: 24, scope: !185)
+!189 = !DILocation(line: 112, column: 52, scope: !190)
+!190 = !DILexicalBlockFile(scope: !185, file: !1, discriminator: 2)
+!191 = !DILocation(line: 113, column: 5, scope: !192)
+!192 = distinct !DILexicalBlock(scope: !185, file: !1, line: 112, column: 64)
+!193 = !DILocation(line: 116, column: 5, scope: !192)
+!194 = !DILocation(line: 119, column: 3, scope: !6)
+!195 = !DILocation(line: 120, column: 32, scope: !6)
+!196 = !DILocation(line: 120, column: 3, scope: !6)
+!197 = !DILocation(line: 121, column: 3, scope: !6)
+!198 = !DILocation(line: 122, column: 1, scope: !6)

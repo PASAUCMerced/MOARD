@@ -1,0 +1,295 @@
+; ModuleID = 'trace_logger.c'
+target datalayout = "e-p:64:64:64-i1:8:8-i8:8:8-i16:16:16-i32:32:32-i64:64:64-f32:32:32-f64:64:64-v64:64:64-v128:128:128-a0:0:64-s0:64:64-f80:128:128-n8:16:32:64-S128"
+target triple = "x86_64-unknown-linux-gnu"
+
+%struct.gzFile_s = type { i32, i8*, i64 }
+
+@initp = global i32 0, align 4
+@track_curr_inst = global i8 0, align 1
+@track_next_inst = global i8 0, align 1
+@inst_count = global i32 0, align 4
+@.str = private unnamed_addr constant [17 x i8] c"dynamic_trace.gz\00", align 1
+@.str1 = private unnamed_addr constant [2 x i8] c"w\00", align 1
+@full_trace_file = common global %struct.gzFile_s* null, align 8
+@.str2 = private unnamed_addr constant [39 x i8] c"Failed to open logfile \22dynamic_trace\22\00", align 1
+@.str3 = private unnamed_addr constant [22 x i8] c"\0A0,%d,%s,%s,%s,%d,%d\0A\00", align 1
+@.str4 = private unnamed_addr constant [11 x i8] c"initp == 1\00", align 1
+@.str5 = private unnamed_addr constant [15 x i8] c"trace_logger.c\00", align 1
+@__PRETTY_FUNCTION__.trace_logger_log_int = private unnamed_addr constant [71 x i8] c"void trace_logger_log_int(int, int, int64_t, int, char *, int, char *)\00", align 1
+@.str6 = private unnamed_addr constant [12 x i8] c"r,%d,%ld,%d\00", align 1
+@.str7 = private unnamed_addr constant [12 x i8] c"f,%d,%ld,%d\00", align 1
+@.str8 = private unnamed_addr constant [13 x i8] c"%d,%d,%ld,%d\00", align 1
+@.str9 = private unnamed_addr constant [4 x i8] c",%s\00", align 1
+@.str10 = private unnamed_addr constant [3 x i8] c", \00", align 1
+@.str11 = private unnamed_addr constant [6 x i8] c",%s,\0A\00", align 1
+@.str12 = private unnamed_addr constant [3 x i8] c",\0A\00", align 1
+@__PRETTY_FUNCTION__.trace_logger_log_double = private unnamed_addr constant [73 x i8] c"void trace_logger_log_double(int, int, double, int, char *, int, char *)\00", align 1
+@.str13 = private unnamed_addr constant [11 x i8] c"r,%d,%f,%d\00", align 1
+@.str14 = private unnamed_addr constant [11 x i8] c"f,%d,%f,%d\00", align 1
+@.str15 = private unnamed_addr constant [12 x i8] c"%d,%d,%f,%d\00", align 1
+
+; Function Attrs: nounwind uwtable
+define void @trace_logger_init() #0 {
+  %1 = tail call %struct.gzFile_s* @gzopen(i8* getelementptr inbounds ([17 x i8]* @.str, i64 0, i64 0), i8* getelementptr inbounds ([2 x i8]* @.str1, i64 0, i64 0)) #4
+  store %struct.gzFile_s* %1, %struct.gzFile_s** @full_trace_file, align 8, !tbaa !1
+  %2 = icmp eq %struct.gzFile_s* %1, null
+  br i1 %2, label %3, label %4
+
+; <label>:3                                       ; preds = %0
+  tail call void @perror(i8* getelementptr inbounds ([39 x i8]* @.str2, i64 0, i64 0)) #5
+  tail call void @exit(i32 -1) #6
+  unreachable
+
+; <label>:4                                       ; preds = %0
+  %5 = tail call i32 @atexit(void ()* @trace_logger_fin) #4
+  ret void
+}
+
+declare %struct.gzFile_s* @gzopen(i8*, i8*) #1
+
+; Function Attrs: nounwind
+declare void @perror(i8* nocapture readonly) #2
+
+; Function Attrs: noreturn nounwind
+declare void @exit(i32) #3
+
+; Function Attrs: nounwind
+declare i32 @atexit(void ()*) #2
+
+; Function Attrs: nounwind uwtable
+define void @trace_logger_fin() #0 {
+  %1 = load %struct.gzFile_s** @full_trace_file, align 8, !tbaa !1
+  %2 = tail call i32 @gzclose(%struct.gzFile_s* %1) #4
+  ret void
+}
+
+declare i32 @gzclose(%struct.gzFile_s*) #1
+
+; Function Attrs: nounwind uwtable
+define void @trace_logger_log0(i32 %line_number, i8* %name, i8* %bbid, i8* %instid, i32 %opcode, i1 zeroext %is_tracked_function, i1 zeroext %is_toplevel_mode) #0 {
+  %1 = load i32* @initp, align 4, !tbaa !5
+  %2 = icmp eq i32 %1, 0
+  br i1 %2, label %3, label %8
+
+; <label>:3                                       ; preds = %0
+  %4 = tail call %struct.gzFile_s* @gzopen(i8* getelementptr inbounds ([17 x i8]* @.str, i64 0, i64 0), i8* getelementptr inbounds ([2 x i8]* @.str1, i64 0, i64 0)) #4
+  store %struct.gzFile_s* %4, %struct.gzFile_s** @full_trace_file, align 8, !tbaa !1
+  %5 = icmp eq %struct.gzFile_s* %4, null
+  br i1 %5, label %6, label %trace_logger_init.exit
+
+; <label>:6                                       ; preds = %3
+  tail call void @perror(i8* getelementptr inbounds ([39 x i8]* @.str2, i64 0, i64 0)) #5
+  tail call void @exit(i32 -1) #6
+  unreachable
+
+trace_logger_init.exit:                           ; preds = %3
+  %7 = tail call i32 @atexit(void ()* @trace_logger_fin) #4
+  store i32 1, i32* @initp, align 4, !tbaa !5
+  br label %8
+
+; <label>:8                                       ; preds = %0, %trace_logger_init.exit
+  %9 = load i32* @inst_count, align 4, !tbaa !5
+  %.not = icmp ne i32 %9, 0
+  %is_tracked_function.not = xor i1 %is_tracked_function, true
+  %brmerge = or i1 %.not, %is_tracked_function.not
+  %10 = load i8* @track_next_inst, align 1, !tbaa !7, !range !9
+  %storemerge = select i1 %brmerge, i8 %10, i8 1
+  store i8 %storemerge, i8* @track_curr_inst, align 1, !tbaa !7
+  br i1 %is_toplevel_mode, label %11, label %17
+
+; <label>:11                                      ; preds = %8
+  br i1 %is_tracked_function, label %12, label %18
+
+; <label>:12                                      ; preds = %11
+  %13 = icmp ne i32 %opcode, 1
+  %14 = icmp eq i8 %storemerge, 0
+  %or.cond = or i1 %13, %14
+  br i1 %or.cond, label %16, label %15
+
+; <label>:15                                      ; preds = %12
+  store i8 0, i8* @track_next_inst, align 1, !tbaa !7
+  br label %18
+
+; <label>:16                                      ; preds = %12
+  store i8 1, i8* @track_next_inst, align 1, !tbaa !7
+  br label %18
+
+; <label>:17                                      ; preds = %8
+  store i8 1, i8* @track_next_inst, align 1, !tbaa !7
+  br label %18
+
+; <label>:18                                      ; preds = %11, %16, %15, %17
+  %19 = icmp eq i8 %storemerge, 0
+  br i1 %19, label %25, label %20
+
+; <label>:20                                      ; preds = %18
+  %21 = load %struct.gzFile_s** @full_trace_file, align 8, !tbaa !1
+  %22 = tail call i32 (%struct.gzFile_s*, i8*, ...)* @gzprintf(%struct.gzFile_s* %21, i8* getelementptr inbounds ([22 x i8]* @.str3, i64 0, i64 0), i32 %line_number, i8* %name, i8* %bbid, i8* %instid, i32 %opcode, i32 %9) #4
+  %23 = load i32* @inst_count, align 4, !tbaa !5
+  %24 = add nsw i32 %23, 1
+  store i32 %24, i32* @inst_count, align 4, !tbaa !5
+  br label %25
+
+; <label>:25                                      ; preds = %18, %20
+  ret void
+}
+
+declare i32 @gzprintf(%struct.gzFile_s*, i8*, ...) #1
+
+; Function Attrs: nounwind uwtable
+define void @trace_logger_log_int(i32 %line, i32 %size, i64 %value, i32 %is_reg, i8* %label, i32 %is_phi, i8* %prev_bbid) #0 {
+  %1 = load i32* @initp, align 4, !tbaa !5
+  %2 = icmp eq i32 %1, 1
+  br i1 %2, label %4, label %3
+
+; <label>:3                                       ; preds = %0
+  tail call void @__assert_fail(i8* getelementptr inbounds ([11 x i8]* @.str4, i64 0, i64 0), i8* getelementptr inbounds ([15 x i8]* @.str5, i64 0, i64 0), i32 88, i8* getelementptr inbounds ([71 x i8]* @__PRETTY_FUNCTION__.trace_logger_log_int, i64 0, i64 0)) #6
+  unreachable
+
+; <label>:4                                       ; preds = %0
+  %5 = load i8* @track_curr_inst, align 1, !tbaa !7, !range !9
+  %6 = icmp eq i8 %5, 0
+  br i1 %6, label %33, label %7
+
+; <label>:7                                       ; preds = %4
+  %8 = icmp eq i32 %line, 19134
+  br i1 %8, label %9, label %12
+
+; <label>:9                                       ; preds = %7
+  %10 = load %struct.gzFile_s** @full_trace_file, align 8, !tbaa !1
+  %11 = tail call i32 (%struct.gzFile_s*, i8*, ...)* @gzprintf(%struct.gzFile_s* %10, i8* getelementptr inbounds ([12 x i8]* @.str6, i64 0, i64 0), i32 %size, i64 %value, i32 %is_reg) #4
+  br label %19
+
+; <label>:12                                      ; preds = %7
+  %13 = icmp eq i32 %line, 24601
+  %14 = load %struct.gzFile_s** @full_trace_file, align 8, !tbaa !1
+  br i1 %13, label %15, label %17
+
+; <label>:15                                      ; preds = %12
+  %16 = tail call i32 (%struct.gzFile_s*, i8*, ...)* @gzprintf(%struct.gzFile_s* %14, i8* getelementptr inbounds ([12 x i8]* @.str7, i64 0, i64 0), i32 %size, i64 %value, i32 %is_reg) #4
+  br label %19
+
+; <label>:17                                      ; preds = %12
+  %18 = tail call i32 (%struct.gzFile_s*, i8*, ...)* @gzprintf(%struct.gzFile_s* %14, i8* getelementptr inbounds ([13 x i8]* @.str8, i64 0, i64 0), i32 %line, i32 %size, i64 %value, i32 %is_reg) #4
+  br label %19
+
+; <label>:19                                      ; preds = %15, %17, %9
+  %20 = icmp eq i32 %is_reg, 0
+  %21 = load %struct.gzFile_s** @full_trace_file, align 8, !tbaa !1
+  br i1 %20, label %24, label %22
+
+; <label>:22                                      ; preds = %19
+  %23 = tail call i32 (%struct.gzFile_s*, i8*, ...)* @gzprintf(%struct.gzFile_s* %21, i8* getelementptr inbounds ([4 x i8]* @.str9, i64 0, i64 0), i8* %label) #4
+  br label %26
+
+; <label>:24                                      ; preds = %19
+  %25 = tail call i32 (%struct.gzFile_s*, i8*, ...)* @gzprintf(%struct.gzFile_s* %21, i8* getelementptr inbounds ([3 x i8]* @.str10, i64 0, i64 0)) #4
+  br label %26
+
+; <label>:26                                      ; preds = %24, %22
+  %27 = icmp eq i32 %is_phi, 0
+  %28 = load %struct.gzFile_s** @full_trace_file, align 8, !tbaa !1
+  br i1 %27, label %31, label %29
+
+; <label>:29                                      ; preds = %26
+  %30 = tail call i32 (%struct.gzFile_s*, i8*, ...)* @gzprintf(%struct.gzFile_s* %28, i8* getelementptr inbounds ([6 x i8]* @.str11, i64 0, i64 0), i8* %prev_bbid) #4
+  br label %33
+
+; <label>:31                                      ; preds = %26
+  %32 = tail call i32 (%struct.gzFile_s*, i8*, ...)* @gzprintf(%struct.gzFile_s* %28, i8* getelementptr inbounds ([3 x i8]* @.str12, i64 0, i64 0)) #4
+  br label %33
+
+; <label>:33                                      ; preds = %4, %31, %29
+  ret void
+}
+
+; Function Attrs: noreturn nounwind
+declare void @__assert_fail(i8*, i8*, i32, i8*) #3
+
+; Function Attrs: nounwind uwtable
+define void @trace_logger_log_double(i32 %line, i32 %size, double %value, i32 %is_reg, i8* %label, i32 %is_phi, i8* %prev_bbid) #0 {
+  %1 = load i32* @initp, align 4, !tbaa !5
+  %2 = icmp eq i32 %1, 1
+  br i1 %2, label %4, label %3
+
+; <label>:3                                       ; preds = %0
+  tail call void @__assert_fail(i8* getelementptr inbounds ([11 x i8]* @.str4, i64 0, i64 0), i8* getelementptr inbounds ([15 x i8]* @.str5, i64 0, i64 0), i32 108, i8* getelementptr inbounds ([73 x i8]* @__PRETTY_FUNCTION__.trace_logger_log_double, i64 0, i64 0)) #6
+  unreachable
+
+; <label>:4                                       ; preds = %0
+  %5 = load i8* @track_curr_inst, align 1, !tbaa !7, !range !9
+  %6 = icmp eq i8 %5, 0
+  br i1 %6, label %33, label %7
+
+; <label>:7                                       ; preds = %4
+  %8 = icmp eq i32 %line, 19134
+  br i1 %8, label %9, label %12
+
+; <label>:9                                       ; preds = %7
+  %10 = load %struct.gzFile_s** @full_trace_file, align 8, !tbaa !1
+  %11 = tail call i32 (%struct.gzFile_s*, i8*, ...)* @gzprintf(%struct.gzFile_s* %10, i8* getelementptr inbounds ([11 x i8]* @.str13, i64 0, i64 0), i32 %size, double %value, i32 %is_reg) #4
+  br label %19
+
+; <label>:12                                      ; preds = %7
+  %13 = icmp eq i32 %line, 24601
+  %14 = load %struct.gzFile_s** @full_trace_file, align 8, !tbaa !1
+  br i1 %13, label %15, label %17
+
+; <label>:15                                      ; preds = %12
+  %16 = tail call i32 (%struct.gzFile_s*, i8*, ...)* @gzprintf(%struct.gzFile_s* %14, i8* getelementptr inbounds ([11 x i8]* @.str14, i64 0, i64 0), i32 %size, double %value, i32 %is_reg) #4
+  br label %19
+
+; <label>:17                                      ; preds = %12
+  %18 = tail call i32 (%struct.gzFile_s*, i8*, ...)* @gzprintf(%struct.gzFile_s* %14, i8* getelementptr inbounds ([12 x i8]* @.str15, i64 0, i64 0), i32 %line, i32 %size, double %value, i32 %is_reg) #4
+  br label %19
+
+; <label>:19                                      ; preds = %15, %17, %9
+  %20 = icmp eq i32 %is_reg, 0
+  %21 = load %struct.gzFile_s** @full_trace_file, align 8, !tbaa !1
+  br i1 %20, label %24, label %22
+
+; <label>:22                                      ; preds = %19
+  %23 = tail call i32 (%struct.gzFile_s*, i8*, ...)* @gzprintf(%struct.gzFile_s* %21, i8* getelementptr inbounds ([4 x i8]* @.str9, i64 0, i64 0), i8* %label) #4
+  br label %26
+
+; <label>:24                                      ; preds = %19
+  %25 = tail call i32 (%struct.gzFile_s*, i8*, ...)* @gzprintf(%struct.gzFile_s* %21, i8* getelementptr inbounds ([3 x i8]* @.str10, i64 0, i64 0)) #4
+  br label %26
+
+; <label>:26                                      ; preds = %24, %22
+  %27 = icmp eq i32 %is_phi, 0
+  %28 = load %struct.gzFile_s** @full_trace_file, align 8, !tbaa !1
+  br i1 %27, label %31, label %29
+
+; <label>:29                                      ; preds = %26
+  %30 = tail call i32 (%struct.gzFile_s*, i8*, ...)* @gzprintf(%struct.gzFile_s* %28, i8* getelementptr inbounds ([6 x i8]* @.str11, i64 0, i64 0), i8* %prev_bbid) #4
+  br label %33
+
+; <label>:31                                      ; preds = %26
+  %32 = tail call i32 (%struct.gzFile_s*, i8*, ...)* @gzprintf(%struct.gzFile_s* %28, i8* getelementptr inbounds ([3 x i8]* @.str12, i64 0, i64 0)) #4
+  br label %33
+
+; <label>:33                                      ; preds = %4, %31, %29
+  ret void
+}
+
+attributes #0 = { nounwind uwtable "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #1 = { "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #2 = { nounwind "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #3 = { noreturn nounwind "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #4 = { nounwind }
+attributes #5 = { cold nounwind }
+attributes #6 = { noreturn nounwind }
+
+!llvm.ident = !{!0}
+
+!0 = metadata !{metadata !"clang version 3.4.2 (tags/RELEASE_34/dot2-final)"}
+!1 = metadata !{metadata !2, metadata !2, i64 0}
+!2 = metadata !{metadata !"any pointer", metadata !3, i64 0}
+!3 = metadata !{metadata !"omnipotent char", metadata !4, i64 0}
+!4 = metadata !{metadata !"Simple C/C++ TBAA"}
+!5 = metadata !{metadata !6, metadata !6, i64 0}
+!6 = metadata !{metadata !"int", metadata !3, i64 0}
+!7 = metadata !{metadata !8, metadata !8, i64 0}
+!8 = metadata !{metadata !"_Bool", metadata !3, i64 0}
+!9 = metadata !{i8 0, i8 2}

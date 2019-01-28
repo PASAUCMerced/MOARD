@@ -1,0 +1,95 @@
+export WORKLOAD=x_solve
+export TRACER_HOME=/tmp/hanlin/LLVM-Tracer
+
+all: sp-instrumented
+	./sp-instrumented
+
+sp-instrumented: full.s
+	gcc -fno-inline full.s -lm -lz -o sp-instrumented
+
+full.s: full.ll
+	llc -filetype=asm -o full.s full.ll
+
+full.ll: wtime.ll  print_results.ll c_timers.ll sp-opt.ll add.ll  exact_rhs.ll  exact_solution.ll  rhs.ll  error.ll  initialize.ll  verify.ll  set_constants.ll  y_solve.ll z_solve.ll pinvr.ll tzetar.ll ninvr.ll  txinvr.ll  
+	llvm-link -o full.ll wtime.ll  print_results.ll c_timers.ll sp-opt.ll add.ll  exact_rhs.ll  exact_solution.ll  rhs.ll  error.ll  initialize.ll  verify.ll  set_constants.ll y_solve.ll z_solve.ll pinvr.ll tzetar.ll ninvr.ll  txinvr.ll   $(TRACER_HOME)/profile-func/trace_logger.ll
+
+sp-opt.ll: sp.ll
+	opt -disable-inlining -S -load=$(TRACER_HOME)/full-trace/full_trace.so -fulltrace sp.ll -o sp-opt.ll
+
+sp.ll: sp.c
+	clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o sp.ll sp.c
+
+c_timers.ll: c_timers.c
+	clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o c_timers.ll c_timers.c
+
+wtime.ll: wtime.c
+	clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o wtime.ll wtime.c
+
+add.ll: add.c
+	clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o add.ll add.c
+
+#adi.ll: adi.c
+#	clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o adi.ll adi.c
+
+
+exact_rhs.ll: exact_rhs.c
+	clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o exact_rhs.ll exact_rhs.c
+
+exact_solution.ll: exact_solution.c
+	clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o exact_solution.ll exact_solution.c
+
+
+rhs.ll: rhs.c
+	clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o rhs.ll rhs.c
+
+error.ll: error.c
+	 clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o error.ll error.c
+
+
+initialize.ll: initialize.c
+	clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o initialize.ll initialize.c
+
+verify.ll: verify.c
+	clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o verify.ll verify.c
+
+
+set_constants.ll: set_constants.c
+	 clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o set_constants.ll set_constants.c
+
+
+pinvr.ll: pinvr.c
+	clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o pinvr.ll pinvr.c
+
+tzetar.ll: tzetar.c
+	 clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o tzetar.ll tzetar.c
+
+ninvr.ll: ninvr.c
+	clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o ninvr.ll ninvr.c 
+
+txinvr.ll: txinvr.c
+	clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o txinvr.ll txinvr.c 
+
+
+#solve_subs.ll: solve_subs.c
+#	clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o solve_subs.ll solve_subs.c 
+
+
+#x_solve.ll: x_solve.c
+	#clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o x_solve.ll x_solve.c
+
+y_solve.ll: y_solve.c
+	clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o y_solve.ll y_solve.c
+
+
+z_solve.ll: z_solve.c
+	clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o z_solve.ll z_solve.c
+
+
+#randdp.ll: randdp.c
+#	clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o randdp.ll randdp.c
+
+print_results.ll: print_results.c
+	clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o print_results.ll print_results.c
+
+clean:
+	rm -f *.ll *.s *.core *-instrumented *.gz

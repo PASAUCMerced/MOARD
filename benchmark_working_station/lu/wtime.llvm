@@ -1,0 +1,131 @@
+; ModuleID = 'wtime.c'
+target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-unknown-linux-gnu"
+
+%struct.timeval = type { i64, i64 }
+%struct.timezone = type { i32, i32 }
+
+@wtime_.sec = internal unnamed_addr global i32 -1, align 4
+
+; Function Attrs: noinline nounwind uwtable
+define void @wtime_(double* nocapture %t) #0 !dbg !4 {
+  %tv = alloca %struct.timeval, align 8
+  tail call void @llvm.dbg.value(metadata double* %t, i64 0, metadata !10, metadata !28), !dbg !29
+  %1 = bitcast %struct.timeval* %tv to i8*, !dbg !30
+  call void @llvm.lifetime.start(i64 16, i8* %1) #4, !dbg !30
+  tail call void @llvm.dbg.value(metadata %struct.timeval* %tv, i64 0, metadata !11, metadata !31), !dbg !32
+  %2 = call i32 @gettimeofday(%struct.timeval* nonnull %tv, %struct.timezone* null) #5, !dbg !33
+  %3 = load i32, i32* @wtime_.sec, align 4, !dbg !34, !tbaa !36
+  %4 = icmp slt i32 %3, 0, !dbg !40
+  br i1 %4, label %5, label %9, !dbg !41
+
+; <label>:5                                       ; preds = %0
+  %6 = getelementptr inbounds %struct.timeval, %struct.timeval* %tv, i64 0, i32 0, !dbg !42
+  %7 = load i64, i64* %6, align 8, !dbg !42, !tbaa !44
+  %8 = trunc i64 %7 to i32, !dbg !47
+  store i32 %8, i32* @wtime_.sec, align 4, !dbg !48, !tbaa !36
+  br label %9, !dbg !49
+
+; <label>:9                                       ; preds = %5, %0
+  %10 = getelementptr inbounds %struct.timeval, %struct.timeval* %tv, i64 0, i32 0, !dbg !50
+  %11 = load i64, i64* %10, align 8, !dbg !50, !tbaa !44
+  %12 = load i32, i32* @wtime_.sec, align 4, !dbg !51, !tbaa !36
+  %13 = sext i32 %12 to i64, !dbg !51
+  %14 = sub nsw i64 %11, %13, !dbg !52
+  %15 = sitofp i64 %14 to double, !dbg !53
+  %16 = getelementptr inbounds %struct.timeval, %struct.timeval* %tv, i64 0, i32 1, !dbg !54
+  %17 = load i64, i64* %16, align 8, !dbg !54, !tbaa !55
+  %18 = sitofp i64 %17 to double, !dbg !56
+  %19 = fmul double %18, 1.000000e-06, !dbg !57
+  %20 = fadd double %15, %19, !dbg !58
+  store double %20, double* %t, align 8, !dbg !59, !tbaa !60
+  call void @llvm.lifetime.end(i64 16, i8* %1) #4, !dbg !62
+  ret void, !dbg !62
+}
+
+; Function Attrs: argmemonly nounwind
+declare void @llvm.lifetime.start(i64, i8* nocapture) #1
+
+; Function Attrs: nounwind
+declare i32 @gettimeofday(%struct.timeval*, %struct.timezone*) #2
+
+; Function Attrs: argmemonly nounwind
+declare void @llvm.lifetime.end(i64, i8* nocapture) #1
+
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.value(metadata, i64, metadata, metadata) #3
+
+attributes #0 = { noinline nounwind uwtable "disable-tail-calls"="false" "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+fxsr,+mmx,+sse,+sse2" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #1 = { argmemonly nounwind }
+attributes #2 = { nounwind "disable-tail-calls"="false" "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+fxsr,+mmx,+sse,+sse2" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #3 = { nounwind readnone }
+attributes #4 = { nounwind }
+attributes #5 = { nobuiltin nounwind }
+
+!llvm.dbg.cu = !{!0}
+!llvm.module.flags = !{!24, !25, !26}
+!llvm.ident = !{!27}
+
+!0 = distinct !DICompileUnit(language: DW_LANG_C99, file: !1, producer: "clang version 3.8.0 (tags/RELEASE_380/final)", isOptimized: true, runtimeVersion: 0, emissionKind: 1, enums: !2, subprograms: !3, globals: !21)
+!1 = !DIFile(filename: "wtime.c", directory: "/home/jingl/trace_analysis_code/trace_analysis_code_lulesh_m_delv_zeta/benchmark_working_station/lu")
+!2 = !{}
+!3 = !{!4}
+!4 = distinct !DISubprogram(name: "wtime_", scope: !1, file: !1, line: 7, type: !5, isLocal: false, isDefinition: true, scopeLine: 8, flags: DIFlagPrototyped, isOptimized: true, variables: !9)
+!5 = !DISubroutineType(types: !6)
+!6 = !{null, !7}
+!7 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !8, size: 64, align: 64)
+!8 = !DIBasicType(name: "double", size: 64, align: 64, encoding: DW_ATE_float)
+!9 = !{!10, !11}
+!10 = !DILocalVariable(name: "t", arg: 1, scope: !4, file: !1, line: 7, type: !7)
+!11 = !DILocalVariable(name: "tv", scope: !4, file: !1, line: 10, type: !12)
+!12 = !DICompositeType(tag: DW_TAG_structure_type, name: "timeval", file: !13, line: 30, size: 128, align: 64, elements: !14)
+!13 = !DIFile(filename: "/usr/include/x86_64-linux-gnu/bits/time.h", directory: "/home/jingl/trace_analysis_code/trace_analysis_code_lulesh_m_delv_zeta/benchmark_working_station/lu")
+!14 = !{!15, !19}
+!15 = !DIDerivedType(tag: DW_TAG_member, name: "tv_sec", scope: !12, file: !13, line: 32, baseType: !16, size: 64, align: 64)
+!16 = !DIDerivedType(tag: DW_TAG_typedef, name: "__time_t", file: !17, line: 139, baseType: !18)
+!17 = !DIFile(filename: "/usr/include/x86_64-linux-gnu/bits/types.h", directory: "/home/jingl/trace_analysis_code/trace_analysis_code_lulesh_m_delv_zeta/benchmark_working_station/lu")
+!18 = !DIBasicType(name: "long int", size: 64, align: 64, encoding: DW_ATE_signed)
+!19 = !DIDerivedType(tag: DW_TAG_member, name: "tv_usec", scope: !12, file: !13, line: 33, baseType: !20, size: 64, align: 64, offset: 64)
+!20 = !DIDerivedType(tag: DW_TAG_typedef, name: "__suseconds_t", file: !17, line: 141, baseType: !18)
+!21 = !{!22}
+!22 = !DIGlobalVariable(name: "sec", scope: !4, file: !1, line: 9, type: !23, isLocal: true, isDefinition: true, variable: i32* @wtime_.sec)
+!23 = !DIBasicType(name: "int", size: 32, align: 32, encoding: DW_ATE_signed)
+!24 = !{i32 2, !"Dwarf Version", i32 4}
+!25 = !{i32 2, !"Debug Info Version", i32 3}
+!26 = !{i32 1, !"PIC Level", i32 2}
+!27 = !{!"clang version 3.8.0 (tags/RELEASE_380/final)"}
+!28 = !DIExpression()
+!29 = !DILocation(line: 7, column: 20, scope: !4)
+!30 = !DILocation(line: 10, column: 3, scope: !4)
+!31 = !DIExpression(DW_OP_deref)
+!32 = !DILocation(line: 10, column: 18, scope: !4)
+!33 = !DILocation(line: 11, column: 3, scope: !4)
+!34 = !DILocation(line: 12, column: 7, scope: !35)
+!35 = distinct !DILexicalBlock(scope: !4, file: !1, line: 12, column: 7)
+!36 = !{!37, !37, i64 0}
+!37 = !{!"int", !38, i64 0}
+!38 = !{!"omnipotent char", !39, i64 0}
+!39 = !{!"Simple C/C++ TBAA"}
+!40 = !DILocation(line: 12, column: 11, scope: !35)
+!41 = !DILocation(line: 12, column: 7, scope: !4)
+!42 = !DILocation(line: 12, column: 25, scope: !43)
+!43 = !DILexicalBlockFile(scope: !35, file: !1, discriminator: 1)
+!44 = !{!45, !46, i64 0}
+!45 = !{!"timeval", !46, i64 0, !46, i64 8}
+!46 = !{!"long", !38, i64 0}
+!47 = !DILocation(line: 12, column: 22, scope: !43)
+!48 = !DILocation(line: 12, column: 20, scope: !43)
+!49 = !DILocation(line: 12, column: 16, scope: !43)
+!50 = !DILocation(line: 13, column: 12, scope: !4)
+!51 = !DILocation(line: 13, column: 21, scope: !4)
+!52 = !DILocation(line: 13, column: 19, scope: !4)
+!53 = !DILocation(line: 13, column: 8, scope: !4)
+!54 = !DILocation(line: 13, column: 38, scope: !4)
+!55 = !{!45, !46, i64 8}
+!56 = !DILocation(line: 13, column: 35, scope: !4)
+!57 = !DILocation(line: 13, column: 34, scope: !4)
+!58 = !DILocation(line: 13, column: 26, scope: !4)
+!59 = !DILocation(line: 13, column: 6, scope: !4)
+!60 = !{!61, !61, i64 0}
+!61 = !{!"double", !38, i64 0}
+!62 = !DILocation(line: 14, column: 1, scope: !4)

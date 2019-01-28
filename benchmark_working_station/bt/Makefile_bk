@@ -1,0 +1,145 @@
+export LLVM_PATH=/usr/global/tools/clang/chaos_5_x86_64_ib/clang-3.8.0/bin
+#export LLVM_PATH=/usr/common/graphics/llvm/3.7.1/bin
+OPRAND_ID?=PLEASE_SET_OPRAND_ID
+BIT_POSITION?=PLEASE_SET_BIT_POSITION
+DYN_INSTR_ID?=PLEASE_SET_DYN_INSTR_ID
+STATIC_INSTR_ID?=PLEASE_SET_STATIC_INSTR_ID
+OPCODE_ID?=PLEASE_SET_OPCODE_ID
+REG_NAME?=PLEASE_SET_REG_NAME
+
+CCC=$(LLVM_PATH)/clang++
+CC=$(LLVM_PATH)/clang
+OPT=$(LLVM_PATH)/opt
+LLINK=$(LLVM_PATH)/llvm-link
+LLVM_CONFIG=$(LLVM_PATH)/llvm-config
+
+#export WORK_FUNC=conj_grad
+export WORK_FUNC=x_solve
+
+SRC_FILES_1= print_results.c
+LL_FILES_1=$(SRC_FILES_1:%.c=%.ll)
+SRC_FILES_2= add.c
+LL_FILES_2=$(SRC_FILES_2:%.c=%.ll)
+SRC_FILES_3= wtime.c
+LL_FILES_3=$(SRC_FILES_3:%.c=%.ll)
+SRC_FILES_4= c_timers.c
+LL_FILES_4=$(SRC_FILES_4:%.c=%.ll)
+SRC_FILES_5= bt.c
+LL_FILES_5=$(SRC_FILES_5:%.c=%.ll)
+SRC_FILES_6= exact_rhs.c
+LL_FILES_6=$(SRC_FILES_6:%.c=%.ll)
+SRC_FILES_7= exact_solution.c
+LL_FILES_7=$(SRC_FILES_7:%.c=%.ll)
+SRC_FILES_8= rhs.c
+LL_FILES_8=$(SRC_FILES_8:%.c=%.ll)
+SRC_FILES_9= error.c
+LL_FILES_9=$(SRC_FILES_9:%.c=%.ll)
+SRC_FILES_10= initialize.c
+LL_FILES_10=$(SRC_FILES_10:%.c=%.ll)
+SRC_FILES_11= verify.c
+LL_FILES_11=$(SRC_FILES_11:%.c=%.ll)
+SRC_FILES_12= set_constants.c
+LL_FILES_12=$(SRC_FILES_12:%.c=%.ll)
+SRC_FILES_13= solve_subs.c
+LL_FILES_13=$(SRC_FILES_13:%.c=%.ll)
+SRC_FILES_14= y_solve.c
+LL_FILES_14=$(SRC_FILES_14:%.c=%.ll)
+SRC_FILES_15= z_solve.c
+LL_FILES_15=$(SRC_FILES_15:%.c=%.ll)
+
+
+
+full-opt: full-opt.o
+	#$(CCC) -std=c++11  -I/opt/gcc/4.8.2 -static -O0 -fno-inline -o full-opt full-opt.o
+	$(CCC) -std=c++11  -I/usr/apps/gnu/4.8.5 -static -O0 -fno-inline -o full-opt full-opt.o
+	./full-opt
+
+full-opt.o: full-opt.ll
+	$(CC) -c full-opt.ll -o full-opt.o
+
+full-opt.ll: full.ll
+	$(OPT) -disable-inlining -S -load $(PWD)/../../src/*.so -Corruption full.ll -o full-opt.ll
+
+full.ll: $(LL_FILES_1) $(LL_FILES_2) $(LL_FILES_3) $(LL_FILES_4) $(LL_FILES_5) $(LL_FILES_6) $(LL_FILES_7) $(LL_FILES_8) $(LL_FILES_9) $(LL_FILES_10) $(LL_FILES_11) $(LL_FILES_12) $(LL_FILES_13)  $(LL_FILES_14) $(LL_FILES_15) instrument.ll floating_point_Binary_32_64_convertor.ll
+	$(LLINK) instrument.ll floating_point_Binary_32_64_convertor.ll $(LL_FILES_1) $(LL_FILES_2) $(LL_FILES_3) $(LL_FILES_4) $(LL_FILES_5)  $(LL_FILES_6) $(LL_FILES_7) $(LL_FILES_8) $(LL_FILES_9) $(LL_FILES_10) $(LL_FILES_11) $(LL_FILES_12) $(LL_FILES_13)  $(LL_FILES_14) $(LL_FILES_15)  -o full.ll
+
+instrument.ll: instrument.cpp
+	$(CC)  -fPIC -emit-llvm -O3 -S -D__STDC_LIMIT_MACROS \
+	-D__STDC_CONSTANT_MACROS instrument.cpp -o instrument.ll
+
+floating_point_Binary_32_64_convertor.ll: floating_point_Binary_32_64_convertor.cpp
+	$(CC)  -fPIC -emit-llvm -O3 -S -D__STDC_LIMIT_MACROS \
+	-D__STDC_CONSTANT_MACROS floating_point_Binary_32_64_convertor.cpp -o floating_point_Binary_32_64_convertor.ll
+
+$(LL_FILES_1): $(SRC_FILES_1)
+	$(CC) -fPIC -g -static -O1 -S -fno-slp-vectorize -fno-vectorize \
+	-fno-unroll-loops -fno-inline -fno-builtin -emit-llvm $(SRC_FILES_1) -o $(LL_FILES_1)
+
+$(LL_FILES_2): $(SRC_FILES_2)
+	$(CC) -fPIC -g -static -O1 -S -fno-slp-vectorize -fno-vectorize \
+	-fno-unroll-loops -fno-inline -fno-builtin -emit-llvm $(SRC_FILES_2) -o $(LL_FILES_2)
+
+$(LL_FILES_3): $(SRC_FILES_3)
+	$(CC) -fPIC -g -static -O1 -S -fno-slp-vectorize -fno-vectorize \
+	-fno-unroll-loops -fno-inline -fno-builtin -emit-llvm $(SRC_FILES_3) -o $(LL_FILES_3)
+
+$(LL_FILES_4): $(SRC_FILES_4)
+	$(CC) -fPIC -g -static -O1 -S -fno-slp-vectorize -fno-vectorize \
+	-fno-unroll-loops -fno-inline -fno-builtin -emit-llvm $(SRC_FILES_4) -o $(LL_FILES_4)
+
+$(LL_FILES_5): $(SRC_FILES_5)
+	$(CC) -fPIC -g -static -O1 -S -fno-slp-vectorize -fno-vectorize \
+	-fno-unroll-loops -fno-inline -fno-builtin -emit-llvm $(SRC_FILES_5) -o $(LL_FILES_5)
+
+
+$(LL_FILES_6): $(SRC_FILES_6)
+	$(CC) -fPIC -g -static -O1 -S -fno-slp-vectorize -fno-vectorize \
+        -fno-unroll-loops -fno-inline -fno-builtin -emit-llvm $(SRC_FILES_6) -o $(LL_FILES_6)
+
+$(LL_FILES_7): $(SRC_FILES_7)
+	$(CC) -fPIC -g -static -O1 -S -fno-slp-vectorize -fno-vectorize \
+        -fno-unroll-loops -fno-inline -fno-builtin -emit-llvm $(SRC_FILES_7) -o $(LL_FILES_7)
+
+
+$(LL_FILES_8): $(SRC_FILES_8)
+	$(CC) -fPIC -g -static -O1 -S -fno-slp-vectorize -fno-vectorize \
+        -fno-unroll-loops -fno-inline -fno-builtin -emit-llvm $(SRC_FILES_8) -o $(LL_FILES_8)
+
+
+$(LL_FILES_9): $(SRC_FILES_9)
+	$(CC) -fPIC -g -static -O1 -S -fno-slp-vectorize -fno-vectorize \
+        -fno-unroll-loops -fno-inline -fno-builtin -emit-llvm $(SRC_FILES_9) -o $(LL_FILES_9)
+
+
+$(LL_FILES_10): $(SRC_FILES_10)
+	$(CC) -fPIC -g -static -O1 -S -fno-slp-vectorize -fno-vectorize \
+        -fno-unroll-loops -fno-inline -fno-builtin -emit-llvm $(SRC_FILES_10) -o $(LL_FILES_10)
+
+
+$(LL_FILES_11): $(SRC_FILES_11)
+	$(CC) -fPIC -g -static -O1 -S -fno-slp-vectorize -fno-vectorize \
+        -fno-unroll-loops -fno-inline -fno-builtin -emit-llvm $(SRC_FILES_11) -o $(LL_FILES_11)
+
+
+$(LL_FILES_12): $(SRC_FILES_12)
+	$(CC) -fPIC -g -static -O1 -S -fno-slp-vectorize -fno-vectorize \
+        -fno-unroll-loops -fno-inline -fno-builtin -emit-llvm $(SRC_FILES_12) -o $(LL_FILES_12)
+
+
+$(LL_FILES_13): $(SRC_FILES_13)
+	$(CC) -fPIC -g -static -O1 -S -fno-slp-vectorize -fno-vectorize \
+        -fno-unroll-loops -fno-inline -fno-builtin -emit-llvm $(SRC_FILES_13) -o $(LL_FILES_13)
+
+
+$(LL_FILES_14): $(SRC_FILES_14)
+	$(CC) -fPIC -g -static -O1 -S -fno-slp-vectorize -fno-vectorize \
+        -fno-unroll-loops -fno-inline -fno-builtin -emit-llvm $(SRC_FILES_14) -o $(LL_FILES_14)
+
+
+$(LL_FILES_15): $(SRC_FILES_15)
+	$(CC) -fPIC -g -static -O1 -S -fno-slp-vectorize -fno-vectorize \
+        -fno-unroll-loops -fno-inline -fno-builtin -emit-llvm $(SRC_FILES_15) -o $(LL_FILES_15)
+
+
+clean:
+	rm -f full* *.bc *.ll* *.core*

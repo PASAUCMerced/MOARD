@@ -1,0 +1,43 @@
+dvf_sum: 26171.6 dvf_num: 26493 dvf_ratio: 0.987867
+num_of_opcode(1):477738 is_processed:yes
+num_of_opcode(2):75665 is_processed:yes
+num_of_opcode(3):53998 is_processed:yes
+num_of_opcode(8):8999 is_processed:yes
+num_of_opcode(9):87973 is_processed:yes
+num_of_opcode(11):59453 is_processed:yes
+num_of_opcode(13):304857 is_processed:yes
+num_of_opcode(16):35493 is_processed:yes
+num_of_opcode(23):53998 is_processed:yes
+num_of_opcode(27):486231 is_processed:yes
+num_of_opcode(28):17998 is_processed:yes
+num_of_opcode(29):741372 is_processed:yes
+num_of_opcode(35):264210 is_processed:yes
+num_of_opcode(46):9575 is_processed:yes
+num_of_opcode(47):142475 is_processed:yes
+num_of_opcode(48):80997 is_processed:yes
+num_of_opcode(49):485583 is_processed:no
+num_of_opcode(50):133473 is_processed:no
+num_of_operands_relate_to_target_data:26493
+fm_ratio_sum_on_statement_tier:25375.9
+fm_ratio_sum_on_error_prop_tier:25376.1
+fm_ratio_sum_on_fault_injection_tier:26171.6
+num_of_phi_exception:63086
+num_of_bottom_hit:0
+
+opcode distribution on fault masking of target data:
+num_of_opcode(9):8999
+num_of_opcode(13):17494
+
+Number of the three fault masking types on statement level:
+sl_num_of_value_overwriting_times:0
+sl_num_of_logic_operation_times:0
+sl_num_of_value_overshadowing_times:344057
+
+Number of the three fault masking types on error prop level:
+ep_num_of_value_overwriting_times:0
+ep_num_of_logic_operation_times:0
+ep_num_of_value_overshadowing_times:9010
+
+The running time of the program is (s):155.67
+The running time of the program is (min):2.59449
+The running time of the program is (h):0.0432416

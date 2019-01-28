@@ -1,0 +1,4 @@
+triad 6 20 29 c 64 16 segfault segfault
+triad 6 20 29 c 64 32 segfault segfault
+triad 6 20 29 c 64 48 segfault segfault
+triad 6 20 29 c 64 64 segfault segfault

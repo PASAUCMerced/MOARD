@@ -1,0 +1,26 @@
+export WORKLOAD=print_results
+export TRACER_HOME=/home/jingl/LLVM_Tracer_Work_Station/LLVM-Tracer
+
+all: cg-instrumented
+	./cg-instrumented
+
+cg-instrumented: full.s
+	gcc -fno-inline full.s -lm -lz -o cg-instrumented
+
+full.s: full.ll
+	llc -filetype=asm -o full.s full.ll
+
+full.ll: print_results.ll cg-opt.ll
+	llvm-link -o full.ll print_results.ll cg-opt.ll $(TRACER_HOME)/profile-func/trace_logger.llvm
+
+cg-opt.ll: cg.ll
+	opt -disable-inlining -S -load=$(TRACER_HOME)/full-trace/full_trace.so -fulltrace cg.ll -o cg-opt.ll
+
+cg.ll: cg.c
+	clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o cg.ll cg.c
+
+print_results.ll: print_results.c
+	clang -g -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -emit-llvm -o print_results.ll print_results.c
+
+clean:
+	rm -f *.ll *.s *.core *-instrumented *.gz

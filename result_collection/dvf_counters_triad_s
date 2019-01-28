@@ -1,0 +1,35 @@
+dvf_sum: 2 dvf_num: 2 dvf_ratio: 1
+num_of_opcode(1):3 is_processed:yes
+num_of_opcode(2):3 is_processed:yes
+num_of_opcode(8):2 is_processed:yes
+num_of_opcode(9):2 is_processed:yes
+num_of_opcode(13):2 is_processed:yes
+num_of_opcode(27):4 is_processed:yes
+num_of_opcode(28):2 is_processed:yes
+num_of_opcode(29):6 is_processed:yes
+num_of_opcode(46):2 is_processed:yes
+num_of_opcode(48):2 is_processed:yes
+num_of_opcode(49):2 is_processed:no
+num_of_operands_relate_to_target_data:2
+fm_ratio_sum_on_statement_tier:2
+fm_ratio_sum_on_error_prop_tier:2
+fm_ratio_sum_on_fault_injection_tier:2
+num_of_phi_exception:1
+num_of_bottom_hit:0
+
+opcode distribution on fault masking of target data:
+num_of_opcode(13):2
+
+Number of the three fault masking types on statement level:
+sl_num_of_value_overwriting_times:0
+sl_num_of_logic_operation_times:0
+sl_num_of_value_overshadowing_times:28
+
+Number of the three fault masking types on error prop level:
+ep_num_of_value_overwriting_times:0
+ep_num_of_logic_operation_times:0
+ep_num_of_value_overshadowing_times:0
+
+The running time of the program is (s):0.00132
+The running time of the program is (min):2.2e-05
+The running time of the program is (h):3.66667e-07

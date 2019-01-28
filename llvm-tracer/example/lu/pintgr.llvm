@@ -1,0 +1,801 @@
+; ModuleID = 'pintgr.c'
+target datalayout = "e-p:64:64:64-i1:8:8-i8:8:8-i16:16:16-i32:32:32-i64:64:64-f32:32:32-f64:64:64-v64:64:64-v128:128:128-a0:0:64-s0:64:64-f80:128:128-n8:16:32:64-S128"
+target triple = "x86_64-unknown-linux-gnu"
+
+@ii1 = external global i32
+@ii2 = external global i32
+@ji1 = external global i32
+@ji2 = external global i32
+@ki1 = external global i32
+@u = external global [12 x [13 x [13 x [5 x double]]]]
+@ki2 = external global i32
+@dxi = external global double
+@deta = external global double
+@dzeta = external global double
+@frc = external global double
+
+; Function Attrs: nounwind uwtable
+define void @pintgr() #0 {
+  %phi1 = alloca [14 x [14 x double]], align 16
+  %phi2 = alloca [14 x [14 x double]], align 16
+  %1 = bitcast [14 x [14 x double]]* %phi1 to i8*, !dbg !31
+  call void @llvm.lifetime.start(i64 1568, i8* %1) #2, !dbg !31
+  tail call void @llvm.dbg.declare(metadata !{[14 x [14 x double]]* %phi1}, metadata !19), !dbg !31
+  %2 = bitcast [14 x [14 x double]]* %phi2 to i8*, !dbg !32
+  call void @llvm.lifetime.start(i64 1568, i8* %2) #2, !dbg !32
+  tail call void @llvm.dbg.declare(metadata !{[14 x [14 x double]]* %phi2}, metadata !24), !dbg !32
+  %3 = load i32* @ii1, align 4, !dbg !33, !tbaa !34
+  tail call void @llvm.dbg.value(metadata !{i32 %3}, i64 0, metadata !13), !dbg !33
+  %4 = load i32* @ii2, align 4, !dbg !38, !tbaa !34
+  tail call void @llvm.dbg.value(metadata !{i32 %4}, i64 0, metadata !14), !dbg !38
+  %5 = load i32* @ji1, align 4, !dbg !39, !tbaa !34
+  tail call void @llvm.dbg.value(metadata !{i32 %5}, i64 0, metadata !16), !dbg !39
+  %6 = load i32* @ji2, align 4, !dbg !40, !tbaa !34
+  tail call void @llvm.dbg.value(metadata !{i32 %6}, i64 0, metadata !17), !dbg !40
+  %7 = add nsw i32 %4, -1, !dbg !41
+  tail call void @llvm.dbg.value(metadata !{i32 %7}, i64 0, metadata !15), !dbg !41
+  tail call void @llvm.dbg.value(metadata !{i32 %8}, i64 0, metadata !18), !dbg !42
+  tail call void @llvm.dbg.value(metadata !2, i64 0, metadata !12), !dbg !43
+  br label %.preheader63, !dbg !43
+
+.preheader63:                                     ; preds = %21, %0
+  %indvars.iv112 = phi i64 [ 0, %0 ], [ %indvars.iv.next113, %21 ]
+  br label %18, !dbg !45
+
+.preheader61:                                     ; preds = %21
+  %8 = add nsw i32 %6, -1, !dbg !42
+  %9 = icmp slt i32 %5, %6, !dbg !48
+  br i1 %9, label %.preheader57.lr.ph, label %.preheader52, !dbg !48
+
+.preheader57.lr.ph:                               ; preds = %.preheader61
+  %10 = icmp slt i32 %3, %4, !dbg !50
+  %11 = load i32* @ki1, align 4, !dbg !53, !tbaa !34
+  %12 = sext i32 %11 to i64, !dbg !55
+  %13 = load i32* @ki2, align 4, !dbg !56, !tbaa !34
+  %14 = add nsw i32 %13, -1, !dbg !56
+  %15 = sext i32 %14 to i64, !dbg !57
+  %16 = sext i32 %3 to i64
+  %17 = sext i32 %5 to i64
+  br label %.preheader57, !dbg !48
+
+; <label>:18                                      ; preds = %18, %.preheader63
+  %indvars.iv109 = phi i64 [ 0, %.preheader63 ], [ %indvars.iv.next110, %18 ]
+  %19 = getelementptr inbounds [14 x [14 x double]]* %phi1, i64 0, i64 %indvars.iv112, i64 %indvars.iv109, !dbg !58
+  store double 0.000000e+00, double* %19, align 8, !dbg !58, !tbaa !60
+  %20 = getelementptr inbounds [14 x [14 x double]]* %phi2, i64 0, i64 %indvars.iv112, i64 %indvars.iv109, !dbg !62
+  store double 0.000000e+00, double* %20, align 8, !dbg !62, !tbaa !60
+  %indvars.iv.next110 = add nuw nsw i64 %indvars.iv109, 1, !dbg !45
+  %exitcond111 = icmp eq i64 %indvars.iv.next110, 14, !dbg !45
+  br i1 %exitcond111, label %21, label %18, !dbg !45
+
+; <label>:21                                      ; preds = %18
+  %indvars.iv.next113 = add nuw nsw i64 %indvars.iv112, 1, !dbg !43
+  %exitcond114 = icmp eq i64 %indvars.iv.next113, 14, !dbg !43
+  br i1 %exitcond114, label %.preheader61, label %.preheader63, !dbg !43
+
+.preheader57:                                     ; preds = %.preheader57.lr.ph, %._crit_edge60
+  %indvars.iv107 = phi i64 [ %17, %.preheader57.lr.ph ], [ %indvars.iv.next108, %._crit_edge60 ]
+  br i1 %10, label %.lr.ph59, label %._crit_edge60, !dbg !50
+
+.preheader52:                                     ; preds = %._crit_edge60, %.preheader61
+  %22 = icmp slt i32 %5, %8, !dbg !63
+  br i1 %22, label %.preheader46.lr.ph, label %._crit_edge55, !dbg !63
+
+.preheader46.lr.ph:                               ; preds = %.preheader52
+  %23 = icmp slt i32 %3, %7, !dbg !65
+  %24 = sext i32 %3 to i64
+  %25 = sext i32 %5 to i64
+  br label %.preheader46, !dbg !63
+
+.lr.ph59:                                         ; preds = %.preheader57, %.lr.ph59
+  %indvars.iv105 = phi i64 [ %indvars.iv.next106, %.lr.ph59 ], [ %16, %.preheader57 ]
+  tail call void @llvm.dbg.value(metadata !{i32 %11}, i64 0, metadata !12), !dbg !53
+  %26 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %12, i64 %indvars.iv107, i64 %indvars.iv105, i64 4, !dbg !55
+  %27 = load double* %26, align 8, !dbg !55, !tbaa !60
+  %28 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %12, i64 %indvars.iv107, i64 %indvars.iv105, i64 1, !dbg !55
+  %29 = load double* %28, align 8, !dbg !55, !tbaa !60
+  %30 = fmul double %29, %29, !dbg !55
+  %31 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %12, i64 %indvars.iv107, i64 %indvars.iv105, i64 2, !dbg !55
+  %32 = load double* %31, align 8, !dbg !55, !tbaa !60
+  %33 = fmul double %32, %32, !dbg !55
+  %34 = fadd double %30, %33, !dbg !55
+  %35 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %12, i64 %indvars.iv107, i64 %indvars.iv105, i64 3, !dbg !55
+  %36 = load double* %35, align 8, !dbg !55, !tbaa !60
+  %37 = fmul double %36, %36, !dbg !55
+  %38 = fadd double %34, %37, !dbg !55
+  %39 = fmul double %38, 5.000000e-01, !dbg !55
+  %40 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %12, i64 %indvars.iv107, i64 %indvars.iv105, i64 0, !dbg !55
+  %41 = load double* %40, align 8, !dbg !55, !tbaa !60
+  %42 = fdiv double %39, %41, !dbg !55
+  %43 = fsub double %27, %42, !dbg !55
+  %44 = fmul double %43, 4.000000e-01, !dbg !55
+  %45 = getelementptr inbounds [14 x [14 x double]]* %phi1, i64 0, i64 %indvars.iv107, i64 %indvars.iv105, !dbg !55
+  store double %44, double* %45, align 8, !dbg !55, !tbaa !60
+  tail call void @llvm.dbg.value(metadata !{i32 %14}, i64 0, metadata !12), !dbg !56
+  %46 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %15, i64 %indvars.iv107, i64 %indvars.iv105, i64 4, !dbg !57
+  %47 = load double* %46, align 8, !dbg !57, !tbaa !60
+  %48 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %15, i64 %indvars.iv107, i64 %indvars.iv105, i64 1, !dbg !57
+  %49 = load double* %48, align 8, !dbg !57, !tbaa !60
+  %50 = fmul double %49, %49, !dbg !57
+  %51 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %15, i64 %indvars.iv107, i64 %indvars.iv105, i64 2, !dbg !57
+  %52 = load double* %51, align 8, !dbg !57, !tbaa !60
+  %53 = fmul double %52, %52, !dbg !57
+  %54 = fadd double %50, %53, !dbg !57
+  %55 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %15, i64 %indvars.iv107, i64 %indvars.iv105, i64 3, !dbg !57
+  %56 = load double* %55, align 8, !dbg !57, !tbaa !60
+  %57 = fmul double %56, %56, !dbg !57
+  %58 = fadd double %54, %57, !dbg !57
+  %59 = fmul double %58, 5.000000e-01, !dbg !57
+  %60 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %15, i64 %indvars.iv107, i64 %indvars.iv105, i64 0, !dbg !57
+  %61 = load double* %60, align 8, !dbg !57, !tbaa !60
+  %62 = fdiv double %59, %61, !dbg !57
+  %63 = fsub double %47, %62, !dbg !57
+  %64 = fmul double %63, 4.000000e-01, !dbg !57
+  %65 = getelementptr inbounds [14 x [14 x double]]* %phi2, i64 0, i64 %indvars.iv107, i64 %indvars.iv105, !dbg !57
+  store double %64, double* %65, align 8, !dbg !57, !tbaa !60
+  %indvars.iv.next106 = add nsw i64 %indvars.iv105, 1, !dbg !50
+  %66 = trunc i64 %indvars.iv.next106 to i32, !dbg !50
+  %67 = icmp slt i32 %66, %4, !dbg !50
+  br i1 %67, label %.lr.ph59, label %._crit_edge60, !dbg !50
+
+._crit_edge60:                                    ; preds = %.lr.ph59, %.preheader57
+  %indvars.iv.next108 = add nsw i64 %indvars.iv107, 1, !dbg !48
+  %68 = trunc i64 %indvars.iv.next108 to i32, !dbg !48
+  %69 = icmp slt i32 %68, %6, !dbg !48
+  br i1 %69, label %.preheader57, label %.preheader52, !dbg !48
+
+.preheader46:                                     ; preds = %.preheader46.lr.ph, %._crit_edge50
+  %indvars.iv103 = phi i64 [ %25, %.preheader46.lr.ph ], [ %indvars.iv.next104, %._crit_edge50 ]
+  %frc1.054 = phi double [ 0.000000e+00, %.preheader46.lr.ph ], [ %frc1.1.lcssa, %._crit_edge50 ]
+  br i1 %23, label %.lr.ph49, label %._crit_edge50, !dbg !65
+
+.lr.ph49:                                         ; preds = %.preheader46
+  %70 = add nsw i64 %indvars.iv103, 1, !dbg !68
+  br label %71, !dbg !65
+
+; <label>:71                                      ; preds = %.lr.ph49, %71
+  %indvars.iv101 = phi i64 [ %24, %.lr.ph49 ], [ %indvars.iv.next102, %71 ]
+  %frc1.148 = phi double [ %frc1.054, %.lr.ph49 ], [ %95, %71 ]
+  %72 = getelementptr inbounds [14 x [14 x double]]* %phi1, i64 0, i64 %indvars.iv103, i64 %indvars.iv101, !dbg !68
+  %73 = load double* %72, align 8, !dbg !68, !tbaa !60
+  %indvars.iv.next102 = add nsw i64 %indvars.iv101, 1, !dbg !65
+  %74 = getelementptr inbounds [14 x [14 x double]]* %phi1, i64 0, i64 %indvars.iv103, i64 %indvars.iv.next102, !dbg !68
+  %75 = load double* %74, align 8, !dbg !68, !tbaa !60
+  %76 = fadd double %73, %75, !dbg !68
+  %77 = getelementptr inbounds [14 x [14 x double]]* %phi1, i64 0, i64 %70, i64 %indvars.iv101, !dbg !68
+  %78 = load double* %77, align 8, !dbg !68, !tbaa !60
+  %79 = fadd double %76, %78, !dbg !68
+  %80 = getelementptr inbounds [14 x [14 x double]]* %phi1, i64 0, i64 %70, i64 %indvars.iv.next102, !dbg !68
+  %81 = load double* %80, align 8, !dbg !68, !tbaa !60
+  %82 = fadd double %79, %81, !dbg !68
+  %83 = getelementptr inbounds [14 x [14 x double]]* %phi2, i64 0, i64 %indvars.iv103, i64 %indvars.iv101, !dbg !68
+  %84 = load double* %83, align 8, !dbg !68, !tbaa !60
+  %85 = fadd double %82, %84, !dbg !68
+  %86 = getelementptr inbounds [14 x [14 x double]]* %phi2, i64 0, i64 %indvars.iv103, i64 %indvars.iv.next102, !dbg !68
+  %87 = load double* %86, align 8, !dbg !68, !tbaa !60
+  %88 = fadd double %85, %87, !dbg !68
+  %89 = getelementptr inbounds [14 x [14 x double]]* %phi2, i64 0, i64 %70, i64 %indvars.iv101, !dbg !68
+  %90 = load double* %89, align 8, !dbg !68, !tbaa !60
+  %91 = fadd double %88, %90, !dbg !68
+  %92 = getelementptr inbounds [14 x [14 x double]]* %phi2, i64 0, i64 %70, i64 %indvars.iv.next102, !dbg !68
+  %93 = load double* %92, align 8, !dbg !68, !tbaa !60
+  %94 = fadd double %91, %93, !dbg !68
+  %95 = fadd double %frc1.148, %94, !dbg !68
+  tail call void @llvm.dbg.value(metadata !{double %95}, i64 0, metadata !25), !dbg !68
+  %96 = trunc i64 %indvars.iv.next102 to i32, !dbg !65
+  %97 = icmp slt i32 %96, %7, !dbg !65
+  br i1 %97, label %71, label %._crit_edge50, !dbg !65
+
+._crit_edge50:                                    ; preds = %71, %.preheader46
+  %frc1.1.lcssa = phi double [ %frc1.054, %.preheader46 ], [ %95, %71 ]
+  %indvars.iv.next104 = add nsw i64 %indvars.iv103, 1, !dbg !63
+  %98 = trunc i64 %indvars.iv.next104 to i32, !dbg !63
+  %99 = icmp slt i32 %98, %8, !dbg !63
+  br i1 %99, label %.preheader46, label %._crit_edge55, !dbg !63
+
+._crit_edge55:                                    ; preds = %._crit_edge50, %.preheader52
+  %frc1.0.lcssa = phi double [ 0.000000e+00, %.preheader52 ], [ %frc1.1.lcssa, %._crit_edge50 ]
+  %100 = load double* @dxi, align 8, !dbg !70, !tbaa !60
+  %101 = load double* @deta, align 8, !dbg !70, !tbaa !60
+  %102 = fmul double %100, %101, !dbg !70
+  tail call void @llvm.dbg.value(metadata !{double %108}, i64 0, metadata !25), !dbg !70
+  tail call void @llvm.dbg.value(metadata !2, i64 0, metadata !12), !dbg !71
+  br label %.preheader43, !dbg !71
+
+.preheader43:                                     ; preds = %106, %._crit_edge55
+  %indvars.iv97 = phi i64 [ 0, %._crit_edge55 ], [ %indvars.iv.next98, %106 ]
+  br label %103, !dbg !73
+
+; <label>:103                                     ; preds = %103, %.preheader43
+  %indvars.iv94 = phi i64 [ 0, %.preheader43 ], [ %indvars.iv.next95, %103 ]
+  %104 = getelementptr inbounds [14 x [14 x double]]* %phi1, i64 0, i64 %indvars.iv97, i64 %indvars.iv94, !dbg !76
+  store double 0.000000e+00, double* %104, align 8, !dbg !76, !tbaa !60
+  %105 = getelementptr inbounds [14 x [14 x double]]* %phi2, i64 0, i64 %indvars.iv97, i64 %indvars.iv94, !dbg !78
+  store double 0.000000e+00, double* %105, align 8, !dbg !78, !tbaa !60
+  %indvars.iv.next95 = add nuw nsw i64 %indvars.iv94, 1, !dbg !73
+  %exitcond96 = icmp eq i64 %indvars.iv.next95, 14, !dbg !73
+  br i1 %exitcond96, label %106, label %103, !dbg !73
+
+; <label>:106                                     ; preds = %103
+  %indvars.iv.next98 = add nuw nsw i64 %indvars.iv97, 1, !dbg !71
+  %exitcond99 = icmp eq i64 %indvars.iv.next98, 14, !dbg !71
+  br i1 %exitcond99, label %107, label %.preheader43, !dbg !71
+
+; <label>:107                                     ; preds = %106
+  %108 = fmul double %frc1.0.lcssa, %102, !dbg !70
+  %109 = load i32* @ji1, align 4, !dbg !79, !tbaa !34
+  %110 = icmp eq i32 %5, %109, !dbg !79
+  br i1 %110, label %111, label %.loopexit41, !dbg !79
+
+; <label>:111                                     ; preds = %107
+  %112 = load i32* @ki1, align 4, !dbg !81, !tbaa !34
+  tail call void @llvm.dbg.value(metadata !{i32 %112}, i64 0, metadata !12), !dbg !81
+  %113 = load i32* @ki2, align 4, !dbg !81, !tbaa !34
+  %114 = icmp slt i32 %112, %113, !dbg !81
+  br i1 %114, label %.preheader37.lr.ph, label %.loopexit41, !dbg !81
+
+.preheader37.lr.ph:                               ; preds = %111
+  %115 = icmp slt i32 %3, %4, !dbg !84
+  %116 = load i32* @ki2, align 4, !dbg !81, !tbaa !34
+  %117 = sext i32 %5 to i64, !dbg !87
+  %118 = sext i32 %3 to i64
+  %119 = sext i32 %112 to i64
+  br label %.preheader37, !dbg !81
+
+.preheader37:                                     ; preds = %.preheader37.lr.ph, %._crit_edge40
+  %indvars.iv92 = phi i64 [ %119, %.preheader37.lr.ph ], [ %indvars.iv.next93, %._crit_edge40 ]
+  br i1 %115, label %.lr.ph39, label %._crit_edge40, !dbg !84
+
+.lr.ph39:                                         ; preds = %.preheader37, %.lr.ph39
+  %indvars.iv90 = phi i64 [ %indvars.iv.next91, %.lr.ph39 ], [ %118, %.preheader37 ]
+  %120 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %indvars.iv92, i64 %117, i64 %indvars.iv90, i64 4, !dbg !87
+  %121 = load double* %120, align 8, !dbg !87, !tbaa !60
+  %122 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %indvars.iv92, i64 %117, i64 %indvars.iv90, i64 1, !dbg !87
+  %123 = load double* %122, align 8, !dbg !87, !tbaa !60
+  %124 = fmul double %123, %123, !dbg !87
+  %125 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %indvars.iv92, i64 %117, i64 %indvars.iv90, i64 2, !dbg !87
+  %126 = load double* %125, align 8, !dbg !87, !tbaa !60
+  %127 = fmul double %126, %126, !dbg !87
+  %128 = fadd double %124, %127, !dbg !87
+  %129 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %indvars.iv92, i64 %117, i64 %indvars.iv90, i64 3, !dbg !87
+  %130 = load double* %129, align 8, !dbg !87, !tbaa !60
+  %131 = fmul double %130, %130, !dbg !87
+  %132 = fadd double %128, %131, !dbg !87
+  %133 = fmul double %132, 5.000000e-01, !dbg !87
+  %134 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %indvars.iv92, i64 %117, i64 %indvars.iv90, i64 0, !dbg !87
+  %135 = load double* %134, align 8, !dbg !87, !tbaa !60
+  %136 = fdiv double %133, %135, !dbg !87
+  %137 = fsub double %121, %136, !dbg !87
+  %138 = fmul double %137, 4.000000e-01, !dbg !87
+  %139 = getelementptr inbounds [14 x [14 x double]]* %phi1, i64 0, i64 %indvars.iv92, i64 %indvars.iv90, !dbg !87
+  store double %138, double* %139, align 8, !dbg !87, !tbaa !60
+  %indvars.iv.next91 = add nsw i64 %indvars.iv90, 1, !dbg !84
+  %140 = trunc i64 %indvars.iv.next91 to i32, !dbg !84
+  %141 = icmp slt i32 %140, %4, !dbg !84
+  br i1 %141, label %.lr.ph39, label %._crit_edge40, !dbg !84
+
+._crit_edge40:                                    ; preds = %.lr.ph39, %.preheader37
+  %indvars.iv.next93 = add nsw i64 %indvars.iv92, 1, !dbg !81
+  %142 = trunc i64 %indvars.iv.next93 to i32, !dbg !81
+  %143 = icmp slt i32 %142, %116, !dbg !81
+  br i1 %143, label %.preheader37, label %.loopexit41, !dbg !81
+
+.loopexit41:                                      ; preds = %111, %._crit_edge40, %107
+  %144 = load i32* @ji2, align 4, !dbg !89, !tbaa !34
+  %145 = icmp eq i32 %6, %144, !dbg !89
+  br i1 %145, label %146, label %.loopexit35, !dbg !89
+
+; <label>:146                                     ; preds = %.loopexit41
+  %147 = load i32* @ki1, align 4, !dbg !91, !tbaa !34
+  tail call void @llvm.dbg.value(metadata !{i32 %147}, i64 0, metadata !12), !dbg !91
+  %148 = load i32* @ki2, align 4, !dbg !91, !tbaa !34
+  %149 = icmp slt i32 %147, %148, !dbg !91
+  br i1 %149, label %.preheader31.lr.ph, label %.loopexit35, !dbg !91
+
+.preheader31.lr.ph:                               ; preds = %146
+  %150 = icmp slt i32 %3, %4, !dbg !94
+  %151 = load i32* @ki2, align 4, !dbg !91, !tbaa !34
+  %152 = sext i32 %8 to i64, !dbg !97
+  %153 = sext i32 %3 to i64
+  %154 = sext i32 %147 to i64
+  br label %.preheader31, !dbg !91
+
+.preheader31:                                     ; preds = %.preheader31.lr.ph, %._crit_edge34
+  %indvars.iv88 = phi i64 [ %154, %.preheader31.lr.ph ], [ %indvars.iv.next89, %._crit_edge34 ]
+  br i1 %150, label %.lr.ph33, label %._crit_edge34, !dbg !94
+
+.lr.ph33:                                         ; preds = %.preheader31, %.lr.ph33
+  %indvars.iv86 = phi i64 [ %indvars.iv.next87, %.lr.ph33 ], [ %153, %.preheader31 ]
+  %155 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %indvars.iv88, i64 %152, i64 %indvars.iv86, i64 4, !dbg !97
+  %156 = load double* %155, align 8, !dbg !97, !tbaa !60
+  %157 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %indvars.iv88, i64 %152, i64 %indvars.iv86, i64 1, !dbg !97
+  %158 = load double* %157, align 8, !dbg !97, !tbaa !60
+  %159 = fmul double %158, %158, !dbg !97
+  %160 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %indvars.iv88, i64 %152, i64 %indvars.iv86, i64 2, !dbg !97
+  %161 = load double* %160, align 8, !dbg !97, !tbaa !60
+  %162 = fmul double %161, %161, !dbg !97
+  %163 = fadd double %159, %162, !dbg !97
+  %164 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %indvars.iv88, i64 %152, i64 %indvars.iv86, i64 3, !dbg !97
+  %165 = load double* %164, align 8, !dbg !97, !tbaa !60
+  %166 = fmul double %165, %165, !dbg !97
+  %167 = fadd double %163, %166, !dbg !97
+  %168 = fmul double %167, 5.000000e-01, !dbg !97
+  %169 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %indvars.iv88, i64 %152, i64 %indvars.iv86, i64 0, !dbg !97
+  %170 = load double* %169, align 8, !dbg !97, !tbaa !60
+  %171 = fdiv double %168, %170, !dbg !97
+  %172 = fsub double %156, %171, !dbg !97
+  %173 = fmul double %172, 4.000000e-01, !dbg !97
+  %174 = getelementptr inbounds [14 x [14 x double]]* %phi2, i64 0, i64 %indvars.iv88, i64 %indvars.iv86, !dbg !97
+  store double %173, double* %174, align 8, !dbg !97, !tbaa !60
+  %indvars.iv.next87 = add nsw i64 %indvars.iv86, 1, !dbg !94
+  %175 = trunc i64 %indvars.iv.next87 to i32, !dbg !94
+  %176 = icmp slt i32 %175, %4, !dbg !94
+  br i1 %176, label %.lr.ph33, label %._crit_edge34, !dbg !94
+
+._crit_edge34:                                    ; preds = %.lr.ph33, %.preheader31
+  %indvars.iv.next89 = add nsw i64 %indvars.iv88, 1, !dbg !91
+  %177 = trunc i64 %indvars.iv.next89 to i32, !dbg !91
+  %178 = icmp slt i32 %177, %151, !dbg !91
+  br i1 %178, label %.preheader31, label %.loopexit35, !dbg !91
+
+.loopexit35:                                      ; preds = %146, %._crit_edge34, %.loopexit41
+  tail call void @llvm.dbg.value(metadata !99, i64 0, metadata !26), !dbg !100
+  %179 = load i32* @ki1, align 4, !dbg !101, !tbaa !34
+  tail call void @llvm.dbg.value(metadata !{i32 %179}, i64 0, metadata !12), !dbg !101
+  %180 = load i32* @ki2, align 4, !dbg !101, !tbaa !34
+  %181 = add nsw i32 %180, -1, !dbg !101
+  %182 = icmp slt i32 %179, %181, !dbg !101
+  br i1 %182, label %.preheader21.lr.ph, label %._crit_edge29, !dbg !101
+
+.preheader21.lr.ph:                               ; preds = %.loopexit35
+  %183 = icmp slt i32 %3, %7, !dbg !103
+  %184 = load i32* @ki2, align 4, !dbg !101, !tbaa !34
+  %185 = add nsw i32 %184, -1, !dbg !101
+  %186 = sext i32 %3 to i64
+  %187 = sext i32 %179 to i64
+  br label %.preheader21, !dbg !101
+
+.preheader21:                                     ; preds = %.preheader21.lr.ph, %._crit_edge25
+  %indvars.iv84 = phi i64 [ %187, %.preheader21.lr.ph ], [ %indvars.iv.next85, %._crit_edge25 ]
+  %frc2.028 = phi double [ 0.000000e+00, %.preheader21.lr.ph ], [ %frc2.1.lcssa, %._crit_edge25 ]
+  br i1 %183, label %.lr.ph24, label %._crit_edge25, !dbg !103
+
+.lr.ph24:                                         ; preds = %.preheader21
+  %188 = add nsw i64 %indvars.iv84, 1, !dbg !106
+  br label %189, !dbg !103
+
+; <label>:189                                     ; preds = %.lr.ph24, %189
+  %indvars.iv82 = phi i64 [ %186, %.lr.ph24 ], [ %indvars.iv.next83, %189 ]
+  %frc2.123 = phi double [ %frc2.028, %.lr.ph24 ], [ %213, %189 ]
+  %190 = getelementptr inbounds [14 x [14 x double]]* %phi1, i64 0, i64 %indvars.iv84, i64 %indvars.iv82, !dbg !106
+  %191 = load double* %190, align 8, !dbg !106, !tbaa !60
+  %indvars.iv.next83 = add nsw i64 %indvars.iv82, 1, !dbg !103
+  %192 = getelementptr inbounds [14 x [14 x double]]* %phi1, i64 0, i64 %indvars.iv84, i64 %indvars.iv.next83, !dbg !106
+  %193 = load double* %192, align 8, !dbg !106, !tbaa !60
+  %194 = fadd double %191, %193, !dbg !106
+  %195 = getelementptr inbounds [14 x [14 x double]]* %phi1, i64 0, i64 %188, i64 %indvars.iv82, !dbg !106
+  %196 = load double* %195, align 8, !dbg !106, !tbaa !60
+  %197 = fadd double %194, %196, !dbg !106
+  %198 = getelementptr inbounds [14 x [14 x double]]* %phi1, i64 0, i64 %188, i64 %indvars.iv.next83, !dbg !106
+  %199 = load double* %198, align 8, !dbg !106, !tbaa !60
+  %200 = fadd double %197, %199, !dbg !106
+  %201 = getelementptr inbounds [14 x [14 x double]]* %phi2, i64 0, i64 %indvars.iv84, i64 %indvars.iv82, !dbg !106
+  %202 = load double* %201, align 8, !dbg !106, !tbaa !60
+  %203 = fadd double %200, %202, !dbg !106
+  %204 = getelementptr inbounds [14 x [14 x double]]* %phi2, i64 0, i64 %indvars.iv84, i64 %indvars.iv.next83, !dbg !106
+  %205 = load double* %204, align 8, !dbg !106, !tbaa !60
+  %206 = fadd double %203, %205, !dbg !106
+  %207 = getelementptr inbounds [14 x [14 x double]]* %phi2, i64 0, i64 %188, i64 %indvars.iv82, !dbg !106
+  %208 = load double* %207, align 8, !dbg !106, !tbaa !60
+  %209 = fadd double %206, %208, !dbg !106
+  %210 = getelementptr inbounds [14 x [14 x double]]* %phi2, i64 0, i64 %188, i64 %indvars.iv.next83, !dbg !106
+  %211 = load double* %210, align 8, !dbg !106, !tbaa !60
+  %212 = fadd double %209, %211, !dbg !106
+  %213 = fadd double %frc2.123, %212, !dbg !106
+  tail call void @llvm.dbg.value(metadata !{double %213}, i64 0, metadata !26), !dbg !106
+  %214 = trunc i64 %indvars.iv.next83 to i32, !dbg !103
+  %215 = icmp slt i32 %214, %7, !dbg !103
+  br i1 %215, label %189, label %._crit_edge25, !dbg !103
+
+._crit_edge25:                                    ; preds = %189, %.preheader21
+  %frc2.1.lcssa = phi double [ %frc2.028, %.preheader21 ], [ %213, %189 ]
+  %indvars.iv.next85 = add nsw i64 %indvars.iv84, 1, !dbg !101
+  %216 = trunc i64 %indvars.iv.next85 to i32, !dbg !101
+  %217 = icmp slt i32 %216, %185, !dbg !101
+  br i1 %217, label %.preheader21, label %._crit_edge29, !dbg !101
+
+._crit_edge29:                                    ; preds = %._crit_edge25, %.loopexit35
+  %frc2.0.lcssa = phi double [ 0.000000e+00, %.loopexit35 ], [ %frc2.1.lcssa, %._crit_edge25 ]
+  %218 = load double* @dxi, align 8, !dbg !108, !tbaa !60
+  %219 = load double* @dzeta, align 8, !dbg !108, !tbaa !60
+  %220 = fmul double %218, %219, !dbg !108
+  tail call void @llvm.dbg.value(metadata !{double %226}, i64 0, metadata !26), !dbg !108
+  tail call void @llvm.dbg.value(metadata !2, i64 0, metadata !12), !dbg !109
+  br label %.preheader18, !dbg !109
+
+.preheader18:                                     ; preds = %224, %._crit_edge29
+  %indvars.iv78 = phi i64 [ 0, %._crit_edge29 ], [ %indvars.iv.next79, %224 ]
+  br label %221, !dbg !111
+
+; <label>:221                                     ; preds = %221, %.preheader18
+  %indvars.iv76 = phi i64 [ 0, %.preheader18 ], [ %indvars.iv.next77, %221 ]
+  %222 = getelementptr inbounds [14 x [14 x double]]* %phi1, i64 0, i64 %indvars.iv78, i64 %indvars.iv76, !dbg !114
+  store double 0.000000e+00, double* %222, align 8, !dbg !114, !tbaa !60
+  %223 = getelementptr inbounds [14 x [14 x double]]* %phi2, i64 0, i64 %indvars.iv78, i64 %indvars.iv76, !dbg !116
+  store double 0.000000e+00, double* %223, align 8, !dbg !116, !tbaa !60
+  %indvars.iv.next77 = add nuw nsw i64 %indvars.iv76, 1, !dbg !111
+  %exitcond = icmp eq i64 %indvars.iv.next77, 14, !dbg !111
+  br i1 %exitcond, label %224, label %221, !dbg !111
+
+; <label>:224                                     ; preds = %221
+  %indvars.iv.next79 = add nuw nsw i64 %indvars.iv78, 1, !dbg !109
+  %exitcond80 = icmp eq i64 %indvars.iv.next79, 14, !dbg !109
+  br i1 %exitcond80, label %225, label %.preheader18, !dbg !109
+
+; <label>:225                                     ; preds = %224
+  %226 = fmul double %frc2.0.lcssa, %220, !dbg !108
+  %227 = load i32* @ii1, align 4, !dbg !117, !tbaa !34
+  %228 = icmp eq i32 %3, %227, !dbg !117
+  br i1 %228, label %229, label %.loopexit16, !dbg !117
+
+; <label>:229                                     ; preds = %225
+  %230 = load i32* @ki1, align 4, !dbg !119, !tbaa !34
+  tail call void @llvm.dbg.value(metadata !{i32 %230}, i64 0, metadata !12), !dbg !119
+  %231 = load i32* @ki2, align 4, !dbg !119, !tbaa !34
+  %232 = icmp slt i32 %230, %231, !dbg !119
+  br i1 %232, label %.preheader12.lr.ph, label %.loopexit16, !dbg !119
+
+.preheader12.lr.ph:                               ; preds = %229
+  %233 = icmp slt i32 %5, %6, !dbg !122
+  %234 = load i32* @ki2, align 4, !dbg !119, !tbaa !34
+  %235 = sext i32 %3 to i64, !dbg !125
+  %236 = sext i32 %5 to i64
+  %237 = sext i32 %230 to i64
+  br label %.preheader12, !dbg !119
+
+.preheader12:                                     ; preds = %.preheader12.lr.ph, %._crit_edge15
+  %indvars.iv74 = phi i64 [ %237, %.preheader12.lr.ph ], [ %indvars.iv.next75, %._crit_edge15 ]
+  br i1 %233, label %.lr.ph14, label %._crit_edge15, !dbg !122
+
+.lr.ph14:                                         ; preds = %.preheader12, %.lr.ph14
+  %indvars.iv72 = phi i64 [ %indvars.iv.next73, %.lr.ph14 ], [ %236, %.preheader12 ]
+  %238 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %indvars.iv74, i64 %indvars.iv72, i64 %235, i64 4, !dbg !125
+  %239 = load double* %238, align 8, !dbg !125, !tbaa !60
+  %240 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %indvars.iv74, i64 %indvars.iv72, i64 %235, i64 1, !dbg !125
+  %241 = load double* %240, align 8, !dbg !125, !tbaa !60
+  %242 = fmul double %241, %241, !dbg !125
+  %243 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %indvars.iv74, i64 %indvars.iv72, i64 %235, i64 2, !dbg !125
+  %244 = load double* %243, align 8, !dbg !125, !tbaa !60
+  %245 = fmul double %244, %244, !dbg !125
+  %246 = fadd double %242, %245, !dbg !125
+  %247 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %indvars.iv74, i64 %indvars.iv72, i64 %235, i64 3, !dbg !125
+  %248 = load double* %247, align 8, !dbg !125, !tbaa !60
+  %249 = fmul double %248, %248, !dbg !125
+  %250 = fadd double %246, %249, !dbg !125
+  %251 = fmul double %250, 5.000000e-01, !dbg !125
+  %252 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %indvars.iv74, i64 %indvars.iv72, i64 %235, i64 0, !dbg !125
+  %253 = load double* %252, align 8, !dbg !125, !tbaa !60
+  %254 = fdiv double %251, %253, !dbg !125
+  %255 = fsub double %239, %254, !dbg !125
+  %256 = fmul double %255, 4.000000e-01, !dbg !125
+  %257 = getelementptr inbounds [14 x [14 x double]]* %phi1, i64 0, i64 %indvars.iv74, i64 %indvars.iv72, !dbg !125
+  store double %256, double* %257, align 8, !dbg !125, !tbaa !60
+  %indvars.iv.next73 = add nsw i64 %indvars.iv72, 1, !dbg !122
+  %258 = trunc i64 %indvars.iv.next73 to i32, !dbg !122
+  %259 = icmp slt i32 %258, %6, !dbg !122
+  br i1 %259, label %.lr.ph14, label %._crit_edge15, !dbg !122
+
+._crit_edge15:                                    ; preds = %.lr.ph14, %.preheader12
+  %indvars.iv.next75 = add nsw i64 %indvars.iv74, 1, !dbg !119
+  %260 = trunc i64 %indvars.iv.next75 to i32, !dbg !119
+  %261 = icmp slt i32 %260, %234, !dbg !119
+  br i1 %261, label %.preheader12, label %.loopexit16, !dbg !119
+
+.loopexit16:                                      ; preds = %229, %._crit_edge15, %225
+  %262 = load i32* @ii2, align 4, !dbg !127, !tbaa !34
+  %263 = icmp eq i32 %4, %262, !dbg !127
+  br i1 %263, label %264, label %.loopexit, !dbg !127
+
+; <label>:264                                     ; preds = %.loopexit16
+  %265 = load i32* @ki1, align 4, !dbg !129, !tbaa !34
+  tail call void @llvm.dbg.value(metadata !{i32 %265}, i64 0, metadata !12), !dbg !129
+  %266 = load i32* @ki2, align 4, !dbg !129, !tbaa !34
+  %267 = icmp slt i32 %265, %266, !dbg !129
+  br i1 %267, label %.preheader7.lr.ph, label %.loopexit, !dbg !129
+
+.preheader7.lr.ph:                                ; preds = %264
+  %268 = icmp slt i32 %5, %6, !dbg !132
+  %269 = load i32* @ki2, align 4, !dbg !129, !tbaa !34
+  %270 = sext i32 %7 to i64, !dbg !135
+  %271 = sext i32 %5 to i64
+  %272 = sext i32 %265 to i64
+  br label %.preheader7, !dbg !129
+
+.preheader7:                                      ; preds = %.preheader7.lr.ph, %._crit_edge10
+  %indvars.iv70 = phi i64 [ %272, %.preheader7.lr.ph ], [ %indvars.iv.next71, %._crit_edge10 ]
+  br i1 %268, label %.lr.ph9, label %._crit_edge10, !dbg !132
+
+.lr.ph9:                                          ; preds = %.preheader7, %.lr.ph9
+  %indvars.iv68 = phi i64 [ %indvars.iv.next69, %.lr.ph9 ], [ %271, %.preheader7 ]
+  %273 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %indvars.iv70, i64 %indvars.iv68, i64 %270, i64 4, !dbg !135
+  %274 = load double* %273, align 8, !dbg !135, !tbaa !60
+  %275 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %indvars.iv70, i64 %indvars.iv68, i64 %270, i64 1, !dbg !135
+  %276 = load double* %275, align 8, !dbg !135, !tbaa !60
+  %277 = fmul double %276, %276, !dbg !135
+  %278 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %indvars.iv70, i64 %indvars.iv68, i64 %270, i64 2, !dbg !135
+  %279 = load double* %278, align 8, !dbg !135, !tbaa !60
+  %280 = fmul double %279, %279, !dbg !135
+  %281 = fadd double %277, %280, !dbg !135
+  %282 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %indvars.iv70, i64 %indvars.iv68, i64 %270, i64 3, !dbg !135
+  %283 = load double* %282, align 8, !dbg !135, !tbaa !60
+  %284 = fmul double %283, %283, !dbg !135
+  %285 = fadd double %281, %284, !dbg !135
+  %286 = fmul double %285, 5.000000e-01, !dbg !135
+  %287 = getelementptr inbounds [12 x [13 x [13 x [5 x double]]]]* @u, i64 0, i64 %indvars.iv70, i64 %indvars.iv68, i64 %270, i64 0, !dbg !135
+  %288 = load double* %287, align 8, !dbg !135, !tbaa !60
+  %289 = fdiv double %286, %288, !dbg !135
+  %290 = fsub double %274, %289, !dbg !135
+  %291 = fmul double %290, 4.000000e-01, !dbg !135
+  %292 = getelementptr inbounds [14 x [14 x double]]* %phi2, i64 0, i64 %indvars.iv70, i64 %indvars.iv68, !dbg !135
+  store double %291, double* %292, align 8, !dbg !135, !tbaa !60
+  %indvars.iv.next69 = add nsw i64 %indvars.iv68, 1, !dbg !132
+  %293 = trunc i64 %indvars.iv.next69 to i32, !dbg !132
+  %294 = icmp slt i32 %293, %6, !dbg !132
+  br i1 %294, label %.lr.ph9, label %._crit_edge10, !dbg !132
+
+._crit_edge10:                                    ; preds = %.lr.ph9, %.preheader7
+  %indvars.iv.next71 = add nsw i64 %indvars.iv70, 1, !dbg !129
+  %295 = trunc i64 %indvars.iv.next71 to i32, !dbg !129
+  %296 = icmp slt i32 %295, %269, !dbg !129
+  br i1 %296, label %.preheader7, label %.loopexit, !dbg !129
+
+.loopexit:                                        ; preds = %264, %._crit_edge10, %.loopexit16
+  tail call void @llvm.dbg.value(metadata !99, i64 0, metadata !27), !dbg !137
+  %297 = load i32* @ki1, align 4, !dbg !138, !tbaa !34
+  tail call void @llvm.dbg.value(metadata !{i32 %297}, i64 0, metadata !12), !dbg !138
+  %298 = load i32* @ki2, align 4, !dbg !138, !tbaa !34
+  %299 = add nsw i32 %298, -1, !dbg !138
+  %300 = icmp slt i32 %297, %299, !dbg !138
+  br i1 %300, label %.preheader.lr.ph, label %._crit_edge5, !dbg !138
+
+.preheader.lr.ph:                                 ; preds = %.loopexit
+  %301 = icmp slt i32 %5, %8, !dbg !140
+  %302 = load i32* @ki2, align 4, !dbg !138, !tbaa !34
+  %303 = add nsw i32 %302, -1, !dbg !138
+  %304 = sext i32 %5 to i64
+  %305 = sext i32 %297 to i64
+  br label %.preheader, !dbg !138
+
+.preheader:                                       ; preds = %.preheader.lr.ph, %._crit_edge
+  %indvars.iv66 = phi i64 [ %305, %.preheader.lr.ph ], [ %indvars.iv.next67, %._crit_edge ]
+  %frc3.04 = phi double [ 0.000000e+00, %.preheader.lr.ph ], [ %frc3.1.lcssa, %._crit_edge ]
+  br i1 %301, label %.lr.ph, label %._crit_edge, !dbg !140
+
+.lr.ph:                                           ; preds = %.preheader
+  %306 = add nsw i64 %indvars.iv66, 1, !dbg !143
+  br label %307, !dbg !140
+
+; <label>:307                                     ; preds = %.lr.ph, %307
+  %indvars.iv = phi i64 [ %304, %.lr.ph ], [ %indvars.iv.next, %307 ]
+  %frc3.12 = phi double [ %frc3.04, %.lr.ph ], [ %331, %307 ]
+  %308 = getelementptr inbounds [14 x [14 x double]]* %phi1, i64 0, i64 %indvars.iv66, i64 %indvars.iv, !dbg !143
+  %309 = load double* %308, align 8, !dbg !143, !tbaa !60
+  %indvars.iv.next = add nsw i64 %indvars.iv, 1, !dbg !140
+  %310 = getelementptr inbounds [14 x [14 x double]]* %phi1, i64 0, i64 %indvars.iv66, i64 %indvars.iv.next, !dbg !143
+  %311 = load double* %310, align 8, !dbg !143, !tbaa !60
+  %312 = fadd double %309, %311, !dbg !143
+  %313 = getelementptr inbounds [14 x [14 x double]]* %phi1, i64 0, i64 %306, i64 %indvars.iv, !dbg !143
+  %314 = load double* %313, align 8, !dbg !143, !tbaa !60
+  %315 = fadd double %312, %314, !dbg !143
+  %316 = getelementptr inbounds [14 x [14 x double]]* %phi1, i64 0, i64 %306, i64 %indvars.iv.next, !dbg !143
+  %317 = load double* %316, align 8, !dbg !143, !tbaa !60
+  %318 = fadd double %315, %317, !dbg !143
+  %319 = getelementptr inbounds [14 x [14 x double]]* %phi2, i64 0, i64 %indvars.iv66, i64 %indvars.iv, !dbg !143
+  %320 = load double* %319, align 8, !dbg !143, !tbaa !60
+  %321 = fadd double %318, %320, !dbg !143
+  %322 = getelementptr inbounds [14 x [14 x double]]* %phi2, i64 0, i64 %indvars.iv66, i64 %indvars.iv.next, !dbg !143
+  %323 = load double* %322, align 8, !dbg !143, !tbaa !60
+  %324 = fadd double %321, %323, !dbg !143
+  %325 = getelementptr inbounds [14 x [14 x double]]* %phi2, i64 0, i64 %306, i64 %indvars.iv, !dbg !143
+  %326 = load double* %325, align 8, !dbg !143, !tbaa !60
+  %327 = fadd double %324, %326, !dbg !143
+  %328 = getelementptr inbounds [14 x [14 x double]]* %phi2, i64 0, i64 %306, i64 %indvars.iv.next, !dbg !143
+  %329 = load double* %328, align 8, !dbg !143, !tbaa !60
+  %330 = fadd double %327, %329, !dbg !143
+  %331 = fadd double %frc3.12, %330, !dbg !143
+  tail call void @llvm.dbg.value(metadata !{double %331}, i64 0, metadata !27), !dbg !143
+  %332 = trunc i64 %indvars.iv.next to i32, !dbg !140
+  %333 = icmp slt i32 %332, %8, !dbg !140
+  br i1 %333, label %307, label %._crit_edge, !dbg !140
+
+._crit_edge:                                      ; preds = %307, %.preheader
+  %frc3.1.lcssa = phi double [ %frc3.04, %.preheader ], [ %331, %307 ]
+  %indvars.iv.next67 = add nsw i64 %indvars.iv66, 1, !dbg !138
+  %334 = trunc i64 %indvars.iv.next67 to i32, !dbg !138
+  %335 = icmp slt i32 %334, %303, !dbg !138
+  br i1 %335, label %.preheader, label %._crit_edge5, !dbg !138
+
+._crit_edge5:                                     ; preds = %._crit_edge, %.loopexit
+  %frc3.0.lcssa = phi double [ 0.000000e+00, %.loopexit ], [ %frc3.1.lcssa, %._crit_edge ]
+  %336 = load double* @deta, align 8, !dbg !145, !tbaa !60
+  %337 = load double* @dzeta, align 8, !dbg !145, !tbaa !60
+  %338 = fmul double %336, %337, !dbg !145
+  %339 = fmul double %frc3.0.lcssa, %338, !dbg !145
+  tail call void @llvm.dbg.value(metadata !{double %339}, i64 0, metadata !27), !dbg !145
+  %340 = fadd double %108, %226, !dbg !146
+  %341 = fadd double %340, %339, !dbg !146
+  %342 = fmul double %341, 2.500000e-01, !dbg !146
+  store double %342, double* @frc, align 8, !dbg !146, !tbaa !60
+  call void @llvm.lifetime.end(i64 1568, i8* %2) #2, !dbg !147
+  call void @llvm.lifetime.end(i64 1568, i8* %1) #2, !dbg !147
+  ret void, !dbg !147
+}
+
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.declare(metadata, metadata) #1
+
+; Function Attrs: nounwind
+declare void @llvm.lifetime.start(i64, i8* nocapture) #2
+
+; Function Attrs: nounwind
+declare void @llvm.lifetime.end(i64, i8* nocapture) #2
+
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.value(metadata, i64, metadata) #1
+
+attributes #0 = { nounwind uwtable "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #1 = { nounwind readnone }
+attributes #2 = { nounwind }
+
+!llvm.dbg.cu = !{!0}
+!llvm.module.flags = !{!28, !29}
+!llvm.ident = !{!30}
+
+!0 = metadata !{i32 786449, metadata !1, i32 12, metadata !"clang version 3.4.2 (tags/RELEASE_34/dot2-final)", i1 true, metadata !"", i32 0, metadata !2, metadata !2, metadata !3, metadata !2, metadata !2, metadata !""} ; [ DW_TAG_compile_unit ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c] [DW_LANG_C99]
+!1 = metadata !{metadata !"pintgr.c", metadata !"/home/azguolu/ARAT-0.1/llvm-tracer/example/lu"}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{i32 786478, metadata !1, metadata !5, metadata !"pintgr", metadata !"pintgr", metadata !"", i32 37, metadata !6, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 true, void ()* @pintgr, null, null, metadata !8, i32 38} ; [ DW_TAG_subprogram ] [line 37] [def] [scope 38] [pintgr]
+!5 = metadata !{i32 786473, metadata !1}          ; [ DW_TAG_file_type ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!6 = metadata !{i32 786453, i32 0, null, metadata !"", i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !7, i32 0, null, null, null} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!7 = metadata !{null}
+!8 = metadata !{metadata !9, metadata !11, metadata !12, metadata !13, metadata !14, metadata !15, metadata !16, metadata !17, metadata !18, metadata !19, metadata !24, metadata !25, metadata !26, metadata !27}
+!9 = metadata !{i32 786688, metadata !4, metadata !"i", metadata !5, i32 42, metadata !10, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [i] [line 42]
+!10 = metadata !{i32 786468, null, null, metadata !"int", i32 0, i64 32, i64 32, i64 0, i32 0, i32 5} ; [ DW_TAG_base_type ] [int] [line 0, size 32, align 32, offset 0, enc DW_ATE_signed]
+!11 = metadata !{i32 786688, metadata !4, metadata !"j", metadata !5, i32 42, metadata !10, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [j] [line 42]
+!12 = metadata !{i32 786688, metadata !4, metadata !"k", metadata !5, i32 42, metadata !10, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [k] [line 42]
+!13 = metadata !{i32 786688, metadata !4, metadata !"ibeg", metadata !5, i32 43, metadata !10, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [ibeg] [line 43]
+!14 = metadata !{i32 786688, metadata !4, metadata !"ifin", metadata !5, i32 43, metadata !10, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [ifin] [line 43]
+!15 = metadata !{i32 786688, metadata !4, metadata !"ifin1", metadata !5, i32 43, metadata !10, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [ifin1] [line 43]
+!16 = metadata !{i32 786688, metadata !4, metadata !"jbeg", metadata !5, i32 44, metadata !10, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [jbeg] [line 44]
+!17 = metadata !{i32 786688, metadata !4, metadata !"jfin", metadata !5, i32 44, metadata !10, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [jfin] [line 44]
+!18 = metadata !{i32 786688, metadata !4, metadata !"jfin1", metadata !5, i32 44, metadata !10, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [jfin1] [line 44]
+!19 = metadata !{i32 786688, metadata !4, metadata !"phi1", metadata !5, i32 45, metadata !20, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [phi1] [line 45]
+!20 = metadata !{i32 786433, null, null, metadata !"", i32 0, i64 12544, i64 64, i32 0, i32 0, metadata !21, metadata !22, i32 0, null, null, null} ; [ DW_TAG_array_type ] [line 0, size 12544, align 64, offset 0] [from double]
+!21 = metadata !{i32 786468, null, null, metadata !"double", i32 0, i64 64, i64 64, i64 0, i32 0, i32 4} ; [ DW_TAG_base_type ] [double] [line 0, size 64, align 64, offset 0, enc DW_ATE_float]
+!22 = metadata !{metadata !23, metadata !23}
+!23 = metadata !{i32 786465, i64 0, i64 14}       ; [ DW_TAG_subrange_type ] [0, 13]
+!24 = metadata !{i32 786688, metadata !4, metadata !"phi2", metadata !5, i32 46, metadata !20, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [phi2] [line 46]
+!25 = metadata !{i32 786688, metadata !4, metadata !"frc1", metadata !5, i32 47, metadata !21, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [frc1] [line 47]
+!26 = metadata !{i32 786688, metadata !4, metadata !"frc2", metadata !5, i32 47, metadata !21, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [frc2] [line 47]
+!27 = metadata !{i32 786688, metadata !4, metadata !"frc3", metadata !5, i32 47, metadata !21, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [frc3] [line 47]
+!28 = metadata !{i32 2, metadata !"Dwarf Version", i32 4}
+!29 = metadata !{i32 1, metadata !"Debug Info Version", i32 1}
+!30 = metadata !{metadata !"clang version 3.4.2 (tags/RELEASE_34/dot2-final)"}
+!31 = metadata !{i32 45, i32 0, metadata !4, null}
+!32 = metadata !{i32 46, i32 0, metadata !4, null}
+!33 = metadata !{i32 52, i32 0, metadata !4, null}
+!34 = metadata !{metadata !35, metadata !35, i64 0}
+!35 = metadata !{metadata !"int", metadata !36, i64 0}
+!36 = metadata !{metadata !"omnipotent char", metadata !37, i64 0}
+!37 = metadata !{metadata !"Simple C/C++ TBAA"}
+!38 = metadata !{i32 53, i32 0, metadata !4, null}
+!39 = metadata !{i32 54, i32 0, metadata !4, null}
+!40 = metadata !{i32 55, i32 0, metadata !4, null}
+!41 = metadata !{i32 56, i32 0, metadata !4, null}
+!42 = metadata !{i32 57, i32 0, metadata !4, null}
+!43 = metadata !{i32 62, i32 0, metadata !44, null}
+!44 = metadata !{i32 786443, metadata !1, metadata !4, i32 62, i32 0, i32 0} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!45 = metadata !{i32 63, i32 0, metadata !46, null}
+!46 = metadata !{i32 786443, metadata !1, metadata !47, i32 63, i32 0, i32 2} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!47 = metadata !{i32 786443, metadata !1, metadata !44, i32 62, i32 0, i32 1} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!48 = metadata !{i32 69, i32 0, metadata !49, null}
+!49 = metadata !{i32 786443, metadata !1, metadata !4, i32 69, i32 0, i32 4} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!50 = metadata !{i32 70, i32 0, metadata !51, null}
+!51 = metadata !{i32 786443, metadata !1, metadata !52, i32 70, i32 0, i32 6} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!52 = metadata !{i32 786443, metadata !1, metadata !49, i32 69, i32 0, i32 5} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!53 = metadata !{i32 71, i32 0, metadata !54, null}
+!54 = metadata !{i32 786443, metadata !1, metadata !51, i32 70, i32 0, i32 7} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!55 = metadata !{i32 73, i32 0, metadata !54, null}
+!56 = metadata !{i32 79, i32 0, metadata !54, null}
+!57 = metadata !{i32 81, i32 0, metadata !54, null}
+!58 = metadata !{i32 64, i32 0, metadata !59, null}
+!59 = metadata !{i32 786443, metadata !1, metadata !46, i32 63, i32 0, i32 3} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!60 = metadata !{metadata !61, metadata !61, i64 0}
+!61 = metadata !{metadata !"double", metadata !36, i64 0}
+!62 = metadata !{i32 65, i32 0, metadata !59, null}
+!63 = metadata !{i32 90, i32 0, metadata !64, null}
+!64 = metadata !{i32 786443, metadata !1, metadata !4, i32 90, i32 0, i32 8} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!65 = metadata !{i32 91, i32 0, metadata !66, null}
+!66 = metadata !{i32 786443, metadata !1, metadata !67, i32 91, i32 0, i32 10} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!67 = metadata !{i32 786443, metadata !1, metadata !64, i32 90, i32 0, i32 9} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!68 = metadata !{i32 92, i32 0, metadata !69, null}
+!69 = metadata !{i32 786443, metadata !1, metadata !66, i32 91, i32 0, i32 11} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!70 = metadata !{i32 102, i32 0, metadata !4, null}
+!71 = metadata !{i32 107, i32 0, metadata !72, null}
+!72 = metadata !{i32 786443, metadata !1, metadata !4, i32 107, i32 0, i32 12} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!73 = metadata !{i32 108, i32 0, metadata !74, null}
+!74 = metadata !{i32 786443, metadata !1, metadata !75, i32 108, i32 0, i32 14} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!75 = metadata !{i32 786443, metadata !1, metadata !72, i32 107, i32 0, i32 13} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!76 = metadata !{i32 109, i32 0, metadata !77, null}
+!77 = metadata !{i32 786443, metadata !1, metadata !74, i32 108, i32 0, i32 15} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!78 = metadata !{i32 110, i32 0, metadata !77, null}
+!79 = metadata !{i32 113, i32 0, metadata !80, null}
+!80 = metadata !{i32 786443, metadata !1, metadata !4, i32 113, i32 0, i32 16} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!81 = metadata !{i32 114, i32 0, metadata !82, null}
+!82 = metadata !{i32 786443, metadata !1, metadata !83, i32 114, i32 0, i32 18} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!83 = metadata !{i32 786443, metadata !1, metadata !80, i32 113, i32 0, i32 17} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!84 = metadata !{i32 115, i32 0, metadata !85, null}
+!85 = metadata !{i32 786443, metadata !1, metadata !86, i32 115, i32 0, i32 20} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!86 = metadata !{i32 786443, metadata !1, metadata !82, i32 114, i32 0, i32 19} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!87 = metadata !{i32 116, i32 0, metadata !88, null}
+!88 = metadata !{i32 786443, metadata !1, metadata !85, i32 115, i32 0, i32 21} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!89 = metadata !{i32 125, i32 0, metadata !90, null}
+!90 = metadata !{i32 786443, metadata !1, metadata !4, i32 125, i32 0, i32 22} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!91 = metadata !{i32 126, i32 0, metadata !92, null}
+!92 = metadata !{i32 786443, metadata !1, metadata !93, i32 126, i32 0, i32 24} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!93 = metadata !{i32 786443, metadata !1, metadata !90, i32 125, i32 0, i32 23} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!94 = metadata !{i32 127, i32 0, metadata !95, null}
+!95 = metadata !{i32 786443, metadata !1, metadata !96, i32 127, i32 0, i32 26} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!96 = metadata !{i32 786443, metadata !1, metadata !92, i32 126, i32 0, i32 25} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!97 = metadata !{i32 128, i32 0, metadata !98, null}
+!98 = metadata !{i32 786443, metadata !1, metadata !95, i32 127, i32 0, i32 27} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!99 = metadata !{double 0.000000e+00}
+!100 = metadata !{i32 137, i32 0, metadata !4, null}
+!101 = metadata !{i32 138, i32 0, metadata !102, null}
+!102 = metadata !{i32 786443, metadata !1, metadata !4, i32 138, i32 0, i32 28} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!103 = metadata !{i32 139, i32 0, metadata !104, null}
+!104 = metadata !{i32 786443, metadata !1, metadata !105, i32 139, i32 0, i32 30} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!105 = metadata !{i32 786443, metadata !1, metadata !102, i32 138, i32 0, i32 29} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!106 = metadata !{i32 140, i32 0, metadata !107, null}
+!107 = metadata !{i32 786443, metadata !1, metadata !104, i32 139, i32 0, i32 31} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!108 = metadata !{i32 150, i32 0, metadata !4, null}
+!109 = metadata !{i32 155, i32 0, metadata !110, null}
+!110 = metadata !{i32 786443, metadata !1, metadata !4, i32 155, i32 0, i32 32} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!111 = metadata !{i32 156, i32 0, metadata !112, null}
+!112 = metadata !{i32 786443, metadata !1, metadata !113, i32 156, i32 0, i32 34} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!113 = metadata !{i32 786443, metadata !1, metadata !110, i32 155, i32 0, i32 33} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!114 = metadata !{i32 157, i32 0, metadata !115, null}
+!115 = metadata !{i32 786443, metadata !1, metadata !112, i32 156, i32 0, i32 35} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!116 = metadata !{i32 158, i32 0, metadata !115, null}
+!117 = metadata !{i32 161, i32 0, metadata !118, null}
+!118 = metadata !{i32 786443, metadata !1, metadata !4, i32 161, i32 0, i32 36} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!119 = metadata !{i32 162, i32 0, metadata !120, null}
+!120 = metadata !{i32 786443, metadata !1, metadata !121, i32 162, i32 0, i32 38} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!121 = metadata !{i32 786443, metadata !1, metadata !118, i32 161, i32 0, i32 37} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!122 = metadata !{i32 163, i32 0, metadata !123, null}
+!123 = metadata !{i32 786443, metadata !1, metadata !124, i32 163, i32 0, i32 40} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!124 = metadata !{i32 786443, metadata !1, metadata !120, i32 162, i32 0, i32 39} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!125 = metadata !{i32 164, i32 0, metadata !126, null}
+!126 = metadata !{i32 786443, metadata !1, metadata !123, i32 163, i32 0, i32 41} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!127 = metadata !{i32 173, i32 0, metadata !128, null}
+!128 = metadata !{i32 786443, metadata !1, metadata !4, i32 173, i32 0, i32 42} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!129 = metadata !{i32 174, i32 0, metadata !130, null}
+!130 = metadata !{i32 786443, metadata !1, metadata !131, i32 174, i32 0, i32 44} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!131 = metadata !{i32 786443, metadata !1, metadata !128, i32 173, i32 0, i32 43} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!132 = metadata !{i32 175, i32 0, metadata !133, null}
+!133 = metadata !{i32 786443, metadata !1, metadata !134, i32 175, i32 0, i32 46} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!134 = metadata !{i32 786443, metadata !1, metadata !130, i32 174, i32 0, i32 45} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!135 = metadata !{i32 176, i32 0, metadata !136, null}
+!136 = metadata !{i32 786443, metadata !1, metadata !133, i32 175, i32 0, i32 47} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!137 = metadata !{i32 185, i32 0, metadata !4, null}
+!138 = metadata !{i32 186, i32 0, metadata !139, null}
+!139 = metadata !{i32 786443, metadata !1, metadata !4, i32 186, i32 0, i32 48} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!140 = metadata !{i32 187, i32 0, metadata !141, null}
+!141 = metadata !{i32 786443, metadata !1, metadata !142, i32 187, i32 0, i32 50} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!142 = metadata !{i32 786443, metadata !1, metadata !139, i32 186, i32 0, i32 49} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!143 = metadata !{i32 188, i32 0, metadata !144, null}
+!144 = metadata !{i32 786443, metadata !1, metadata !141, i32 187, i32 0, i32 51} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/pintgr.c]
+!145 = metadata !{i32 198, i32 0, metadata !4, null}
+!146 = metadata !{i32 200, i32 0, metadata !4, null}
+!147 = metadata !{i32 202, i32 0, metadata !4, null}

@@ -1,0 +1,146 @@
+; ModuleID = 'exact.c'
+target datalayout = "e-p:64:64:64-i1:8:8-i8:8:8-i16:16:16-i32:32:32-i64:64:64-f32:32:32-f64:64:64-v64:64:64-v128:128:128-a0:0:64-s0:64:64-f80:128:128-n8:16:32:64-S128"
+target triple = "x86_64-unknown-linux-gnu"
+
+@nx0 = external global i32
+@ny0 = external global i32
+@nz = external global i32
+@ce = external global [5 x [13 x double]]
+
+; Function Attrs: nounwind uwtable
+define void @exact(i32 %i, i32 %j, i32 %k, double* nocapture %u000ijk) #0 {
+  tail call void @llvm.dbg.value(metadata !{i32 %i}, i64 0, metadata !12), !dbg !23
+  tail call void @llvm.dbg.value(metadata !{i32 %j}, i64 0, metadata !13), !dbg !23
+  tail call void @llvm.dbg.value(metadata !{i32 %k}, i64 0, metadata !14), !dbg !23
+  tail call void @llvm.dbg.value(metadata !{double* %u000ijk}, i64 0, metadata !15), !dbg !23
+  %1 = sitofp i32 %i to double, !dbg !24
+  %2 = load i32* @nx0, align 4, !dbg !24, !tbaa !25
+  %3 = add nsw i32 %2, -1, !dbg !24
+  %4 = sitofp i32 %3 to double, !dbg !24
+  %5 = fdiv double %1, %4, !dbg !24
+  tail call void @llvm.dbg.value(metadata !{double %5}, i64 0, metadata !17), !dbg !24
+  %6 = sitofp i32 %j to double, !dbg !29
+  %7 = load i32* @ny0, align 4, !dbg !29, !tbaa !25
+  %8 = add nsw i32 %7, -1, !dbg !29
+  %9 = sitofp i32 %8 to double, !dbg !29
+  %10 = fdiv double %6, %9, !dbg !29
+  tail call void @llvm.dbg.value(metadata !{double %10}, i64 0, metadata !18), !dbg !29
+  %11 = sitofp i32 %k to double, !dbg !30
+  %12 = load i32* @nz, align 4, !dbg !30, !tbaa !25
+  %13 = add nsw i32 %12, -1, !dbg !30
+  %14 = sitofp i32 %13 to double, !dbg !30
+  %15 = fdiv double %11, %14, !dbg !30
+  tail call void @llvm.dbg.value(metadata !{double %15}, i64 0, metadata !19), !dbg !30
+  tail call void @llvm.dbg.value(metadata !2, i64 0, metadata !16), !dbg !31
+  br label %16, !dbg !31
+
+; <label>:16                                      ; preds = %16, %0
+  %indvars.iv = phi i64 [ 0, %0 ], [ %indvars.iv.next, %16 ]
+  %17 = getelementptr inbounds [5 x [13 x double]]* @ce, i64 0, i64 %indvars.iv, i64 0, !dbg !33
+  %18 = load double* %17, align 8, !dbg !33, !tbaa !35
+  %19 = getelementptr inbounds [5 x [13 x double]]* @ce, i64 0, i64 %indvars.iv, i64 1, !dbg !33
+  %20 = load double* %19, align 8, !dbg !33, !tbaa !35
+  %21 = getelementptr inbounds [5 x [13 x double]]* @ce, i64 0, i64 %indvars.iv, i64 4, !dbg !33
+  %22 = load double* %21, align 8, !dbg !33, !tbaa !35
+  %23 = getelementptr inbounds [5 x [13 x double]]* @ce, i64 0, i64 %indvars.iv, i64 7, !dbg !33
+  %24 = load double* %23, align 8, !dbg !33, !tbaa !35
+  %25 = getelementptr inbounds [5 x [13 x double]]* @ce, i64 0, i64 %indvars.iv, i64 10, !dbg !33
+  %26 = load double* %25, align 8, !dbg !33, !tbaa !35
+  %27 = fmul double %5, %26, !dbg !33
+  %28 = fadd double %24, %27, !dbg !33
+  %29 = fmul double %5, %28, !dbg !33
+  %30 = fadd double %22, %29, !dbg !33
+  %31 = fmul double %5, %30, !dbg !33
+  %32 = fadd double %20, %31, !dbg !33
+  %33 = fmul double %5, %32, !dbg !33
+  %34 = fadd double %18, %33, !dbg !33
+  %35 = getelementptr inbounds [5 x [13 x double]]* @ce, i64 0, i64 %indvars.iv, i64 2, !dbg !33
+  %36 = load double* %35, align 8, !dbg !33, !tbaa !35
+  %37 = getelementptr inbounds [5 x [13 x double]]* @ce, i64 0, i64 %indvars.iv, i64 5, !dbg !33
+  %38 = load double* %37, align 8, !dbg !33, !tbaa !35
+  %39 = getelementptr inbounds [5 x [13 x double]]* @ce, i64 0, i64 %indvars.iv, i64 8, !dbg !33
+  %40 = load double* %39, align 8, !dbg !33, !tbaa !35
+  %41 = getelementptr inbounds [5 x [13 x double]]* @ce, i64 0, i64 %indvars.iv, i64 11, !dbg !33
+  %42 = load double* %41, align 8, !dbg !33, !tbaa !35
+  %43 = fmul double %10, %42, !dbg !33
+  %44 = fadd double %40, %43, !dbg !33
+  %45 = fmul double %10, %44, !dbg !33
+  %46 = fadd double %38, %45, !dbg !33
+  %47 = fmul double %10, %46, !dbg !33
+  %48 = fadd double %36, %47, !dbg !33
+  %49 = fmul double %10, %48, !dbg !33
+  %50 = fadd double %34, %49, !dbg !33
+  %51 = getelementptr inbounds [5 x [13 x double]]* @ce, i64 0, i64 %indvars.iv, i64 3, !dbg !33
+  %52 = load double* %51, align 8, !dbg !33, !tbaa !35
+  %53 = getelementptr inbounds [5 x [13 x double]]* @ce, i64 0, i64 %indvars.iv, i64 6, !dbg !33
+  %54 = load double* %53, align 8, !dbg !33, !tbaa !35
+  %55 = getelementptr inbounds [5 x [13 x double]]* @ce, i64 0, i64 %indvars.iv, i64 9, !dbg !33
+  %56 = load double* %55, align 8, !dbg !33, !tbaa !35
+  %57 = getelementptr inbounds [5 x [13 x double]]* @ce, i64 0, i64 %indvars.iv, i64 12, !dbg !33
+  %58 = load double* %57, align 8, !dbg !33, !tbaa !35
+  %59 = fmul double %15, %58, !dbg !33
+  %60 = fadd double %56, %59, !dbg !33
+  %61 = fmul double %15, %60, !dbg !33
+  %62 = fadd double %54, %61, !dbg !33
+  %63 = fmul double %15, %62, !dbg !33
+  %64 = fadd double %52, %63, !dbg !33
+  %65 = fmul double %15, %64, !dbg !33
+  %66 = fadd double %50, %65, !dbg !33
+  %67 = getelementptr inbounds double* %u000ijk, i64 %indvars.iv, !dbg !33
+  store double %66, double* %67, align 8, !dbg !33, !tbaa !35
+  %indvars.iv.next = add nuw nsw i64 %indvars.iv, 1, !dbg !31
+  %exitcond = icmp eq i64 %indvars.iv.next, 5, !dbg !31
+  br i1 %exitcond, label %68, label %16, !dbg !31
+
+; <label>:68                                      ; preds = %16
+  ret void, !dbg !37
+}
+
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.value(metadata, i64, metadata) #1
+
+attributes #0 = { nounwind uwtable "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #1 = { nounwind readnone }
+
+!llvm.dbg.cu = !{!0}
+!llvm.module.flags = !{!20, !21}
+!llvm.ident = !{!22}
+
+!0 = metadata !{i32 786449, metadata !1, i32 12, metadata !"clang version 3.4.2 (tags/RELEASE_34/dot2-final)", i1 true, metadata !"", i32 0, metadata !2, metadata !2, metadata !3, metadata !2, metadata !2, metadata !""} ; [ DW_TAG_compile_unit ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/exact.c] [DW_LANG_C99]
+!1 = metadata !{metadata !"exact.c", metadata !"/home/azguolu/ARAT-0.1/llvm-tracer/example/lu"}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{i32 786478, metadata !1, metadata !5, metadata !"exact", metadata !"exact", metadata !"", i32 41, metadata !6, i1 false, i1 true, i32 0, i32 0, null, i32 256, i1 true, void (i32, i32, i32, double*)* @exact, null, null, metadata !11, i32 42} ; [ DW_TAG_subprogram ] [line 41] [def] [scope 42] [exact]
+!5 = metadata !{i32 786473, metadata !1}          ; [ DW_TAG_file_type ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/exact.c]
+!6 = metadata !{i32 786453, i32 0, null, metadata !"", i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !7, i32 0, null, null, null} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!7 = metadata !{null, metadata !8, metadata !8, metadata !8, metadata !9}
+!8 = metadata !{i32 786468, null, null, metadata !"int", i32 0, i64 32, i64 32, i64 0, i32 0, i32 5} ; [ DW_TAG_base_type ] [int] [line 0, size 32, align 32, offset 0, enc DW_ATE_signed]
+!9 = metadata !{i32 786447, null, null, metadata !"", i32 0, i64 64, i64 64, i64 0, i32 0, metadata !10} ; [ DW_TAG_pointer_type ] [line 0, size 64, align 64, offset 0] [from double]
+!10 = metadata !{i32 786468, null, null, metadata !"double", i32 0, i64 64, i64 64, i64 0, i32 0, i32 4} ; [ DW_TAG_base_type ] [double] [line 0, size 64, align 64, offset 0, enc DW_ATE_float]
+!11 = metadata !{metadata !12, metadata !13, metadata !14, metadata !15, metadata !16, metadata !17, metadata !18, metadata !19}
+!12 = metadata !{i32 786689, metadata !4, metadata !"i", metadata !5, i32 16777257, metadata !8, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [i] [line 41]
+!13 = metadata !{i32 786689, metadata !4, metadata !"j", metadata !5, i32 33554473, metadata !8, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [j] [line 41]
+!14 = metadata !{i32 786689, metadata !4, metadata !"k", metadata !5, i32 50331689, metadata !8, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [k] [line 41]
+!15 = metadata !{i32 786689, metadata !4, metadata !"u000ijk", metadata !5, i32 67108905, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [u000ijk] [line 41]
+!16 = metadata !{i32 786688, metadata !4, metadata !"m", metadata !5, i32 46, metadata !8, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [m] [line 46]
+!17 = metadata !{i32 786688, metadata !4, metadata !"xi", metadata !5, i32 47, metadata !10, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [xi] [line 47]
+!18 = metadata !{i32 786688, metadata !4, metadata !"eta", metadata !5, i32 47, metadata !10, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [eta] [line 47]
+!19 = metadata !{i32 786688, metadata !4, metadata !"zeta", metadata !5, i32 47, metadata !10, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [zeta] [line 47]
+!20 = metadata !{i32 2, metadata !"Dwarf Version", i32 4}
+!21 = metadata !{i32 1, metadata !"Debug Info Version", i32 1}
+!22 = metadata !{metadata !"clang version 3.4.2 (tags/RELEASE_34/dot2-final)"}
+!23 = metadata !{i32 41, i32 0, metadata !4, null}
+!24 = metadata !{i32 49, i32 0, metadata !4, null}
+!25 = metadata !{metadata !26, metadata !26, i64 0}
+!26 = metadata !{metadata !"int", metadata !27, i64 0}
+!27 = metadata !{metadata !"omnipotent char", metadata !28, i64 0}
+!28 = metadata !{metadata !"Simple C/C++ TBAA"}
+!29 = metadata !{i32 50, i32 0, metadata !4, null}
+!30 = metadata !{i32 51, i32 0, metadata !4, null}
+!31 = metadata !{i32 53, i32 0, metadata !32, null}
+!32 = metadata !{i32 786443, metadata !1, metadata !4, i32 53, i32 0, i32 0} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/exact.c]
+!33 = metadata !{i32 54, i32 0, metadata !34, null}
+!34 = metadata !{i32 786443, metadata !1, metadata !32, i32 53, i32 0, i32 1} ; [ DW_TAG_lexical_block ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/lu/exact.c]
+!35 = metadata !{metadata !36, metadata !36, i64 0}
+!36 = metadata !{metadata !"double", metadata !27, i64 0}
+!37 = metadata !{i32 68, i32 0, metadata !4, null}

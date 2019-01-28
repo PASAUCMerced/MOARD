@@ -1,0 +1,66 @@
+; ModuleID = 'adi.c'
+target datalayout = "e-p:64:64:64-i1:8:8-i8:8:8-i16:16:16-i32:32:32-i64:64:64-f32:32:32-f64:64:64-v64:64:64-v128:128:128-a0:0:64-s0:64:64-f80:128:128-n8:16:32:64-S128"
+target triple = "x86_64-unknown-linux-gnu"
+
+; Function Attrs: nounwind uwtable
+define void @adi() #0 {
+  tail call void (...)* @compute_rhs() #2, !dbg !12
+  tail call void (...)* @x_solve() #2, !dbg !13
+  tail call void (...)* @y_solve() #2, !dbg !14
+  tail call void (...)* @z_solve() #2, !dbg !15
+  tail call void (...)* @add() #2, !dbg !16
+  ret void, !dbg !17
+}
+
+declare void @compute_rhs(...) #1
+
+declare void @x_solve(...) #1
+
+declare void @y_solve(...) #1
+
+declare void @z_solve(...) #1
+
+declare void @add(...) #1
+
+; Function Attrs: nounwind uwtable
+define void @adi_off() #0 {
+  tail call void (...)* @compute_rhs() #2, !dbg !18
+  tail call void (...)* @x_solve() #2, !dbg !19
+  tail call void (...)* @y_solve() #2, !dbg !20
+  tail call void (...)* @z_solve() #2, !dbg !21
+  tail call void (...)* @add() #2, !dbg !22
+  ret void, !dbg !23
+}
+
+attributes #0 = { nounwind uwtable "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #1 = { "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #2 = { nobuiltin nounwind }
+
+!llvm.dbg.cu = !{!0}
+!llvm.module.flags = !{!9, !10}
+!llvm.ident = !{!11}
+
+!0 = metadata !{i32 786449, metadata !1, i32 12, metadata !"clang version 3.4.2 (tags/RELEASE_34/dot2-final)", i1 true, metadata !"", i32 0, metadata !2, metadata !2, metadata !3, metadata !2, metadata !2, metadata !""} ; [ DW_TAG_compile_unit ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/bt/adi.c] [DW_LANG_C99]
+!1 = metadata !{metadata !"adi.c", metadata !"/home/azguolu/ARAT-0.1/llvm-tracer/example/bt"}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4, metadata !8}
+!4 = metadata !{i32 786478, metadata !1, metadata !5, metadata !"adi", metadata !"adi", metadata !"", i32 36, metadata !6, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 true, void ()* @adi, null, null, metadata !2, i32 37} ; [ DW_TAG_subprogram ] [line 36] [def] [scope 37] [adi]
+!5 = metadata !{i32 786473, metadata !1}          ; [ DW_TAG_file_type ] [/home/azguolu/ARAT-0.1/llvm-tracer/example/bt/adi.c]
+!6 = metadata !{i32 786453, i32 0, null, metadata !"", i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !7, i32 0, null, null, null} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!7 = metadata !{null}
+!8 = metadata !{i32 786478, metadata !1, metadata !5, metadata !"adi_off", metadata !"adi_off", metadata !"", i32 51, metadata !6, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 true, void ()* @adi_off, null, null, metadata !2, i32 52} ; [ DW_TAG_subprogram ] [line 51] [def] [scope 52] [adi_off]
+!9 = metadata !{i32 2, metadata !"Dwarf Version", i32 4}
+!10 = metadata !{i32 1, metadata !"Debug Info Version", i32 1}
+!11 = metadata !{metadata !"clang version 3.4.2 (tags/RELEASE_34/dot2-final)"}
+!12 = metadata !{i32 38, i32 0, metadata !4, null}
+!13 = metadata !{i32 40, i32 0, metadata !4, null}
+!14 = metadata !{i32 42, i32 0, metadata !4, null}
+!15 = metadata !{i32 44, i32 0, metadata !4, null}
+!16 = metadata !{i32 46, i32 0, metadata !4, null}
+!17 = metadata !{i32 47, i32 0, metadata !4, null}
+!18 = metadata !{i32 53, i32 0, metadata !8, null}
+!19 = metadata !{i32 55, i32 0, metadata !8, null}
+!20 = metadata !{i32 57, i32 0, metadata !8, null}
+!21 = metadata !{i32 59, i32 0, metadata !8, null}
+!22 = metadata !{i32 61, i32 0, metadata !8, null}
+!23 = metadata !{i32 62, i32 0, metadata !8, null}
