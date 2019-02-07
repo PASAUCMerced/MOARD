@@ -174,6 +174,5 @@ you optimize the above steps and accelerate analysis during the experiments. You
 scripts in MOARD-0.1/aid\_scripts. Please refer to the ReadMe.txt under the aid_scripts directory
 for more detailed instruction.
 
--------------------------------
 Copyright (c) 2016-2020
 
